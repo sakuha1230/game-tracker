@@ -3,37 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>存檔本 · 遊戲進度與筆記</title>
+<title>遊跡 · 遊戲進度與筆記</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
 
   :root{
-    --bg: #10171a;
-    --bg-raised: #1c2a2e;
-    --bg-raised-2: #223338;
-    --line: #26363b;
-    --line-bright: #35494f;
-    --ink: #e8f1f0;
-    --ink-dim: #93a8a8;
-    --ink-faint: #56696c;
-    --accent: #4fd6c4;
-    --accent-dim: #2f8f82;
-    --accent-soft: rgba(79,214,196,.14);
-    --sapphire: #6d9bf2;
-    --amber: #f0b855;
-    --rose: #ea7c94;
-    --violet: #a78cf2;
-    --pink: #f0a8cc;
-    --danger: #ea7c94;
+    --bg: #f6f1e7;
+    --card: #ffffff;
+    --card-soft: #fbf7ef;
+    --line: #ece3d2;
+    --line-strong: #ddd0b5;
+    --ink: #2e2a24;
+    --ink-dim: #6f6656;
+    --ink-faint: #a79c86;
+    --accent: #ff6f59;
+    --accent-dark: #e85a45;
+    --accent-soft: rgba(255,111,89,.12);
+    --teal: #23b892;
+    --teal-soft: rgba(35,184,146,.13);
+    --sapphire: #4c8dff;
+    --sapphire-soft: rgba(76,141,255,.12);
+    --amber: #f5a623;
+    --amber-soft: rgba(245,166,35,.15);
+    --rose: #ef5d80;
+    --rose-soft: rgba(239,93,128,.13);
+    --violet: #8f6fe8;
+    --violet-soft: rgba(143,111,232,.13);
+    --pink: #ef7fb0;
+    --pink-soft: rgba(239,127,176,.13);
+    --danger: #ef5d80;
+    --shadow-sm: 0 1px 3px rgba(60,40,20,.05), 0 1px 2px rgba(60,40,20,.04);
+    --shadow-md: 0 4px 16px rgba(60,40,20,.07);
   }
 
   *{ box-sizing: border-box; }
   html,body{ margin:0; padding:0; }
   body{
-    background:
-      radial-gradient(1100px 560px at 10% -8%, #17272a 0%, transparent 58%),
-      radial-gradient(1000px 520px at 105% 5%, #142526 0%, transparent 55%),
-      var(--bg);
+    background: var(--bg);
     color: var(--ink);
     font-family: 'Noto Sans TC', 'Space Grotesk', -apple-system, sans-serif;
     min-height: 100vh;
@@ -41,449 +47,493 @@
   }
 
   .display{ font-family: 'Space Grotesk', 'Noto Sans TC', sans-serif; }
-  ::selection{ background: var(--accent); color: #0a1214; }
-  ::-webkit-scrollbar{ width: 10px; height: 10px; }
+  ::selection{ background: var(--accent-soft); color: var(--accent-dark); }
+  ::-webkit-scrollbar{ width: 9px; height: 9px; }
   ::-webkit-scrollbar-track{ background: transparent; }
-  ::-webkit-scrollbar-thumb{ background: var(--line-bright); border-radius: 6px; }
+  ::-webkit-scrollbar-thumb{ background: var(--line-strong); border-radius: 6px; }
 
-  .app{ max-width: 900px; margin: 0 auto; padding: 18px 16px 80px; }
+  .app{ max-width: 880px; margin: 0 auto; padding: 20px 16px 90px; }
 
+  /* ---------- Home header ---------- */
   .home-header{
     display:flex; align-items:center; justify-content:space-between;
     gap: 12px; flex-wrap: wrap;
-    padding: 12px 4px 18px;
-    margin-bottom: 18px;
+    padding: 6px 2px 20px;
+    margin-bottom: 6px;
   }
-  .home-header-left{ display:flex; align-items:center; gap: 12px; min-width:0; }
+  .home-header-left{ display:flex; align-items:center; gap: 13px; min-width:0; }
   .hamburger-btn{
-    width: 42px; height: 42px; flex-shrink:0;
-    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 11px;
+    width: 44px; height: 44px; flex-shrink:0;
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
     cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
-    transition: border-color .15s ease, transform .15s ease;
+    transition: all .15s ease; box-shadow: var(--shadow-sm);
   }
-  .hamburger-btn:hover{ border-color: var(--accent); }
-  .hamburger-btn:active{ transform: scale(0.95); }
+  .hamburger-btn:hover{ border-color: var(--accent); transform: translateY(-1px); }
+  .hamburger-btn:active{ transform: scale(0.96); }
   .hamburger-btn span{ width: 18px; height: 2px; background: var(--ink-dim); border-radius: 1px; transition: background .15s ease; }
   .hamburger-btn:hover span{ background: var(--accent); }
 
-  .brand-title{ font-size: 17px; font-weight: 700; letter-spacing: 0.3px; margin: 0; }
-  .brand-sub{ margin:0; color: var(--ink-faint); font-size: 12px; }
+  .brand-row{ display:flex; align-items:center; gap:8px; }
+  .brand-icon{ font-size: 22px; line-height:1; }
+  .brand-title{ font-size: 19px; font-weight: 700; letter-spacing: 0.2px; margin: 0; color: var(--ink); }
+  .brand-sub{ margin:2px 0 0; color: var(--ink-faint); font-size: 12px; }
 
-  .platform-filter{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom: 16px; }
+  .platform-filter{ display:flex; flex-wrap:wrap; gap:7px; margin-bottom: 18px; }
   .filter-chip{
-    font-size: 11px; padding: 6px 12px; border-radius: 20px; border: 1px solid var(--line);
-    color: var(--ink-faint); cursor:pointer; background: var(--bg-raised); font-family: inherit;
-    transition: all .15s ease;
+    font-size: 12px; padding: 7px 14px; border-radius: 20px; border: 1px solid var(--line);
+    color: var(--ink-dim); cursor:pointer; background: var(--card); font-family: inherit;
+    transition: all .15s ease; font-weight: 500;
   }
-  .filter-chip:hover{ border-color: var(--line-bright); color: var(--ink-dim); }
-  .filter-chip.active{ border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  .filter-chip:hover{ border-color: var(--line-strong); }
+  .filter-chip.active{ border-color: var(--accent); color: var(--accent-dark); background: var(--accent-soft); font-weight: 700; }
 
-  .home-grid{ display:flex; flex-direction:column; gap: 10px; }
+  /* ---------- Home grid ---------- */
+  .home-grid{ display:flex; flex-direction:column; gap: 12px; }
   .overview-card{
-    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 14px;
-    padding: 14px 16px; cursor: pointer; transition: border-color .15s ease, transform .1s ease;
-    position: relative; overflow: hidden;
+    background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+    padding: 16px 18px; cursor: pointer; transition: all .15s ease;
+    position: relative; overflow: hidden; box-shadow: var(--shadow-sm);
   }
-  .overview-card:hover{ border-color: var(--line-bright); }
+  .overview-card:hover{ box-shadow: var(--shadow-md); transform: translateY(-1px); border-color: var(--line-strong); }
   .overview-card:active{ transform: scale(0.995); }
+  .overview-accent-bar{ position:absolute; left:0; top:0; bottom:0; width:4px; border-radius: 4px 0 0 4px; }
   .overview-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom: 6px; }
   .overview-name-wrap{ display:flex; align-items:center; gap:9px; min-width:0; }
   .overview-name{ font-size: 15px; font-weight: 700; color: var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .overview-platform-tag{ font-size: 10px; color: var(--ink-faint); flex-shrink:0; }
-  .overview-status{ font-size: 10px; padding: 3px 9px; border-radius: 20px; white-space:nowrap; flex-shrink:0; font-weight: 600; }
-  .status-playing{ background: rgba(79,214,196,.16); color: var(--accent); }
-  .status-paused{ background: rgba(240,184,85,.16); color: var(--amber); }
-  .status-done{ background: rgba(167,140,242,.16); color: var(--violet); }
-  .status-backlog{ background: rgba(147,168,168,.16); color: var(--ink-dim); }
+  .overview-platform-tag{ font-size: 11px; color: var(--ink-faint); flex-shrink:0; font-weight: 500; }
+  .overview-status{ font-size: 11px; padding: 4px 11px; border-radius: 20px; white-space:nowrap; flex-shrink:0; font-weight: 700; }
+  .status-playing{ background: var(--teal-soft); color: var(--teal); }
+  .status-paused{ background: var(--amber-soft); color: var(--amber); }
+  .status-done{ background: var(--violet-soft); color: var(--violet); }
+  .status-backlog{ background: #efece4; color: var(--ink-faint); }
 
-  .overview-sub{ font-size: 12px; color: var(--ink-dim); margin-bottom: 8px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .progress-track{ height: 4px; background: var(--line); border-radius: 2px; overflow:hidden; margin-bottom: 8px; }
-  .progress-fill{ height:100%; background: linear-gradient(90deg, var(--accent-dim), var(--accent)); }
+  .overview-sub{ font-size: 12.5px; color: var(--ink-dim); margin-bottom: 9px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .progress-track{ height: 6px; background: var(--line); border-radius: 4px; overflow:hidden; margin-bottom: 9px; }
+  .progress-fill{ height:100%; border-radius: 4px; }
 
   .overview-badge-row{ display:flex; flex-wrap:wrap; gap: 6px; }
   .overview-badge{
-    font-size: 10px; padding: 3px 9px; border-radius: 20px; display:inline-flex; align-items:center; gap:4px;
+    font-size: 11px; padding: 4px 10px; border-radius: 20px; display:inline-flex; align-items:center; gap:4px; font-weight: 600;
   }
-  .overview-badge.daily{ color: var(--rose); background: rgba(234,124,148,.12); }
-  .overview-badge.event-urgent{ color: var(--rose); background: rgba(234,124,148,.16); }
-  .overview-badge.event-soon{ color: var(--amber); background: rgba(240,184,85,.16); }
-  .overview-badge.event-normal{ color: var(--accent); background: rgba(79,214,196,.12); }
+  .overview-badge.daily{ color: var(--rose); background: var(--rose-soft); }
+  .overview-badge.event-urgent{ color: var(--rose); background: var(--rose-soft); }
+  .overview-badge.event-soon{ color: var(--amber); background: var(--amber-soft); }
+  .overview-badge.event-normal{ color: var(--teal); background: var(--teal-soft); }
 
   .add-game-btn{
-    width:100%; margin-top: 4px; padding: 14px; background: transparent;
-    border: 1.5px dashed var(--line-bright); color: var(--ink-faint); border-radius: 14px;
-    font-size: 13px; cursor: pointer; font-family: inherit; transition: all .15s ease;
+    width:100%; margin-top: 4px; padding: 16px; background: var(--card);
+    border: 1.5px dashed var(--line-strong); color: var(--ink-dim); border-radius: 18px;
+    font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .15s ease;
   }
-  .add-game-btn:hover{ border-color: var(--accent); color: var(--accent); }
-  .empty-hint{ text-align:center; padding: 30px 10px; color: var(--ink-faint); font-size:13px; }
+  .add-game-btn:hover{ border-color: var(--accent); color: var(--accent-dark); background: var(--accent-soft); }
+  .empty-hint{ text-align:center; padding: 34px 10px; color: var(--ink-faint); font-size:13px; }
 
-  .empty-state{ text-align:center; padding: 90px 20px; color: var(--ink-faint); }
-  .empty-state-title{ font-size: 15px; color: var(--ink-dim); margin-bottom: 12px; font-weight: 700; }
+  .empty-state{ text-align:center; padding: 70px 20px; }
+  .empty-state-icon{ font-size: 44px; margin-bottom: 14px; }
+  .empty-state-title{ font-size: 16px; color: var(--ink); margin-bottom: 8px; font-weight: 700; }
+  .empty-state-sub{ color: var(--ink-faint); font-size:13px; }
 
+  /* ---------- Drawer ---------- */
   .drawer-overlay{
-    position: fixed; inset: 0; background: rgba(6,10,11,.65); z-index: 60;
+    position: fixed; inset: 0; background: rgba(46,42,36,.35); z-index: 60;
     opacity: 0; pointer-events: none; transition: opacity .2s ease;
+    backdrop-filter: blur(2px);
   }
   .drawer-overlay.open{ opacity: 1; pointer-events: auto; }
   .drawer{
     position: fixed; top:0; left:0; bottom:0; width: 310px; max-width: 88vw;
-    background: var(--bg-raised); border-right: 1px solid var(--line-bright);
+    background: var(--bg); border-right: 1px solid var(--line);
     z-index: 61; transform: translateX(-100%); transition: transform .25s cubic-bezier(.2,.8,.2,1);
     display:flex; flex-direction:column;
   }
   .drawer.open{ transform: translateX(0); }
 
   .drawer-auth{
-    padding: 18px 16px; background: linear-gradient(160deg, rgba(79,214,196,.1), transparent);
+    padding: 20px 18px; background: linear-gradient(160deg, var(--accent-soft), transparent);
     border-bottom: 1px solid var(--line);
   }
   .drawer-auth-signedout{ text-align:center; }
-  .drawer-auth-signedout p{ font-size: 12px; color: var(--ink-faint); margin: 0 0 12px; }
+  .drawer-auth-signedout p{ font-size: 12.5px; color: var(--ink-dim); margin: 0 0 12px; line-height:1.5; }
   .google-signin-btn{
-    width: 100%; background: var(--ink); color: #0a1214; border:none; padding: 11px;
-    border-radius: 10px; font-size: 13px; font-weight: 700; cursor:pointer; font-family: inherit;
-    display:flex; align-items:center; justify-content:center; gap:8px;
+    width: 100%; background: var(--ink); color: #fff; border:none; padding: 12px;
+    border-radius: 12px; font-size: 13px; font-weight: 700; cursor:pointer; font-family: inherit;
+    display:flex; align-items:center; justify-content:center; gap:8px; transition: opacity .15s ease;
   }
-  .google-signin-btn:hover{ background: #fff; }
+  .google-signin-btn:hover{ opacity: .85; }
   .drawer-auth-signedin{ display:flex; align-items:center; gap: 10px; }
-  .drawer-auth-signedin img{ width:36px; height:36px; border-radius:50%; flex-shrink:0; }
+  .drawer-auth-signedin img{ width:38px; height:38px; border-radius:50%; flex-shrink:0; }
   .drawer-auth-info{ flex:1; min-width:0; }
-  .drawer-auth-name{ font-size: 13px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .sync-badge{ font-size: 9px; padding: 2px 7px; border-radius: 20px; display:inline-block; margin-top:3px; }
-  .sync-badge.synced{ background: rgba(79,214,196,.15); color: var(--accent); }
-  .sync-badge.local{ background: rgba(147,168,168,.15); color: var(--ink-dim); }
-  .sync-badge.syncing{ background: rgba(240,184,85,.15); color: var(--amber); }
+  .drawer-auth-name{ font-size: 13.5px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .sync-badge{ font-size: 10px; padding: 2px 8px; border-radius: 20px; display:inline-block; margin-top:4px; font-weight: 600; }
+  .sync-badge.synced{ background: var(--teal-soft); color: var(--teal); }
+  .sync-badge.local{ background: #efece4; color: var(--ink-faint); }
+  .sync-badge.syncing{ background: var(--amber-soft); color: var(--amber); }
   .drawer-signout-btn{
-    background:none; border: 1px solid var(--line); color: var(--ink-faint); font-size: 11px;
-    padding: 6px 10px; border-radius: 8px; cursor:pointer; font-family: inherit; flex-shrink:0;
+    background:none; border: 1px solid var(--line-strong); color: var(--ink-dim); font-size: 11.5px;
+    padding: 7px 11px; border-radius: 10px; cursor:pointer; font-family: inherit; flex-shrink:0; font-weight: 600;
   }
   .drawer-signout-btn:hover{ border-color: var(--danger); color: var(--danger); }
 
-  .drawer-header{ display:flex; align-items:center; justify-content:space-between; padding: 14px 16px 10px; }
-  .drawer-header h2{ font-size: 11px; letter-spacing: 1px; color: var(--ink-faint); margin:0; text-transform: uppercase; }
+  .drawer-header{ display:flex; align-items:center; justify-content:space-between; padding: 16px 18px 10px; }
+  .drawer-header h2{ font-size: 12px; letter-spacing: .5px; color: var(--ink-faint); margin:0; text-transform: uppercase; font-weight: 700; }
   .drawer-close{
-    width: 30px; height:30px; background:none; border:1px solid var(--line); color: var(--ink-dim);
-    border-radius: 8px; cursor:pointer; font-size: 14px;
+    width: 32px; height:32px; background: var(--card); border:1px solid var(--line); color: var(--ink-dim);
+    border-radius: 10px; cursor:pointer; font-size: 14px;
   }
   .drawer-close:hover{ border-color: var(--rose); color: var(--rose); }
-  .drawer-body{ flex:1; overflow-y: auto; padding: 0 16px 16px; }
+  .drawer-body{ flex:1; overflow-y: auto; padding: 4px 18px 18px; }
 
   .drawer-nav-btn{
-    width:100%; text-align:left; background: none; border: none; color: var(--ink);
-    padding: 10px 8px; border-radius: 8px; cursor:pointer; font-size: 13px; font-family: inherit;
-    display:flex; align-items:center; gap:8px; margin-bottom: 4px;
+    width:100%; text-align:left; background: var(--card); border: 1px solid var(--line); color: var(--ink);
+    padding: 12px 14px; border-radius: 12px; cursor:pointer; font-size: 13.5px; font-family: inherit;
+    display:flex; align-items:center; gap:8px; margin-bottom: 12px; font-weight: 600;
   }
-  .drawer-nav-btn:hover{ background: var(--bg-raised-2); }
+  .drawer-nav-btn:hover{ border-color: var(--line-strong); }
 
   .game-card{
-    display:flex; flex-direction:column; gap:6px; padding: 10px 10px; border-radius: 10px;
+    display:flex; flex-direction:column; gap:6px; padding: 11px 12px; border-radius: 12px;
     border: 1px solid transparent; cursor: pointer; margin-bottom: 6px;
-    transition: background .12s ease, border-color .12s ease; position: relative;
+    transition: all .12s ease; position: relative; background: var(--card);
   }
-  .game-card:hover{ background: var(--bg-raised-2); }
-  .game-card.active{ background: var(--bg-raised-2); border-color: var(--line-bright); }
+  .game-card:hover{ border-color: var(--line); }
+  .game-card.active{ border-color: var(--accent); background: var(--accent-soft); }
   .game-card-top{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
-  .game-name-wrap{ display:flex; align-items:center; gap:6px; min-width:0; }
-  .platform-dot{ width:7px; height:7px; border-radius:50%; flex-shrink:0; }
-  .game-name{ font-size: 13px; font-weight:600; color: var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .game-name-wrap{ display:flex; align-items:center; gap:8px; min-width:0; }
+  .platform-dot{ width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+  .game-name{ font-size: 13.5px; font-weight:600; color: var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
+  /* ---------- Game-mode topbar (minimal chrome) ---------- */
   .game-topbar{
     display:flex; align-items:center; gap: 10px; margin-bottom: 14px;
   }
   .back-btn{
-    width: 36px; height: 36px; flex-shrink:0; background: var(--bg-raised); border: 1px solid var(--line);
-    border-radius: 10px; cursor:pointer; display:flex; align-items:center; justify-content:center;
-    color: var(--ink-dim); font-size: 16px; transition: all .15s ease;
+    width: 38px; height: 38px; flex-shrink:0; background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    color: var(--ink-dim); font-size: 17px; transition: all .15s ease; box-shadow: var(--shadow-sm);
   }
-  .back-btn:hover{ border-color: var(--accent); color: var(--accent); }
-  .game-topbar-title{ font-size: 13px; color: var(--ink-faint); flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .back-btn:hover{ border-color: var(--accent); color: var(--accent-dark); }
+  .game-topbar-title{ font-size: 13px; color: var(--ink-faint); flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight: 500; }
 
+  /* ---------- Game hero ---------- */
   .game-hero{
-    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 16px;
-    padding: 20px 20px 18px; margin-bottom: 16px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 22px;
+    padding: 22px 22px 20px; margin-bottom: 14px; box-shadow: var(--shadow-sm);
   }
   .game-hero-top{ display:flex; justify-content:space-between; align-items:flex-start; gap: 12px; flex-wrap: wrap; }
   .game-hero-title-block{ flex:1; min-width:0; }
-  .game-title-display{ font-size: 20px; font-weight: 700; color: var(--ink); margin: 0 0 8px; line-height:1.3; }
+  .game-title-display{ font-size: 21px; font-weight: 700; color: var(--ink); margin: 0 0 9px; line-height:1.3; }
   .game-hero-tags{ display:flex; align-items:center; gap: 8px; flex-wrap: wrap; }
   .platform-badge{
-    font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight:600;
+    font-size: 11px; padding: 4px 12px; border-radius: 20px; font-weight:700;
   }
   .game-hero-actions{ display:flex; gap:6px; flex-shrink:0; }
   .icon-btn{
-    background: none; border: 1px solid var(--line); color: var(--ink-dim);
-    width: 34px; height:34px; border-radius:10px; cursor:pointer;
-    display:flex; align-items:center; justify-content:center; font-size: 14px; flex-shrink:0;
+    background: var(--card-soft); border: 1px solid var(--line); color: var(--ink-dim);
+    width: 36px; height:36px; border-radius:11px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; font-size: 15px; flex-shrink:0;
     transition: all .15s ease;
   }
-  .icon-btn:hover{ border-color: var(--accent); color: var(--accent); }
+  .icon-btn:hover{ border-color: var(--accent); color: var(--accent-dark); }
   .icon-btn.danger:hover{ border-color: var(--danger); color: var(--danger); }
 
-  .hero-event-strip{
-    margin-top: 14px; padding: 10px 14px; border-radius: 10px;
-    background: linear-gradient(90deg, rgba(234,124,148,.12), transparent);
-    border: 1px solid rgba(234,124,148,.25);
-    display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap: wrap;
-  }
-  .hero-event-strip.soon{ background: linear-gradient(90deg, rgba(240,184,85,.12), transparent); border-color: rgba(240,184,85,.25); }
-  .hero-event-strip.normal{ background: linear-gradient(90deg, rgba(79,214,196,.1), transparent); border-color: rgba(79,214,196,.22); }
-  .hero-event-name{ font-size: 13px; font-weight: 600; }
-  .hero-event-days{ font-size: 11px; padding: 3px 10px; border-radius: 20px; white-space:nowrap; }
+  .progress-block{ margin-top: 18px; }
+  .progress-label-row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:7px; }
+  .progress-label-row span{ font-size: 12.5px; color: var(--ink-dim); font-weight: 500; }
+  .progress-pct{ font-size: 13.5px; font-weight: 700; color: var(--accent-dark); }
+  .progress-bar-lg{ height: 10px; background: var(--line); border-radius: 6px; overflow:hidden; }
+  .progress-bar-lg .progress-fill{ height:100%; border-radius:6px; background: linear-gradient(90deg, var(--accent), #ff9a7a); }
+  input[type=range]{ width:100%; margin-top:9px; accent-color: var(--accent); }
 
-  .progress-block{ margin-top: 16px; }
-  .progress-label-row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
-  .progress-label-row span{ font-size: 12px; color: var(--ink-dim); }
-  .progress-pct{ font-size: 13px; font-weight: 700; color: var(--accent); }
-  .progress-bar-lg{ height: 8px; background: var(--line); border-radius: 5px; overflow:hidden; }
-  .progress-bar-lg .progress-fill{ height:100%; border-radius:5px; }
-  input[type=range]{ width:100%; margin-top:8px; accent-color: var(--accent); }
+  /* ---------- Sections ---------- */
+  .section-block{ margin-bottom: 14px; }
+  .section-block:last-child{ margin-bottom: 0; }
 
-  .tabs{ display:flex; gap:4px; margin-bottom: 14px; overflow-x:auto; padding-bottom: 2px; }
-  .tab{
-    padding: 8px 14px; font-size: 12px; color: var(--ink-faint); cursor:pointer;
-    border-radius: 20px; user-select:none; display:flex; align-items:center; gap:6px;
-    white-space:nowrap; flex-shrink:0; background: var(--bg-raised); border: 1px solid transparent;
-    transition: all .15s ease;
-  }
-  .tab:hover{ color: var(--ink-dim); }
-  .tab.active{ color: var(--accent); background: var(--accent-soft); border-color: rgba(79,214,196,.3); }
-  .tab-count{ font-size: 10px; opacity: 0.75; }
-
-  .tab-panel{ display:none; }
-  .tab-panel.active{ display:block; }
-
-  .panel-box{ background: var(--bg-raised); border:1px solid var(--line); border-radius:14px; padding: 16px; margin-bottom: 14px; }
-  .panel-box:last-child{ margin-bottom: 0; }
-  .panel-box-title{ font-size: 12px; letter-spacing: .3px; color: var(--ink); margin: 0 0 12px; font-weight: 700; display:flex; align-items:center; gap:8px; justify-content: space-between; }
+  .panel-box{ background: var(--card); border:1px solid var(--line); border-radius:18px; padding: 18px; box-shadow: var(--shadow-sm); }
+  .panel-box-title{ font-size: 13px; letter-spacing: .2px; color: var(--ink); margin: 0 0 13px; font-weight: 700; display:flex; align-items:center; gap:8px; justify-content: space-between; }
+  .panel-box-title .title-count{ font-size: 11px; color: var(--ink-faint); font-weight:500; margin-right: auto; margin-left: 6px; }
+  .panel-icon{ font-size: 15px; margin-right: 2px; }
 
   .add-fab{
-    width: 32px; height:32px; border-radius: 50%; background: var(--accent); color:#0a1214;
-    border:none; font-size: 18px; cursor:pointer; display:flex; align-items:center; justify-content:center;
-    font-weight:700; transition: transform .15s ease;
-    flex-shrink: 0;
+    width: 34px; height:34px; border-radius: 50%; background: var(--accent); color:#fff;
+    border:none; font-size: 19px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    font-weight:700; transition: all .15s ease; flex-shrink: 0; box-shadow: 0 2px 8px rgba(255,111,89,.35);
   }
-  .add-fab:hover{ transform: scale(1.08); }
+  .add-fab:hover{ transform: scale(1.08); background: var(--accent-dark); }
+  .add-fab.small{ width:26px; height:26px; font-size:15px; }
+
   .add-form{
-    background: var(--bg-raised-2); border: 1px solid var(--line-bright); border-radius: 12px;
-    padding: 12px; margin-bottom: 12px; display:flex; flex-direction:column; gap:8px;
+    background: var(--card-soft); border: 1px solid var(--line); border-radius: 14px;
+    padding: 13px; margin-bottom: 13px; display:flex; flex-direction:column; gap:9px;
   }
   .add-form.hidden{ display:none; }
   .add-form-row{ display:flex; gap:8px; flex-wrap: wrap; }
   .add-form select{
-    background: var(--bg-raised); border:1px solid var(--line); color:var(--ink);
-    padding: 9px 10px; border-radius:8px; font-size:12px; font-family:inherit; flex-shrink:0;
+    background: var(--card); border:1px solid var(--line); color:var(--ink);
+    padding: 10px 11px; border-radius:10px; font-size:12.5px; font-family:inherit; flex-shrink:0;
   }
   .add-form input[type=text]{
-    flex:1; background: var(--bg-raised); border:1px solid var(--line); color:var(--ink);
-    padding: 9px 12px; border-radius:8px; font-size:13px; font-family:inherit; min-width: 100px;
+    flex:1; background: var(--card); border:1px solid var(--line); color:var(--ink);
+    padding: 10px 13px; border-radius:10px; font-size:13.5px; font-family:inherit; min-width: 100px;
   }
   .add-form input[type=date], .add-form input[type=time]{
-    background: var(--bg-raised); border:1px solid var(--line); color:var(--ink);
-    padding: 9px 10px; border-radius:8px; font-size:12px; font-family:inherit; flex-shrink:0;
+    background: var(--card); border:1px solid var(--line); color:var(--ink);
+    padding: 10px 11px; border-radius:10px; font-size:12.5px; font-family:inherit; flex-shrink:0;
   }
-  .add-form input:focus, .add-form select:focus{ outline:none; border-color:var(--accent); }
+  .add-form textarea{
+    width:100%; background: var(--card); border:1px solid var(--line); color:var(--ink);
+    padding: 10px 13px; border-radius:10px; font-size:13.5px; font-family:inherit; resize:vertical; min-height:70px;
+  }
+  .add-form input:focus, .add-form select:focus, .add-form textarea:focus{ outline:none; border-color:var(--accent); }
   .add-form-actions{ display:flex; gap:8px; justify-content:flex-end; }
   .btn-confirm{
-    background: var(--accent); color:#0a1214; border:none; padding: 8px 16px;
-    border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;
+    background: var(--accent); color:#fff; border:none; padding: 9px 18px;
+    border-radius:10px; font-size:12.5px; font-weight:700; cursor:pointer; transition: background .15s ease;
   }
-  .btn-confirm:hover{ background:#6ee6d6; }
+  .btn-confirm:hover{ background: var(--accent-dark); }
   .btn-cancel-inline{
-    background:none; border:1px solid var(--line); color: var(--ink-faint); padding: 8px 14px;
-    border-radius:8px; font-size:12px; cursor:pointer;
+    background:none; border:1px solid var(--line-strong); color: var(--ink-dim); padding: 9px 15px;
+    border-radius:10px; font-size:12.5px; cursor:pointer; font-weight: 600;
   }
-  .btn-cancel-inline:hover{ border-color: var(--line-bright); color: var(--ink-dim); }
-  .field-hint{ font-size: 10px; color: var(--ink-faint); margin: 0; }
+  .btn-cancel-inline:hover{ border-color: var(--ink-faint); color: var(--ink); }
+  .field-hint{ font-size: 11px; color: var(--ink-faint); margin: 0; line-height:1.5; }
 
-  .checklist-group-title{ font-size: 10px; letter-spacing: .5px; color: var(--ink-faint); margin: 14px 0 6px; text-transform: uppercase; }
+  .checklist-group-title{ font-size: 11px; letter-spacing: .3px; color: var(--ink-faint); margin: 15px 0 7px; text-transform: uppercase; font-weight: 700; }
   .checklist-group-title:first-child{ margin-top: 0; }
 
-  .todo-item{ display:flex; align-items:flex-start; gap:10px; padding: 10px 6px; border-bottom: 1px solid var(--line); }
+  .todo-item{ display:flex; align-items:flex-start; gap:11px; padding: 11px 4px; border-bottom: 1px solid var(--line); }
   .todo-item:last-child{ border-bottom:none; }
   .todo-check{
-    width:19px; height:19px; border-radius: 6px; border: 1.5px solid var(--line-bright);
+    width:20px; height:20px; border-radius: 7px; border: 1.5px solid var(--line-strong);
     flex-shrink:0; cursor:pointer; margin-top:1px; display:flex; align-items:center; justify-content:center;
-    font-size: 11px; background: var(--bg-raised-2);
+    font-size: 12px; background: var(--card); transition: all .12s ease;
   }
-  .todo-check.checked{ background: var(--accent); border-color: var(--accent); color: #0a1214; }
-  .todo-text{ flex:1; font-size: 13px; line-height:1.5; word-break: break-word; }
+  .todo-check.checked{ background: var(--teal); border-color: var(--teal); color: #fff; }
+  .todo-text{ flex:1; font-size: 13.5px; line-height:1.5; word-break: break-word; }
   .todo-item.done .todo-text{ color: var(--ink-faint); text-decoration: line-through; }
-  .todo-del{ background:none; border:none; color: var(--ink-faint); cursor:pointer; font-size: 16px; flex-shrink:0; padding: 0 2px; line-height:1; }
+  .todo-del{ background:none; border:none; color: var(--ink-faint); cursor:pointer; font-size: 17px; flex-shrink:0; padding: 0 2px; line-height:1; }
   .todo-del:hover{ color: var(--danger); }
 
-  .reset-hint{ font-size: 10px; color: var(--ink-faint); margin-bottom: 10px; }
+  .reset-hint{ font-size: 11px; color: var(--ink-faint); margin-bottom: 11px; line-height:1.5; }
   .reset-btn{
-    background: none; border: 1px solid var(--line); color: var(--ink-faint); font-size: 10px;
-    padding: 5px 10px; border-radius: 20px; cursor: pointer; font-family: inherit;
+    background: var(--card); border: 1px solid var(--line); color: var(--ink-dim); font-size: 11px;
+    padding: 5px 11px; border-radius: 20px; cursor: pointer; font-family: inherit; font-weight: 600;
   }
-  .reset-btn:hover{ border-color: var(--accent); color: var(--accent); }
+  .reset-btn:hover{ border-color: var(--accent); color: var(--accent-dark); }
 
-  .daily-subsection-title{ font-size: 11px; color: var(--ink-dim); font-weight:600; margin: 16px 0 6px; display:flex; justify-content:space-between; align-items:center; }
+  .daily-subsection-title{ font-size: 12px; color: var(--ink-dim); font-weight:700; margin: 17px 0 7px; display:flex; justify-content:space-between; align-items:center; }
   .daily-subsection-title:first-child{ margin-top: 0; }
 
-  .event-item{ padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; margin-bottom: 8px; background: var(--bg-raised-2); }
+  /* Events / countdown */
+  .event-item{ padding: 13px 15px; border: 1px solid var(--line); border-radius: 14px; margin-bottom: 9px; background: var(--card-soft); }
   .event-item:last-child{ margin-bottom: 0; }
   .event-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
-  .event-name{ font-size: 13px; font-weight: 600; flex:1; }
-  .event-days{ font-size: 11px; padding: 3px 10px; border-radius: 20px; white-space:nowrap; flex-shrink:0; }
-  .event-days.urgent{ background: rgba(234,124,148,.18); color: var(--rose); }
-  .event-days.soon{ background: rgba(240,184,85,.18); color: var(--amber); }
-  .event-days.normal{ background: rgba(79,214,196,.15); color: var(--accent); }
-  .event-days.expired{ background: rgba(86,105,108,.2); color: var(--ink-faint); }
-  .event-date-row{ font-size: 11px; color: var(--ink-faint); margin-top: 6px; line-height: 1.6; }
-  .event-del{ background:none; border:none; color: var(--ink-faint); cursor:pointer; font-size: 15px; padding: 0 2px; }
+  .event-name{ font-size: 13.5px; font-weight: 700; flex:1; }
+  .event-days{ font-size: 11.5px; padding: 4px 11px; border-radius: 20px; white-space:nowrap; flex-shrink:0; font-weight: 700; }
+  .event-days.urgent{ background: var(--rose-soft); color: var(--rose); }
+  .event-days.soon{ background: var(--amber-soft); color: var(--amber); }
+  .event-days.normal{ background: var(--teal-soft); color: var(--teal); }
+  .event-days.expired{ background: #efece4; color: var(--ink-faint); }
+  .event-date-row{ font-size: 11.5px; color: var(--ink-faint); margin-top: 7px; line-height: 1.6; }
+  .event-del{ background:none; border:none; color: var(--ink-faint); cursor:pointer; font-size: 16px; padding: 0 2px; }
   .event-del:hover{ color: var(--danger); }
 
+  /* Story quests: editable in-place */
   .quest-item{
-    border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px;
-    background: var(--bg-raised-2);
+    border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; margin-bottom: 9px;
+    background: var(--card-soft);
   }
   .quest-item:last-child{ margin-bottom: 0; }
-  .quest-top{ display:flex; align-items:flex-start; gap:8px; }
+  .quest-top{ display:flex; align-items:flex-start; gap:9px; }
   .quest-check{
-    width:19px; height:19px; border-radius: 6px; border: 1.5px solid var(--line-bright);
-    flex-shrink:0; cursor:pointer; margin-top:1px; display:flex; align-items:center; justify-content:center;
-    font-size: 11px; background: var(--bg-raised);
+    width:20px; height:20px; border-radius: 7px; border: 1.5px solid var(--line-strong);
+    flex-shrink:0; cursor:pointer; margin-top:2px; display:flex; align-items:center; justify-content:center;
+    font-size: 12px; background: var(--card);
   }
-  .quest-check.checked{ background: var(--accent); border-color: var(--accent); color: #0a1214; }
-  .quest-text{ flex:1; font-size: 13px; line-height:1.5; }
-  .quest-char-tag{
-    font-size: 10px; color: var(--pink); background: rgba(240,168,204,.12); padding: 2px 8px;
-    border-radius: 20px; flex-shrink:0; margin-top:1px;
+  .quest-check.checked{ background: var(--teal); border-color: var(--teal); color: #fff; }
+  .quest-text-input{
+    flex:1; font-size: 13.5px; line-height:1.5; background:none; border:none; color: var(--ink);
+    font-family: inherit; padding: 0; min-width: 80px;
   }
-  .quest-del{ background:none; border:none; color: var(--ink-faint); cursor:pointer; font-size: 15px; flex-shrink:0; }
+  .quest-text-input:focus{ outline:none; }
+  .quest-del{ background:none; border:none; color: var(--ink-faint); cursor:pointer; font-size: 16px; flex-shrink:0; }
   .quest-del:hover{ color: var(--danger); }
+  .quest-tags-row{ display:flex; gap:6px; flex-wrap:wrap; margin-top: 8px; padding-left: 29px; }
+  .quest-tag-input{
+    font-size: 10.5px; padding: 3px 9px; border-radius: 20px; border: 1px dashed var(--line-strong);
+    background: none; font-family: inherit; color: var(--ink-dim); min-width: 60px;
+  }
+  .quest-tag-input:focus{ outline:none; border-style: solid; border-color: var(--accent); }
+  .quest-tag-input.type-tag{ color: var(--violet); border-color: rgba(143,111,232,.35); }
+  .quest-tag-input.char-tag{ color: var(--pink); border-color: rgba(239,127,176,.35); }
   .view-history-link{
-    display:inline-block; margin-top: 10px; font-size: 11px; color: var(--ink-faint);
-    cursor: pointer; text-decoration: underline;
+    display:inline-block; margin-top: 11px; font-size: 12px; color: var(--ink-faint);
+    cursor: pointer; text-decoration: underline; font-weight: 500;
   }
-  .view-history-link:hover{ color: var(--accent); }
-  .history-item{ font-size: 12px; color: var(--ink-faint); padding: 8px 6px; border-bottom: 1px solid var(--line); text-decoration: line-through; }
+  .view-history-link:hover{ color: var(--accent-dark); }
+  .history-item{ padding: 10px 6px; border-bottom: 1px solid var(--line); }
   .history-item:last-child{ border-bottom: none; }
-
-  .material-day-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(120px,1fr)); gap: 8px; margin-bottom: 12px; }
-  .material-day-box{
-    border: 1px solid var(--line); border-radius: 10px; padding: 9px 10px; background: var(--bg-raised-2);
+  .history-item-top{ display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .history-item-text{ font-size: 12.5px; color: var(--ink-dim); text-decoration: line-through; flex:1; }
+  .history-item-date{ font-size: 10.5px; color: var(--ink-faint); flex-shrink:0; }
+  .history-item-actions{ display:flex; gap:6px; margin-top:6px; }
+  .history-mini-btn{
+    font-size: 10.5px; padding: 4px 10px; border-radius: 20px; border:1px solid var(--line-strong);
+    background:none; color: var(--ink-dim); cursor:pointer; font-family: inherit; font-weight:600;
   }
-  .material-day-box label{ display:block; font-size: 10px; color: var(--sapphire); font-weight:700; margin-bottom: 5px; }
+  .history-mini-btn:hover{ border-color: var(--accent); color: var(--accent-dark); }
+  .history-mini-btn.danger:hover{ border-color: var(--danger); color: var(--danger); }
+
+  /* Materials */
+  .material-day-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(120px,1fr)); gap: 9px; margin-bottom: 13px; }
+  .material-day-box{
+    border: 1px solid var(--line); border-radius: 12px; padding: 10px 11px; background: var(--card-soft);
+  }
+  .material-day-box label{ display:block; font-size: 10.5px; color: var(--sapphire); font-weight:700; margin-bottom: 6px; }
   .material-day-box input{
-    width:100%; background: var(--bg-raised); border:1px solid var(--line); color: var(--ink);
-    padding: 6px 8px; border-radius: 6px; font-size: 12px; font-family: inherit;
+    width:100%; background: var(--card); border:1px solid var(--line); color: var(--ink);
+    padding: 7px 9px; border-radius: 8px; font-size: 12.5px; font-family: inherit;
   }
   .material-day-box input:focus{ outline:none; border-color: var(--sapphire); }
-  .material-list-item{ display:flex; align-items:center; gap:8px; padding: 8px 6px; border-bottom: 1px solid var(--line); }
+  .material-list-item{ display:flex; align-items:center; gap:9px; padding: 9px 4px; border-bottom: 1px solid var(--line); }
   .material-list-item:last-child{ border-bottom:none; }
   .material-check{
-    width:19px; height:19px; border-radius: 6px; border: 1.5px solid var(--line-bright);
+    width:20px; height:20px; border-radius: 7px; border: 1.5px solid var(--line-strong);
     flex-shrink:0; cursor:pointer; display:flex; align-items:center; justify-content:center;
-    font-size: 11px; background: var(--bg-raised);
+    font-size: 12px; background: var(--card);
   }
-  .material-check.checked{ background: var(--sapphire); border-color: var(--sapphire); color: #0a1214; }
+  .material-check.checked{ background: var(--sapphire); border-color: var(--sapphire); color: #fff; }
 
+  /* Character cards ("男主") */
   .char-card{
-    border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px;
-    background: var(--bg-raised-2); border-left: 3px solid var(--pink);
+    border: 1px solid var(--line); border-radius: 16px; padding: 16px 17px; margin-bottom: 11px;
+    background: var(--card-soft); border-left: 4px solid var(--pink);
   }
   .char-card:last-child{ margin-bottom: 0; }
-  .char-top{ display:flex; justify-content:space-between; align-items:center; gap: 8px; margin-bottom: 10px; }
+  .char-top{ display:flex; justify-content:space-between; align-items:center; gap: 8px; margin-bottom: 11px; }
   .char-name-input{
-    background:none; border:none; color: var(--ink); font-size: 14px; font-weight:700;
+    background:none; border:none; color: var(--ink); font-size: 15px; font-weight:700;
     font-family: inherit; flex:1; min-width:0; padding: 2px 0;
   }
   .char-name-input:focus{ outline:none; border-bottom: 1px solid var(--pink); }
-  .char-del{ background:none; border:none; color: var(--ink-faint); cursor:pointer; font-size: 15px; flex-shrink:0; }
+  .char-del{ background:none; border:none; color: var(--ink-faint); cursor:pointer; font-size: 16px; flex-shrink:0; }
   .char-del:hover{ color: var(--danger); }
-  .char-fields{ display:flex; gap:10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .char-fields{ display:flex; gap:10px; flex-wrap: wrap; margin-bottom: 11px; }
   .char-field{ flex:1; min-width: 110px; }
-  .char-field label{ display:block; font-size: 9px; color: var(--ink-faint); margin-bottom: 4px; }
+  .char-field label{ display:block; font-size: 10px; color: var(--ink-faint); margin-bottom: 5px; font-weight: 600; }
   .char-field input[type=text]{
-    width:100%; background: var(--bg-raised); border:1px solid var(--line); color: var(--ink);
-    padding: 7px 9px; border-radius: 6px; font-size: 12px; font-family: inherit;
+    width:100%; background: var(--card); border:1px solid var(--line); color: var(--ink);
+    padding: 8px 10px; border-radius: 8px; font-size: 12.5px; font-family: inherit;
   }
   .char-field input:focus{ outline:none; border-color: var(--pink); }
-  .affection-row{ display:flex; align-items:center; gap:8px; }
-  .affection-row input[type=range]{ flex:1; accent-color: var(--pink); margin:0; }
-  .affection-val{ font-size: 12px; font-weight: 700; color: var(--pink); width: 40px; text-align:right; flex-shrink:0; }
-  .affection-toggle{
-    font-size: 10px; color: var(--ink-faint); cursor:pointer; text-decoration: underline; margin-bottom: 8px; display:inline-block;
-  }
-  .affection-toggle:hover{ color: var(--pink); }
-  .char-note-input{
-    width: 100%; background: var(--bg-raised); border:1px solid var(--line); color: var(--ink);
-    padding: 8px 10px; border-radius: 8px; font-size: 12px; font-family: inherit; margin-top: 8px;
-    resize: vertical; min-height: 34px;
-  }
-  .char-note-input:focus{ outline:none; border-color: var(--pink); }
-  .char-note-label{ font-size: 9px; color: var(--ink-faint); margin: 10px 0 4px; display:block; }
+  .char-subsection-title{ font-size: 11px; color: var(--ink-faint); font-weight:700; margin: 13px 0 7px; text-transform: uppercase; letter-spacing:.3px; display:flex; justify-content:space-between; align-items:center; }
   .add-char-btn{
-    width:100%; padding: 10px; background: transparent; border: 1px dashed var(--line-bright);
-    color: var(--ink-faint); border-radius: 10px; font-size: 12px; cursor: pointer; font-family: inherit;
+    width:100%; padding: 11px; background: var(--card-soft); border: 1.5px dashed var(--line-strong);
+    color: var(--ink-dim); border-radius: 12px; font-size: 12.5px; cursor: pointer; font-family: inherit; font-weight: 600;
   }
   .add-char-btn:hover{ border-color: var(--pink); color: var(--pink); }
 
-  .ending-item{ display:flex; align-items:center; gap:10px; padding: 9px 6px; border-bottom: 1px solid var(--line); }
+  /* Endings collection */
+  .ending-item{ display:flex; align-items:center; gap:10px; padding: 10px 4px; border-bottom: 1px solid var(--line); }
   .ending-item:last-child{ border-bottom:none; }
-  .ending-type-badge{ font-size: 10px; padding: 3px 9px; border-radius: 20px; flex-shrink:0; font-weight:700; }
-  .ending-badge-TE{ background: rgba(240,184,85,.18); color: var(--amber); }
-  .ending-badge-GE{ background: rgba(79,214,196,.15); color: var(--accent); }
-  .ending-badge-BE{ background: rgba(234,124,148,.15); color: var(--rose); }
-  .ending-badge-Other{ background: rgba(147,168,168,.15); color: var(--ink-dim); }
-  .ending-name{ flex:1; font-size: 13px; }
+  .ending-type-badge{ font-size: 10.5px; padding: 4px 10px; border-radius: 20px; flex-shrink:0; font-weight:700; }
+  .ending-badge-TE{ background: var(--amber-soft); color: var(--amber); }
+  .ending-badge-GE{ background: var(--teal-soft); color: var(--teal); }
+  .ending-badge-BE{ background: var(--rose-soft); color: var(--rose); }
+  .ending-badge-Other{ background: #efece4; color: var(--ink-faint); }
+  .ending-name{ flex:1; font-size: 13.5px; }
 
+  /* Currency / gacha */
   .currency-row{ display:flex; gap:10px; flex-wrap: wrap; }
   .currency-field{ flex:1; min-width: 130px; }
-  .currency-field label{ display:block; font-size: 10px; color: var(--ink-faint); margin-bottom: 5px; }
+  .currency-field label{ display:block; font-size: 10.5px; color: var(--ink-faint); margin-bottom: 6px; font-weight: 600; }
   .currency-field input{
-    width:100%; background: var(--bg-raised-2); border:1px solid var(--line); color: var(--ink);
-    padding: 9px 11px; border-radius: 8px; font-size: 14px; font-family: inherit; font-weight: 700;
+    width:100%; background: var(--card-soft); border:1px solid var(--line); color: var(--ink);
+    padding: 10px 12px; border-radius: 10px; font-size: 14px; font-family: inherit; font-weight: 700;
   }
   .currency-field input:focus{ outline:none; border-color: var(--accent); }
-  .gacha-box{ margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--line); }
+  .gacha-box{ margin-top: 18px; padding-top: 18px; border-top: 1px dashed var(--line); }
   .gacha-result{
-    margin-top: 12px; padding: 16px; background: var(--bg-raised-2); border-radius: 10px;
-    border-left: 3px solid var(--accent); text-align: center;
+    margin-top: 13px; padding: 18px; background: var(--card-soft); border-radius: 14px;
+    border-left: 4px solid var(--accent); text-align: center;
   }
-  .gacha-result .big-num{ font-size: 26px; font-weight: 700; color: var(--accent); font-family: 'Space Grotesk', sans-serif; }
-  .gacha-result .sub{ font-size: 11px; color: var(--ink-dim); margin-top: 8px; }
-  .gacha-result .remainder{ font-size: 11px; color: var(--ink-faint); margin-top: 4px; }
+  .gacha-result .big-num{ font-size: 27px; font-weight: 700; color: var(--accent-dark); font-family: 'Space Grotesk', sans-serif; }
+  .gacha-result .sub{ font-size: 12px; color: var(--ink-dim); margin-top: 9px; }
+  .gacha-result .remainder{ font-size: 11.5px; color: var(--ink-faint); margin-top: 4px; }
 
-  .notes-textarea{
-    width:100%; min-height: 260px; background: var(--bg-raised-2); border: 1px solid var(--line);
-    color: var(--ink); padding: 14px; border-radius: 10px; font-size: 14px; font-family: inherit;
-    line-height: 1.7; resize: vertical;
+  /* ---------- Memo-style notes (with tags) ---------- */
+  .memo-tag-filter{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom: 12px; }
+  .memo-tag-chip{
+    font-size: 11px; padding: 4px 11px; border-radius: 20px; border: 1px solid var(--line);
+    color: var(--ink-dim); cursor:pointer; background: var(--card); font-family: inherit; font-weight: 600;
   }
-  .notes-textarea:focus{ outline:none; border-color: var(--accent); }
-  .notes-hint{ font-size: 11px; color: var(--ink-faint); margin-top: 8px; }
+  .memo-tag-chip:hover{ border-color: var(--line-strong); }
+  .memo-tag-chip.active{ border-color: var(--violet); color: var(--violet); background: var(--violet-soft); }
 
+  .memo-list{ display:flex; flex-direction:column; }
+  .memo-item{
+    display:flex; align-items:flex-start; gap:10px; padding: 11px 4px; border-bottom: 1px solid var(--line);
+    cursor: pointer;
+  }
+  .memo-item:last-child{ border-bottom: none; }
+  .memo-item:hover{ background: var(--card-soft); border-radius: 10px; }
+  .memo-item-body{ flex:1; min-width:0; }
+  .memo-item-top-row{ display:flex; align-items:center; gap:7px; margin-bottom: 2px; }
+  .memo-item-tag{ font-size: 10px; color: var(--violet); background: var(--violet-soft); padding: 2px 8px; border-radius: 20px; flex-shrink:0; font-weight: 700; }
+  .memo-item-title{ font-size: 13.5px; font-weight: 600; color: var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .memo-item-preview{ font-size: 12px; color: var(--ink-faint); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top: 2px; }
+  .memo-item-del{ background:none; border:none; color: var(--ink-faint); cursor:pointer; font-size: 16px; flex-shrink:0; padding: 2px; }
+  .memo-item-del:hover{ color: var(--danger); }
+  .memo-editor{
+    background: var(--card-soft); border: 1px solid var(--line-strong); border-radius: 14px;
+    padding: 13px; margin-bottom: 11px; display:flex; flex-direction:column; gap:9px;
+  }
+  .memo-editor.hidden{ display:none; }
+  .memo-editor-row{ display:flex; gap:8px; }
+  .memo-editor input[type=text]{
+    background: var(--card); border:1px solid var(--line); color:var(--ink); font-weight:600;
+    padding: 10px 13px; border-radius:10px; font-size:13.5px; font-family:inherit;
+  }
+  .memo-editor input.memo-tag-input{ flex-shrink:0; width: 110px; font-weight:500; }
+  .memo-editor input.memo-title-input{ flex:1; }
+  .memo-editor textarea{
+    width:100%; background: var(--card); border:1px solid var(--line); color:var(--ink);
+    padding: 11px 13px; border-radius:10px; font-size:13.5px; font-family:inherit; resize:vertical; min-height:100px; line-height:1.6;
+  }
+  .memo-editor input:focus, .memo-editor textarea:focus{ outline:none; border-color:var(--accent); }
+
+  .notes-hint{ font-size: 11.5px; color: var(--ink-faint); margin-top: 9px; }
+
+  /* ---------- Modals ---------- */
   .modal-overlay{
-    position: fixed; inset:0; background: rgba(6,10,11,.72);
+    position: fixed; inset:0; background: rgba(46,42,36,.4);
     display:flex; align-items:center; justify-content:center; z-index: 70; padding: 20px;
+    backdrop-filter: blur(2px);
   }
-  .modal{ background: var(--bg-raised); border: 1px solid var(--line-bright); border-radius: 16px; padding: 24px; width: 100%; max-width: 400px; max-height: 90vh; overflow-y:auto; }
-  .modal h3{ margin: 0 0 16px; font-size: 16px; color: var(--ink); font-weight: 700; }
-  .modal .field{ margin-bottom: 14px; }
-  .modal .field label{ display:block; font-size: 10px; color: var(--ink-faint); letter-spacing:.3px; margin-bottom:6px; }
-  .modal .field input[type=text], .modal .field select{
-    width:100%; background: var(--bg-raised-2); border:1px solid var(--line);
-    color: var(--ink); padding: 10px 12px; border-radius: 8px; font-size: 13px; font-family: inherit;
+  .modal{ background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: 26px; width: 100%; max-width: 420px; max-height: 90vh; overflow-y:auto; box-shadow: 0 20px 60px rgba(46,42,36,.2); }
+  .modal h3{ margin: 0 0 18px; font-size: 17px; color: var(--ink); font-weight: 700; }
+  .modal .field{ margin-bottom: 15px; }
+  .modal .field label{ display:block; font-size: 11px; color: var(--ink-faint); letter-spacing:.2px; margin-bottom:7px; font-weight: 600; }
+  .modal .field input[type=text], .modal .field input[type=time], .modal .field select{
+    width:100%; background: var(--card); border:1px solid var(--line);
+    color: var(--ink); padding: 11px 13px; border-radius: 10px; font-size: 13.5px; font-family: inherit;
   }
   .modal .field input:focus{ outline:none; border-color: var(--accent); }
-  .modal-actions{ display:flex; gap:8px; margin-top: 18px; }
-  .btn-primary{ flex:1; background: var(--accent); color:#0a1214; border:none; padding: 11px; border-radius:10px; font-weight:700; cursor:pointer; font-size:13px; }
-  .btn-primary:hover{ background:#6ee6d6; }
-  .btn-secondary{ flex:1; background:none; color: var(--ink-dim); border:1px solid var(--line); padding: 11px; border-radius:10px; cursor:pointer; font-size:13px; }
-  .btn-secondary:hover{ border-color: var(--line-bright); color: var(--ink); }
-  .confirm-text{ font-size: 13px; color: var(--ink-dim); line-height:1.6; }
+  .modal-actions{ display:flex; gap:9px; margin-top: 20px; }
+  .btn-primary{ flex:1; background: var(--accent); color:#fff; border:none; padding: 12px; border-radius:12px; font-weight:700; cursor:pointer; font-size:13.5px; transition: background .15s ease; }
+  .btn-primary:hover{ background: var(--accent-dark); }
+  .btn-secondary{ flex:1; background: var(--card); color: var(--ink-dim); border:1px solid var(--line); padding: 12px; border-radius:12px; cursor:pointer; font-size:13.5px; font-weight: 600; }
+  .btn-secondary:hover{ border-color: var(--line-strong); color: var(--ink); }
+  .confirm-text{ font-size: 13.5px; color: var(--ink-dim); line-height:1.6; }
   .hidden{ display:none !important; }
 
-  .platform-pick{ display:flex; flex-wrap:wrap; gap:8px; }
+  .platform-pick{ display:flex; flex-wrap:wrap; gap:9px; }
   .platform-pick-opt{
-    flex:1; min-width: 100px; padding: 11px 8px; border: 1.5px solid var(--line); border-radius: 10px;
-    text-align:center; cursor:pointer; font-size: 11px; color: var(--ink-dim); transition: all .15s ease;
-    background: var(--bg-raised-2); user-select: none;
+    flex:1; min-width: 100px; padding: 12px 8px; border: 1.5px solid var(--line); border-radius: 12px;
+    text-align:center; cursor:pointer; font-size: 11.5px; color: var(--ink-dim); transition: all .15s ease;
+    background: var(--card); user-select: none; font-weight: 600;
   }
-  .platform-pick-opt:hover{ border-color: var(--line-bright); color: var(--ink); }
-  .platform-pick-opt.selected{ border-color: var(--accent); color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+  .platform-pick-opt:hover{ border-color: var(--line-strong); color: var(--ink); }
+  .platform-pick-opt.selected{ border-color: var(--accent); color: var(--accent-dark); background: var(--accent-soft); font-weight: 700; }
   .platform-pick-opt.selected::before{ content: '✓ '; }
 </style>
 </head>
@@ -496,7 +546,10 @@
           <span></span><span></span><span></span>
         </button>
         <div>
-          <p class="brand-title display">存檔本</p>
+          <div class="brand-row">
+            <span class="brand-icon">🕹️</span>
+            <p class="brand-title display">遊跡</p>
+          </div>
           <p class="brand-sub">你的遊戲進度總覽</p>
         </div>
       </div>
@@ -523,7 +576,7 @@
     <button class="drawer-close" id="drawerCloseBtn">✕</button>
   </div>
   <div class="drawer-body">
-    <button class="drawer-nav-btn" id="goHomeFromDrawerBtn">🏠 &nbsp;回到主頁總覽</button>
+    <button class="drawer-nav-btn" id="goHomeFromDrawerBtn">🏠 回到主頁總覽</button>
     <div id="drawerGameList"></div>
   </div>
 </div>
@@ -567,7 +620,12 @@
     <div class="field">
       <label>平台 / 類型</label>
       <div class="platform-pick" id="editPlatformPick"></div>
-      <p class="field-hint" style="margin-top:8px;">切換平台類型會改變下方可用的分頁功能。</p>
+      <p class="field-hint" style="margin-top:9px;">切換平台類型會改變下方可用的區塊。</p>
+    </div>
+    <div class="field" id="editDailyResetTimeField">
+      <label>每日刷新時間</label>
+      <input type="time" id="editDailyResetTimeInput">
+      <p class="field-hint" style="margin-top:9px;">任務會依照這個時間重置，而不是固定的凌晨 0 點。</p>
     </div>
     <div class="modal-actions">
       <button class="btn-secondary" id="cancelEditBtn">取消</button>
@@ -578,7 +636,7 @@
 
 <div class="modal-overlay hidden" id="historyModal">
   <div class="modal">
-    <h3>已完成的支線紀錄</h3>
+    <h3>已完成的紀錄</h3>
     <div id="historyListArea"></div>
     <div class="modal-actions">
       <button class="btn-secondary" id="closeHistoryBtn">關閉</button>
@@ -623,15 +681,15 @@
 (function(){
   'use strict';
 
-  var STORAGE_KEY = 'save-log-games-v5';
-  var OLD_KEYS = ['save-log-games-v4','save-log-games-v3','save-log-games-v2','save-log-games-v1'];
+  var STORAGE_KEY = 'save-log-games-v7';
+  var OLD_KEYS = ['save-log-games-v6','save-log-games-v5','save-log-games-v4','save-log-games-v3','save-log-games-v2','save-log-games-v1'];
 
   var PLATFORMS = [
-    { key: 'console',       label: 'Switch/主機',  short: '主機',    color: '#4fd6c4', group: 'console' },
-    { key: 'steam',         label: 'Steam',        short: 'Steam',   color: '#a78cf2', group: 'console' },
-    { key: 'mobile',        label: '一般向手遊',    short: '手遊',    color: '#f0b855', group: 'mobile' },
-    { key: 'otome_mobile',  label: '乙女手遊',      short: '乙女手遊', color: '#f0a8cc', group: 'otome_mobile' },
-    { key: 'otome_console', label: 'NS/主機乙女',   short: 'NS乙女',  color: '#6d9bf2', group: 'otome_console' }
+    { key: 'console',       label: 'Switch/主機',  short: '主機',    color: '#23b892', group: 'console' },
+    { key: 'steam',         label: 'Steam',        short: 'Steam',   color: '#8f6fe8', group: 'console' },
+    { key: 'mobile',        label: '一般向手遊',    short: '手遊',    color: '#f5a623', group: 'mobile' },
+    { key: 'otome_mobile',  label: '乙女手遊',      short: '乙女手遊', color: '#ef7fb0', group: 'otome_mobile' },
+    { key: 'otome_console', label: 'NS/主機乙女',   short: 'NS乙女',  color: '#4c8dff', group: 'otome_console' }
   ];
 
   function platformInfo(key){
@@ -664,18 +722,46 @@
   var WEEKDAYS = ['週一','週二','週三','週四','週五','週六','週日'];
 
   function uid(){ return Math.random().toString(36).slice(2,10); }
+  function pad2(n){ return String(n).padStart(2,'0'); }
   function todayStr(){ return new Date().toISOString().slice(0,10); }
   function escapeHtml(str){
     var div = document.createElement('div');
     div.textContent = str == null ? '' : str;
     return div.innerHTML;
   }
+  function firstLine(str){
+    if(!str) return '';
+    var idx = str.indexOf('\n');
+    return idx === -1 ? str : str.slice(0, idx);
+  }
+
+  // ---------- Logical-day / logical-week helpers (respect per-game reset time) ----------
+  function parseResetTime(str){
+    var parts = (str || '00:00').split(':');
+    return { h: parseInt(parts[0],10) || 0, m: parseInt(parts[1],10) || 0 };
+  }
+  function logicalDayKey(resetTimeStr, refDate){
+    refDate = refDate || new Date();
+    var rt = parseResetTime(resetTimeStr);
+    var threshold = new Date(refDate.getFullYear(), refDate.getMonth(), refDate.getDate(), rt.h, rt.m, 0, 0);
+    var dayDate = new Date(refDate);
+    if(refDate < threshold){ dayDate.setDate(dayDate.getDate() - 1); }
+    return dayDate.getFullYear() + '-' + pad2(dayDate.getMonth()+1) + '-' + pad2(dayDate.getDate());
+  }
+  function logicalWeekKey(resetTimeStr, refDate){
+    refDate = refDate || new Date();
+    var rt = parseResetTime(resetTimeStr);
+    var threshold = new Date(refDate.getFullYear(), refDate.getMonth(), refDate.getDate(), rt.h, rt.m, 0, 0);
+    var dayDate = new Date(refDate);
+    if(refDate < threshold){ dayDate.setDate(dayDate.getDate() - 1); }
+    var dow = dayDate.getDay();
+    var diffToMonday = (dow === 0) ? 6 : dow - 1;
+    var monday = new Date(dayDate);
+    monday.setDate(monday.getDate() - diffToMonday);
+    return monday.getFullYear() + '-' + pad2(monday.getMonth()+1) + '-' + pad2(monday.getDate());
+  }
 
   function makeGame(name, platform){
-    var group = platformGroup(platform);
-    var defaultTab = 'checklist';
-    if(group === 'mobile' || group === 'otome_mobile' || group === 'otome_console') defaultTab = 'story';
-
     return {
       id: uid(),
       name: name,
@@ -683,30 +769,21 @@
       status: 'playing',
       progress: 0,
       currentQuest: '',
-      notes: '',
-      activeTab: defaultTab,
+      notes: [],
       todos: [],
       quests: [],
       questHistory: [],
       dailies: [],
-      lastDailyReset: todayStr(),
-      lastWeeklyReset: todayStr(),
+      dailyResetTime: '00:00',
+      lastDailyResetDayKey: '',
+      lastWeeklyResetWeekKey: '',
       events: [],
       currency: { name1: '', val1: '', name2: '', val2: '', pullCost: '' },
       characters: [],
-      cardNotes: '',
       endings: [],
       materialDays: { mon:'', tue:'', wed:'', thu:'', fri:'', sat:'', sun:'' },
       materialList: []
     };
-  }
-
-  function validTabsForGroup(grp){
-    if(grp === 'console') return ['checklist','notes'];
-    if(grp === 'mobile') return ['story','daily','materials','currency','notes'];
-    if(grp === 'otome_mobile') return ['story','characters','daily','currency','notes'];
-    if(grp === 'otome_console') return ['story','characters','endings','notes'];
-    return ['checklist','notes'];
   }
 
   function migrate(games){
@@ -717,28 +794,57 @@
       if(g.dailies === undefined) g.dailies = [];
       if(g.events === undefined) g.events = [];
       if(g.characters === undefined) g.characters = [];
-      if(g.cardNotes === undefined) g.cardNotes = '';
       if(g.currency === undefined) g.currency = { name1:'', val1:'', name2:'', val2:'', pullCost:'' };
       if(g.currency.pullCost === undefined) g.currency.pullCost = '';
-      if(g.lastDailyReset === undefined) g.lastDailyReset = todayStr();
-      if(g.lastWeeklyReset === undefined) g.lastWeeklyReset = todayStr();
+      if(g.dailyResetTime === undefined) g.dailyResetTime = '00:00';
+      if(g.lastDailyResetDayKey === undefined) g.lastDailyResetDayKey = '';
+      if(g.lastWeeklyResetWeekKey === undefined) g.lastWeeklyResetWeekKey = '';
       if(g.quests === undefined) g.quests = [];
       if(g.questHistory === undefined) g.questHistory = [];
       if(g.endings === undefined) g.endings = [];
       if(g.materialDays === undefined) g.materialDays = { mon:'', tue:'', wed:'', thu:'', fri:'', sat:'', sun:'' };
       if(g.materialList === undefined) g.materialList = [];
+
+      if(typeof g.notes === 'string'){
+        var oldNote = g.notes;
+        g.notes = oldNote.trim() ? [{ id: uid(), title: firstLine(oldNote) || '筆記', body: oldNote, tag: '' }] : [];
+      }
+      if(g.notes === undefined) g.notes = [];
+      g.notes.forEach(function(n){ if(n.tag === undefined) n.tag = ''; });
+
+      if(typeof g.cardNotes === 'string' && g.cardNotes.trim() && g.characters && g.characters.length){
+        g.characters[0].cardNotes = g.characters[0].cardNotes || [];
+        g.characters[0].cardNotes.push({ id: uid(), title: '卡面收集', body: g.cardNotes, tag: '' });
+      }
+      delete g.cardNotes;
+
       if(g.characters){
         g.characters.forEach(function(c){
-          if(c.useAffection === undefined) c.useAffection = (c.affection !== undefined && c.affection !== null && c.affection !== '');
-          if(c.affection === undefined) c.affection = 0;
           if(c.route === undefined) c.route = '';
+          delete c.affection;
+          delete c.useAffection;
+          if(typeof c.note === 'string'){
+            var oldCharNote = c.note;
+            c.cardNotes = c.cardNotes || [];
+            if(oldCharNote.trim()){
+              c.cardNotes.push({ id: uid(), title: firstLine(oldCharNote) || '筆記', body: oldCharNote, tag: '' });
+            }
+            delete c.note;
+          }
+          if(c.cardNotes === undefined) c.cardNotes = [];
+          c.cardNotes.forEach(function(n){ if(n.tag === undefined) n.tag = ''; });
         });
       }
-      var grp = platformGroup(g.platform);
-      var validTabs = validTabsForGroup(grp);
-      if(!g.activeTab || validTabs.indexOf(g.activeTab) === -1){
-        g.activeTab = validTabs[0];
-      }
+
+      g.quests.forEach(function(q){
+        if(q.typeTag === undefined) q.typeTag = '';
+        if(q.charTag === undefined) q.charTag = '';
+      });
+      g.questHistory.forEach(function(q){
+        if(q.typeTag === undefined) q.typeTag = '';
+        if(q.charTag === undefined) q.charTag = '';
+      });
+
       g.events.forEach(function(ev){
         if(ev.refreshDateTime === undefined){
           ev.refreshDateTime = ev.endDate ? (ev.endDate + 'T23:59') : '';
@@ -776,18 +882,19 @@
   var cloudUnsub = null;
   var applyingRemoteUpdate = false;
   var pushDebounceTimer = null;
+  var memoTagFilters = new WeakMap();
 
   (function autoReset(){
-    var today = todayStr();
-    var dayOfWeek = new Date().getDay();
     state.games.forEach(function(g){
-      if(g.lastDailyReset !== today){
+      var dayKey = logicalDayKey(g.dailyResetTime);
+      var weekKey = logicalWeekKey(g.dailyResetTime);
+      if(g.lastDailyResetDayKey !== dayKey){
         g.dailies.forEach(function(d){ if(d.freq==='daily') d.done = false; });
-        g.lastDailyReset = today;
+        g.lastDailyResetDayKey = dayKey;
       }
-      if(dayOfWeek === 1 && g.lastWeeklyReset !== today){
+      if(g.lastWeeklyResetWeekKey !== weekKey){
         g.dailies.forEach(function(d){ if(d.freq==='weekly') d.done = false; });
-        g.lastWeeklyReset = today;
+        g.lastWeeklyResetWeekKey = weekKey;
       }
     });
   })();
@@ -795,11 +902,9 @@
   function saveState(){
     try{
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state.games));
-      pulseSaved();
     }catch(e){}
     schedulePushToCloud();
   }
-  function pulseSaved(){ /* visual save cue lives in drawer auth badge only now */ }
 
   function schedulePushToCloud(){
     if(applyingRemoteUpdate) return;
@@ -972,9 +1077,7 @@
     if(isNaN(refresh.getTime())) return null;
     var refreshHour = refresh.getHours() + refresh.getMinutes()/60;
     var safeDeadline = new Date(refresh);
-    if(refreshHour < 12){
-      safeDeadline.setDate(safeDeadline.getDate() - 1);
-    }
+    if(refreshHour < 12){ safeDeadline.setDate(safeDeadline.getDate() - 1); }
     safeDeadline.setHours(23,59,59,999);
     return safeDeadline;
   }
@@ -1036,7 +1139,7 @@
     gridEl.innerHTML = '';
 
     if(state.games.length === 0){
-      gridEl.innerHTML = '<div class="empty-state"><div class="empty-state-title">尚無遊戲紀錄</div><p style="color:var(--ink-faint); font-size:13px;">點下方「新增一款遊戲」開始記錄。</p></div>';
+      gridEl.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🗺️</div><div class="empty-state-title">尚無遊戲紀錄</div><p class="empty-state-sub">點下方「新增一款遊戲」開始記錄你的遊戲旅程。</p></div>';
       return;
     }
     if(visibleGames.length === 0){
@@ -1070,7 +1173,7 @@
         : '';
 
       card.innerHTML =
-        '<div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:' + pInfo.color + '"></div>' +
+        '<div class="overview-accent-bar" style="background:' + pInfo.color + '"></div>' +
         '<div class="overview-top">' +
           '<div class="overview-name-wrap">' +
             '<span class="overview-name">' + escapeHtml(g.name) + '</span>' +
@@ -1078,7 +1181,7 @@
           '<span class="overview-status ' + statusOpt.cls + '">' + statusOpt.label + '</span>' +
         '</div>' +
         '<div class="overview-platform-tag">' + pInfo.label + '</div>' +
-        '<div class="overview-sub" style="margin-top:6px;">' + escapeHtml(subLine) + '</div>' +
+        '<div class="overview-sub" style="margin-top:7px;">' + escapeHtml(subLine) + '</div>' +
         progressHtml +
         (badges ? '<div class="overview-badge-row">' + badges + '</div>' : '');
       card.addEventListener('click', function(){ goToGame(g.id); });
@@ -1100,47 +1203,6 @@
     var grp = platformGroup(g.platform);
     var statusOpt = STATUS_OPTIONS.filter(function(o){return o.key===g.status;})[0] || STATUS_OPTIONS[0];
 
-    var doneCount = g.todos.filter(function(t){return t.done;}).length;
-    var pendingDaily = g.dailies.filter(function(d){return !d.done;}).length;
-    var activeQuestCount = g.quests.filter(function(q){ return !q.done; }).length;
-
-    var tabsHtml = '';
-    if(grp === 'console'){
-      tabsHtml += tabBtn('checklist', '任務清單', doneCount + '/' + g.todos.length, g.activeTab);
-    }
-    if(grp === 'mobile' || grp === 'otome_mobile' || grp === 'otome_console'){
-      tabsHtml += tabBtn('story', '劇情/支線', activeQuestCount, g.activeTab);
-    }
-    if(grp === 'otome_mobile' || grp === 'otome_console'){
-      tabsHtml += tabBtn('characters', '男主', g.characters.length, g.activeTab);
-    }
-    if(grp === 'mobile' || grp === 'otome_mobile'){
-      tabsHtml += tabBtn('daily', '每日活動', pendingDaily + ' 未完成', g.activeTab);
-    }
-    if(grp === 'mobile'){
-      tabsHtml += tabBtn('materials', '素材規劃', null, g.activeTab);
-    }
-    if(grp === 'otome_console'){
-      tabsHtml += tabBtn('endings', '結局收集', g.endings.length, g.activeTab);
-    }
-    if(grp === 'mobile' || grp === 'otome_mobile'){
-      tabsHtml += tabBtn('currency', '資源換算', null, g.activeTab);
-    }
-    tabsHtml += tabBtn('notes', '自由筆記', null, g.activeTab);
-
-    var heroEventHtml = '';
-    if(grp === 'mobile' || grp === 'otome_mobile'){
-      var ne = nearestEventFor(g);
-      if(ne){
-        var badge = eventBadge(ne.days);
-        heroEventHtml =
-          '<div class="hero-event-strip ' + badge.cls + '">' +
-            '<span class="hero-event-name">🔔 ' + escapeHtml(ne.event.name) + '</span>' +
-            '<span class="event-days ' + badge.cls + '">' + badge.text + '</span>' +
-          '</div>';
-      }
-    }
-
     var progressHtml = '';
     if(grp === 'console'){
       progressHtml =
@@ -1151,13 +1213,39 @@
         '</div>';
     }
 
+    // Section order: hero -> events (right below title) -> tasks(daily) -> story -> characters -> materials -> endings -> currency -> notes
+    var sectionsHtml = '';
+    if(grp === 'mobile' || grp === 'otome_mobile'){
+      sectionsHtml += '<div class="section-block" id="sectionEvents"></div>';
+      sectionsHtml += '<div class="section-block" id="sectionDaily"></div>';
+    }
+    if(grp === 'console'){
+      sectionsHtml += '<div class="section-block" id="sectionChecklist"></div>';
+    }
+    if(grp === 'mobile' || grp === 'otome_mobile' || grp === 'otome_console'){
+      sectionsHtml += '<div class="section-block" id="sectionStory"></div>';
+    }
+    if(grp === 'otome_mobile' || grp === 'otome_console'){
+      sectionsHtml += '<div class="section-block" id="sectionCharacters"></div>';
+    }
+    if(grp === 'mobile'){
+      sectionsHtml += '<div class="section-block" id="sectionMaterials"></div>';
+    }
+    if(grp === 'otome_console'){
+      sectionsHtml += '<div class="section-block" id="sectionEndings"></div>';
+    }
+    if(grp === 'mobile' || grp === 'otome_mobile'){
+      sectionsHtml += '<div class="section-block" id="sectionCurrency"></div>';
+    }
+    sectionsHtml += '<div class="section-block" id="sectionNotes"></div>';
+
     mainEl.innerHTML =
       '<div class="game-hero">' +
         '<div class="game-hero-top">' +
           '<div class="game-hero-title-block">' +
             '<div class="game-title-display display">' + escapeHtml(g.name) + '</div>' +
             '<div class="game-hero-tags">' +
-              '<span class="platform-badge" style="background:' + hexAlpha(pInfo.color,0.16) + '; color:' + pInfo.color + '">' + pInfo.label + '</span>' +
+              '<span class="platform-badge" style="background:' + hexAlpha(pInfo.color,0.15) + '; color:' + pInfo.color + '">' + pInfo.label + '</span>' +
               '<span class="overview-status ' + statusOpt.cls + '">' + statusOpt.label + '</span>' +
             '</div>' +
           '</div>' +
@@ -1166,22 +1254,9 @@
             '<button class="icon-btn danger" id="deleteGameBtn" title="刪除這款遊戲">✕</button>' +
           '</div>' +
         '</div>' +
-        heroEventHtml +
         progressHtml +
       '</div>' +
-      '<div class="panel-box" style="margin-bottom:14px;">' +
-        '<p class="panel-box-title">' + (grp === 'console' ? '目前進度 / 玩到哪' : '劇情進度') + '</p>' +
-        '<textarea id="currentQuestInput" class="notes-textarea" style="min-height:60px;" placeholder="' + (grp === 'console' ? '記錄目前玩到的章節或任務' : '自由輸入，例如：第二章、番外1、單推角色個人線') + '">' + escapeHtml(g.currentQuest) + '</textarea>' +
-      '</div>' +
-      '<div class="tabs">' + tabsHtml + '</div>' +
-      '<div class="tab-panel' + (g.activeTab==='checklist'?' active':'') + '" id="panelChecklist"></div>' +
-      '<div class="tab-panel' + (g.activeTab==='story'?' active':'') + '" id="panelStory"></div>' +
-      '<div class="tab-panel' + (g.activeTab==='daily'?' active':'') + '" id="panelDaily"></div>' +
-      '<div class="tab-panel' + (g.activeTab==='materials'?' active':'') + '" id="panelMaterials"></div>' +
-      '<div class="tab-panel' + (g.activeTab==='characters'?' active':'') + '" id="panelCharacters"></div>' +
-      '<div class="tab-panel' + (g.activeTab==='endings'?' active':'') + '" id="panelEndings"></div>' +
-      '<div class="tab-panel' + (g.activeTab==='currency'?' active':'') + '" id="panelCurrency"></div>' +
-      '<div class="tab-panel' + (g.activeTab==='notes'?' active':'') + '" id="panelNotes"></div>';
+      sectionsHtml;
 
     document.getElementById('editGameBtn').addEventListener('click', function(){ openEditModal(g); });
     document.getElementById('deleteGameBtn').addEventListener('click', function(){ openDeleteModal(g); });
@@ -1198,34 +1273,15 @@
       });
     }
 
-    document.getElementById('currentQuestInput').addEventListener('input', function(e){
-      updateGame(g.id, { currentQuest: e.target.value });
-    });
-
-    ['checklist','story','daily','materials','characters','endings','currency','notes'].forEach(function(tabKey){
-      var tabEl = document.getElementById('tabBtn_' + tabKey);
-      if(tabEl){
-        tabEl.addEventListener('click', function(){
-          g.activeTab = tabKey;
-          saveState();
-          renderGameView();
-        });
-      }
-    });
-
-    if(grp === 'console') renderChecklistPanel(g);
-    if(grp === 'mobile' || grp === 'otome_mobile' || grp === 'otome_console') renderStoryPanel(g);
-    if(grp === 'mobile' || grp === 'otome_mobile') renderDailyPanel(g);
-    if(grp === 'mobile') renderMaterialsPanel(g);
-    if(grp === 'otome_mobile' || grp === 'otome_console') renderCharactersPanel(g, grp);
-    if(grp === 'otome_console') renderEndingsPanel(g);
-    if(grp === 'mobile' || grp === 'otome_mobile') renderCurrencyPanel(g);
-    renderNotesPanel(g);
-  }
-
-  function tabBtn(key, label, countVal, activeTab){
-    var countHtml = (countVal !== null && countVal !== undefined) ? '<span class="tab-count">' + countVal + '</span>' : '';
-    return '<div class="tab' + (activeTab===key?' active':'') + '" id="tabBtn_' + key + '">' + label + ' ' + countHtml + '</div>';
+    if(grp === 'console') renderChecklistSection(g);
+    if(grp === 'mobile' || grp === 'otome_mobile') renderEventsSection(g);
+    if(grp === 'mobile' || grp === 'otome_mobile') renderDailySection(g);
+    if(grp === 'mobile' || grp === 'otome_mobile' || grp === 'otome_console') renderStorySection(g, grp);
+    if(grp === 'otome_mobile' || grp === 'otome_console') renderCharactersSection(g, grp);
+    if(grp === 'mobile') renderMaterialsSection(g);
+    if(grp === 'otome_console') renderEndingsSection(g);
+    if(grp === 'mobile' || grp === 'otome_mobile') renderCurrencySection(g);
+    renderNotesSection(g);
   }
 
   function wireAddToggle(fabId, formId){
@@ -1241,13 +1297,15 @@
     });
   }
 
-  function renderChecklistPanel(g){
-    var panel = document.getElementById('panelChecklist');
+  // ---------- Checklist (console/steam) ----------
+  function renderChecklistSection(g){
+    var panel = document.getElementById('sectionChecklist');
     var tagSelectHtml = TAG_OPTIONS.map(function(t){ return '<option value="' + t.key + '">' + t.label + '</option>'; }).join('');
+    var doneCount = g.todos.filter(function(t){return t.done;}).length;
 
     panel.innerHTML =
       '<div class="panel-box">' +
-        '<div class="panel-box-title">任務清單<button class="add-fab" id="fabTodo">+</button></div>' +
+        '<div class="panel-box-title"><span><span class="panel-icon">✅</span>任務清單</span><span class="title-count">' + doneCount + '/' + g.todos.length + '</span><button class="add-fab" id="fabTodo">+</button></div>' +
         '<div class="add-form hidden" id="formTodo">' +
           '<div class="add-form-row">' +
             '<select id="newTodoTag">' + tagSelectHtml + '</select>' +
@@ -1313,115 +1371,16 @@
     renderGameView();
   }
 
-  function renderStoryPanel(g){
-    var panel = document.getElementById('panelStory');
-    var activeQuests = g.quests.filter(function(q){ return !q.done; });
-
-    panel.innerHTML =
-      '<div class="panel-box">' +
-        '<div class="panel-box-title">支線 / 角色任務' +
-          '<button class="add-fab" id="fabQuest">+</button>' +
-        '</div>' +
-        '<div class="add-form hidden" id="formQuest">' +
-          '<div class="add-form-row">' +
-            '<input type="text" id="newQuestText" placeholder="新增支線或角色任務">' +
-            '<input type="text" id="newQuestChar" placeholder="角色標籤（選填）" style="max-width:140px;">' +
-          '</div>' +
-          '<div class="add-form-actions">' +
-            '<button class="btn-cancel-inline" id="cancelQuestBtn">取消</button>' +
-            '<button class="btn-confirm" id="addQuestBtn">新增</button>' +
-          '</div>' +
-        '</div>' +
-        '<div id="questListArea"></div>' +
-        '<span class="view-history-link" id="viewHistoryLink">查看已完成的紀錄 (' + g.questHistory.length + ')</span>' +
-      '</div>';
-
-    var listArea = document.getElementById('questListArea');
-    if(activeQuests.length === 0){
-      listArea.innerHTML = '<div class="empty-hint">目前沒有進行中的支線，點「+」新增一筆。</div>';
-    } else {
-      var html = '';
-      activeQuests.forEach(function(q){
-        html +=
-          '<div class="quest-item">' +
-            '<div class="quest-top">' +
-              '<div class="quest-check" data-action="complete-quest" data-id="' + q.id + '"></div>' +
-              '<span class="quest-text">' + escapeHtml(q.text) + '</span>' +
-              (q.charTag ? '<span class="quest-char-tag">' + escapeHtml(q.charTag) + '</span>' : '') +
-              '<button class="quest-del" data-action="delete-quest" data-id="' + q.id + '">×</button>' +
-            '</div>' +
-          '</div>';
-      });
-      listArea.innerHTML = html;
-    }
-
-    wireAddToggle('fabQuest', 'formQuest');
-    document.getElementById('cancelQuestBtn').addEventListener('click', function(){ document.getElementById('formQuest').classList.add('hidden'); });
-    document.getElementById('addQuestBtn').addEventListener('click', function(){ addQuest(g); });
-    document.getElementById('newQuestText').addEventListener('keydown', function(e){ if(e.key==='Enter') addQuest(g); });
-
-    listArea.querySelectorAll('[data-action="complete-quest"]').forEach(function(el){
-      el.addEventListener('click', function(){
-        var id = el.getAttribute('data-id');
-        var q = g.quests.filter(function(x){return x.id===id;})[0];
-        if(q){
-          q.done = true;
-          q.completedAt = Date.now();
-          g.questHistory.unshift(q);
-          g.quests = g.quests.filter(function(x){ return x.id !== id; });
-          saveState(); renderGameView();
-        }
-      });
-    });
-    listArea.querySelectorAll('[data-action="delete-quest"]').forEach(function(el){
-      el.addEventListener('click', function(){
-        var id = el.getAttribute('data-id');
-        g.quests = g.quests.filter(function(x){return x.id!==id;});
-        saveState(); renderGameView();
-      });
-    });
-
-    document.getElementById('viewHistoryLink').addEventListener('click', function(){ openHistoryModal(g); });
-  }
-
-  function addQuest(g){
-    var textInput = document.getElementById('newQuestText');
-    var charInput = document.getElementById('newQuestChar');
-    var text = textInput.value.trim();
-    if(!text) return;
-    g.quests.push({ id: uid(), text: text, charTag: charInput.value.trim(), done: false });
-    saveState();
-    renderGameView();
-  }
-
-  var historyModal = document.getElementById('historyModal');
-  function openHistoryModal(g){
-    var area = document.getElementById('historyListArea');
-    if(g.questHistory.length === 0){
-      area.innerHTML = '<p class="confirm-text">還沒有已完成的紀錄。</p>';
-    } else {
-      var html = '';
-      g.questHistory.forEach(function(q){
-        var dateStr = q.completedAt ? new Date(q.completedAt).toLocaleDateString('zh-TW') : '';
-        html += '<div class="history-item">' + escapeHtml(q.text) + (q.charTag ? '（' + escapeHtml(q.charTag) + '）' : '') + ' <span style="float:right; text-decoration:none;">' + dateStr + '</span></div>';
-      });
-      area.innerHTML = html;
-    }
-    historyModal.classList.remove('hidden');
-  }
-  document.getElementById('closeHistoryBtn').addEventListener('click', function(){ historyModal.classList.add('hidden'); });
-  historyModal.addEventListener('click', function(e){ if(e.target === historyModal) historyModal.classList.add('hidden'); });
-
-  function renderDailyPanel(g){
-    var panel = document.getElementById('panelDaily');
+  // ---------- Daily/weekly TASKS ("任務") ----------
+  function renderDailySection(g){
+    var panel = document.getElementById('sectionDaily');
     var dailyItems = g.dailies.filter(function(d){ return d.freq === 'daily'; });
     var weeklyItems = g.dailies.filter(function(d){ return d.freq === 'weekly'; });
+    var pendingDaily = g.dailies.filter(function(d){return !d.done;}).length;
 
     panel.innerHTML =
       '<div class="panel-box">' +
-        '<div class="panel-box-title">每日活動' +
-          '<button class="add-fab" id="fabDaily">+</button>' +
-        '</div>' +
+        '<div class="panel-box-title"><span><span class="panel-icon">⚔️</span>任務</span><span class="title-count">' + pendingDaily + ' 未完成</span><button class="add-fab" id="fabDaily">+</button></div>' +
         '<div class="add-form hidden" id="formDaily">' +
           '<div class="add-form-row">' +
             '<select id="newDailyFreq"><option value="daily">每日</option><option value="weekly">每週</option></select>' +
@@ -1436,7 +1395,7 @@
         '<div id="dailyListAreaD"></div>' +
         '<div class="daily-subsection-title">每週<button class="reset-btn" id="resetWeeklyBtn">重置</button></div>' +
         '<div id="dailyListAreaW"></div>' +
-        '<p class="reset-hint" style="margin-top:10px; margin-bottom:0;">每日項目每天自動重置勾選，每週項目在星期一自動重置。</p>' +
+        '<p class="reset-hint" style="margin-top:11px; margin-bottom:0;">每日項目會依照遊戲設定的「每日刷新時間」自動重置，每週項目在每週一自動重置。</p>' +
       '</div>';
 
     function renderList(containerId, items){
@@ -1499,8 +1458,312 @@
     renderGameView();
   }
 
-  function renderMaterialsPanel(g){
-    var panel = document.getElementById('panelMaterials');
+  // ---------- Story: "劇情進度" + "正在進行中的劇情" (editable quests with free-form type tag) ----------
+  function renderStorySection(g, grp){
+    var panel = document.getElementById('sectionStory');
+    var activeQuests = g.quests.filter(function(q){ return !q.done; });
+
+    var storyLabel = (grp === 'console') ? '目前進度 / 玩到哪' : '劇情進度';
+    var storyPlaceholder = (grp === 'console') ? '記錄目前玩到的章節或任務' : '自由輸入，例如：第二章、番外1、單推角色個人線';
+
+    panel.innerHTML =
+      '<div class="panel-box">' +
+        '<p class="panel-box-title"><span><span class="panel-icon">🗺️</span>' + storyLabel + '</span></p>' +
+        '<textarea id="currentQuestInput" style="width:100%; min-height:60px; background:var(--card-soft); border:1px solid var(--line); color:var(--ink); padding:13px; border-radius:12px; font-size:13.5px; font-family:inherit; resize:vertical; line-height:1.6;" placeholder="' + storyPlaceholder + '">' + escapeHtml(g.currentQuest) + '</textarea>' +
+        '<div class="daily-subsection-title" style="margin-top:18px;">正在進行中的劇情<button class="add-fab small" id="fabQuest">+</button></div>' +
+        '<div class="add-form hidden" id="formQuest">' +
+          '<div class="add-form-row">' +
+            '<input type="text" id="newQuestText" placeholder="新增進行中的劇情或支線">' +
+          '</div>' +
+          '<div class="add-form-row">' +
+            '<input type="text" id="newQuestType" placeholder="類型，例如：支線、番外、個人線（選填）">' +
+            '<input type="text" id="newQuestChar" placeholder="角色標籤（選填）">' +
+          '</div>' +
+          '<div class="add-form-actions">' +
+            '<button class="btn-cancel-inline" id="cancelQuestBtn">取消</button>' +
+            '<button class="btn-confirm" id="addQuestBtn">新增</button>' +
+          '</div>' +
+        '</div>' +
+        '<div id="questListArea"></div>' +
+        '<span class="view-history-link" id="viewHistoryLink">查看已完成的紀錄 (' + g.questHistory.length + ')</span>' +
+      '</div>';
+
+    document.getElementById('currentQuestInput').addEventListener('input', function(e){
+      updateGame(g.id, { currentQuest: e.target.value });
+    });
+
+    var listArea = document.getElementById('questListArea');
+    if(activeQuests.length === 0){
+      listArea.innerHTML = '<div class="empty-hint">目前沒有進行中的劇情，點「+」新增一筆。</div>';
+    } else {
+      var html = '';
+      activeQuests.forEach(function(q){
+        html +=
+          '<div class="quest-item">' +
+            '<div class="quest-top">' +
+              '<div class="quest-check" data-action="complete-quest" data-id="' + q.id + '"></div>' +
+              '<input type="text" class="quest-text-input" data-action="edit-text" data-id="' + q.id + '" value="' + escapeHtml(q.text) + '">' +
+              '<button class="quest-del" data-action="delete-quest" data-id="' + q.id + '">×</button>' +
+            '</div>' +
+            '<div class="quest-tags-row">' +
+              '<input type="text" class="quest-tag-input type-tag" data-action="edit-type" data-id="' + q.id + '" value="' + escapeHtml(q.typeTag) + '" placeholder="類型">' +
+              '<input type="text" class="quest-tag-input char-tag" data-action="edit-char" data-id="' + q.id + '" value="' + escapeHtml(q.charTag) + '" placeholder="角色標籤">' +
+            '</div>' +
+          '</div>';
+      });
+      listArea.innerHTML = html;
+    }
+
+    wireAddToggle('fabQuest', 'formQuest');
+    document.getElementById('cancelQuestBtn').addEventListener('click', function(){ document.getElementById('formQuest').classList.add('hidden'); });
+    document.getElementById('addQuestBtn').addEventListener('click', function(){ addQuest(g); });
+    document.getElementById('newQuestText').addEventListener('keydown', function(e){ if(e.key==='Enter') addQuest(g); });
+
+    listArea.querySelectorAll('[data-action="complete-quest"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        var q = g.quests.filter(function(x){return x.id===id;})[0];
+        if(q){
+          q.done = true;
+          q.completedAt = Date.now();
+          g.questHistory.unshift(q);
+          g.quests = g.quests.filter(function(x){ return x.id !== id; });
+          saveState(); renderGameView();
+        }
+      });
+    });
+    listArea.querySelectorAll('[data-action="delete-quest"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        g.quests = g.quests.filter(function(x){return x.id!==id;});
+        saveState(); renderGameView();
+      });
+    });
+    listArea.querySelectorAll('[data-action="edit-text"]').forEach(function(el){
+      el.addEventListener('input', function(){
+        var id = el.getAttribute('data-id');
+        var q = g.quests.filter(function(x){return x.id===id;})[0];
+        if(q){ q.text = el.value; saveState(); }
+      });
+    });
+    listArea.querySelectorAll('[data-action="edit-type"]').forEach(function(el){
+      el.addEventListener('input', function(){
+        var id = el.getAttribute('data-id');
+        var q = g.quests.filter(function(x){return x.id===id;})[0];
+        if(q){ q.typeTag = el.value; saveState(); }
+      });
+    });
+    listArea.querySelectorAll('[data-action="edit-char"]').forEach(function(el){
+      el.addEventListener('input', function(){
+        var id = el.getAttribute('data-id');
+        var q = g.quests.filter(function(x){return x.id===id;})[0];
+        if(q){ q.charTag = el.value; saveState(); }
+      });
+    });
+
+    document.getElementById('viewHistoryLink').addEventListener('click', function(){ openHistoryModal(g); });
+  }
+
+  function addQuest(g){
+    var textInput = document.getElementById('newQuestText');
+    var typeInput = document.getElementById('newQuestType');
+    var charInput = document.getElementById('newQuestChar');
+    var text = textInput.value.trim();
+    if(!text) return;
+    g.quests.push({ id: uid(), text: text, typeTag: typeInput.value.trim(), charTag: charInput.value.trim(), done: false });
+    saveState();
+    renderGameView();
+  }
+
+  var historyModal = document.getElementById('historyModal');
+  var historyModalGameId = null;
+  function openHistoryModal(g){
+    historyModalGameId = g.id;
+    renderHistoryList(g);
+    historyModal.classList.remove('hidden');
+  }
+  function renderHistoryList(g){
+    var area = document.getElementById('historyListArea');
+    if(g.questHistory.length === 0){
+      area.innerHTML = '<p class="confirm-text">還沒有已完成的紀錄。</p>';
+      return;
+    }
+    var html = '';
+    g.questHistory.forEach(function(q){
+      var dateStr = q.completedAt ? new Date(q.completedAt).toLocaleDateString('zh-TW') : '';
+      html +=
+        '<div class="history-item">' +
+          '<div class="history-item-top">' +
+            '<span class="history-item-text">' + escapeHtml(q.text) + (q.charTag ? '（' + escapeHtml(q.charTag) + '）' : '') + '</span>' +
+            '<span class="history-item-date">' + dateStr + '</span>' +
+          '</div>' +
+          '<div class="history-item-actions">' +
+            '<button class="history-mini-btn" data-action="restore-quest" data-id="' + q.id + '">還原並編輯</button>' +
+            '<button class="history-mini-btn danger" data-action="delete-history" data-id="' + q.id + '">永久刪除</button>' +
+          '</div>' +
+        '</div>';
+    });
+    area.innerHTML = html;
+
+    area.querySelectorAll('[data-action="restore-quest"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        var q = g.questHistory.filter(function(x){return x.id===id;})[0];
+        if(q){
+          q.done = false;
+          delete q.completedAt;
+          g.quests.push(q);
+          g.questHistory = g.questHistory.filter(function(x){return x.id!==id;});
+          saveState();
+          renderHistoryList(g);
+          renderGameView();
+        }
+      });
+    });
+    area.querySelectorAll('[data-action="delete-history"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        g.questHistory = g.questHistory.filter(function(x){return x.id!==id;});
+        saveState();
+        renderHistoryList(g);
+        renderGameView();
+      });
+    });
+  }
+  document.getElementById('closeHistoryBtn').addEventListener('click', function(){ historyModal.classList.add('hidden'); });
+  historyModal.addEventListener('click', function(e){ if(e.target === historyModal) historyModal.classList.add('hidden'); });
+
+  // ---------- Generic memo-list renderer with tags (used for game notes + character notes) ----------
+  function renderMemoList(containerEl, memoArray, onChange){
+    var allTags = [];
+    memoArray.forEach(function(m){ if(m.tag && allTags.indexOf(m.tag) === -1) allTags.push(m.tag); });
+    var currentFilter = memoTagFilters.get(memoArray) || '';
+    if(currentFilter && allTags.indexOf(currentFilter) === -1) currentFilter = '';
+
+    var filterHtml = '';
+    if(allTags.length > 0){
+      filterHtml = '<div class="memo-tag-filter">' +
+        '<span class="memo-tag-chip' + (currentFilter===''?' active':'') + '" data-tag-filter="">全部</span>';
+      allTags.forEach(function(tag){
+        filterHtml += '<span class="memo-tag-chip' + (currentFilter===tag?' active':'') + '" data-tag-filter="' + escapeHtml(tag) + '">' + escapeHtml(tag) + '</span>';
+      });
+      filterHtml += '</div>';
+    }
+
+    var visibleMemos = currentFilter ? memoArray.filter(function(m){ return m.tag === currentFilter; }) : memoArray;
+
+    var listHtml = '';
+    if(memoArray.length === 0){
+      listHtml = '<div class="empty-hint">還沒有筆記，點「+」新增一則。</div>';
+    } else if(visibleMemos.length === 0){
+      listHtml = '<div class="empty-hint">這個標籤底下沒有筆記。</div>';
+    } else {
+      listHtml = '<div class="memo-list">';
+      visibleMemos.forEach(function(m){
+        listHtml +=
+          '<div class="memo-item" data-memo-id="' + m.id + '">' +
+            '<div class="memo-item-body">' +
+              '<div class="memo-item-top-row">' +
+                (m.tag ? '<span class="memo-item-tag">' + escapeHtml(m.tag) + '</span>' : '') +
+                '<span class="memo-item-title">' + escapeHtml(m.title || '（無標題）') + '</span>' +
+              '</div>' +
+              '<div class="memo-item-preview">' + escapeHtml(firstLine(m.body)) + '</div>' +
+            '</div>' +
+            '<button class="memo-item-del" data-memo-del="' + m.id + '">×</button>' +
+          '</div>';
+      });
+      listHtml += '</div>';
+    }
+
+    var filterArea = containerEl.querySelector('[data-role=memo-filter-area]');
+    if(filterArea) filterArea.innerHTML = filterHtml;
+    containerEl.querySelector('[data-role=memo-list-area]').innerHTML = listHtml;
+
+    if(filterArea){
+      filterArea.querySelectorAll('[data-tag-filter]').forEach(function(el){
+        el.addEventListener('click', function(){
+          memoTagFilters.set(memoArray, el.getAttribute('data-tag-filter'));
+          renderMemoList(containerEl, memoArray, onChange);
+        });
+      });
+    }
+
+    var listAreaEl = containerEl.querySelector('[data-role=memo-list-area]');
+    listAreaEl.querySelectorAll('.memo-item').forEach(function(el){
+      el.addEventListener('click', function(e){
+        if(e.target.closest('[data-memo-del]')) return;
+        var id = el.getAttribute('data-memo-id');
+        openMemoEditor(containerEl, memoArray, id, onChange);
+      });
+    });
+    listAreaEl.querySelectorAll('[data-memo-del]').forEach(function(el){
+      el.addEventListener('click', function(e){
+        e.stopPropagation();
+        var id = el.getAttribute('data-memo-del');
+        var idx = memoArray.findIndex(function(m){ return m.id === id; });
+        if(idx !== -1){
+          memoArray.splice(idx, 1);
+          onChange(memoArray);
+          renderMemoList(containerEl, memoArray, onChange);
+        }
+      });
+    });
+  }
+
+  function openMemoEditor(containerEl, memoArray, existingId, onChange){
+    var editorEl = containerEl.querySelector('[data-role=memo-editor]');
+    var existing = existingId ? memoArray.find(function(m){ return m.id === existingId; }) : null;
+    editorEl.innerHTML =
+      '<div class="memo-editor-row">' +
+        '<input type="text" class="memo-title-input" data-role="memo-title" placeholder="標題" value="' + escapeHtml(existing ? existing.title : '') + '">' +
+        '<input type="text" class="memo-tag-input" data-role="memo-tag" placeholder="標籤（選填）" value="' + escapeHtml(existing ? (existing.tag||'') : '') + '">' +
+      '</div>' +
+      '<textarea data-role="memo-body" placeholder="內容...">' + escapeHtml(existing ? existing.body : '') + '</textarea>' +
+      '<div class="add-form-actions">' +
+        '<button class="btn-cancel-inline" data-role="memo-cancel">取消</button>' +
+        '<button class="btn-confirm" data-role="memo-save">儲存</button>' +
+      '</div>';
+    editorEl.classList.remove('hidden');
+    var titleInput = editorEl.querySelector('[data-role=memo-title]');
+    setTimeout(function(){ titleInput.focus(); }, 0);
+
+    editorEl.querySelector('[data-role=memo-cancel]').addEventListener('click', function(){
+      editorEl.classList.add('hidden');
+      editorEl.innerHTML = '';
+    });
+    editorEl.querySelector('[data-role=memo-save]').addEventListener('click', function(){
+      var title = editorEl.querySelector('[data-role=memo-title]').value.trim();
+      var tag = editorEl.querySelector('[data-role=memo-tag]').value.trim();
+      var body = editorEl.querySelector('[data-role=memo-body]').value;
+      if(!title && !body.trim()) { editorEl.classList.add('hidden'); editorEl.innerHTML = ''; return; }
+      if(existing){
+        existing.title = title || firstLine(body) || '（無標題）';
+        existing.body = body;
+        existing.tag = tag;
+      } else {
+        memoArray.push({ id: uid(), title: title || firstLine(body) || '（無標題）', body: body, tag: tag });
+      }
+      onChange(memoArray);
+      editorEl.classList.add('hidden');
+      editorEl.innerHTML = '';
+      renderMemoList(containerEl, memoArray, onChange);
+    });
+  }
+
+  function memoSectionSkeleton(title, addFabId, icon){
+    return (
+      '<div class="panel-box">' +
+        '<div class="panel-box-title"><span><span class="panel-icon">' + (icon||'📝') + '</span>' + title + '</span><button class="add-fab" id="' + addFabId + '">+</button></div>' +
+        '<div data-role="memo-filter-area"></div>' +
+        '<div class="memo-editor hidden" data-role="memo-editor"></div>' +
+        '<div data-role="memo-list-area"></div>' +
+      '</div>'
+    );
+  }
+
+  // ---------- Materials (mobile only) ----------
+  function renderMaterialsSection(g){
+    var panel = document.getElementById('sectionMaterials');
     var dayKeys = ['mon','tue','wed','thu','fri','sat','sun'];
 
     var gridHtml = '';
@@ -1528,12 +1791,12 @@
 
     panel.innerHTML =
       '<div class="panel-box">' +
-        '<p class="panel-box-title">每週刷本規劃</p>' +
+        '<p class="panel-box-title"><span><span class="panel-icon">🧪</span>每週刷本規劃</span></p>' +
         '<div class="material-day-grid">' + gridHtml + '</div>' +
         '<p class="field-hint">依照遊戲內每週開放的素材副本規劃，例如「週一：角色突破素材」。</p>' +
       '</div>' +
       '<div class="panel-box">' +
-        '<div class="panel-box-title">材料清單<button class="add-fab" id="fabMaterial">+</button></div>' +
+        '<div class="panel-box-title"><span><span class="panel-icon">📦</span>材料清單</span><button class="add-fab" id="fabMaterial">+</button></div>' +
         '<div class="add-form hidden" id="formMaterial">' +
           '<div class="add-form-row">' +
             '<input type="text" id="newMaterialText" placeholder="新增需要準備的素材或數量">' +
@@ -1583,52 +1846,18 @@
     renderGameView();
   }
 
-  function renderCharactersPanel(g, grp){
-    var panel = document.getElementById('panelCharacters');
-    var cardNotesBlock = '';
-    if(grp === 'otome_mobile'){
-      cardNotesBlock =
-        '<div class="panel-box">' +
-          '<p class="panel-box-title">卡面收集筆記</p>' +
-          '<textarea class="notes-textarea" id="cardNotesTextarea" style="min-height:120px;" placeholder="記錄卡面收集進度、限定卡池、想抽的卡面...">' + escapeHtml(g.cardNotes) + '</textarea>' +
-        '</div>';
-    }
+  // ---------- Characters ("男主"): otome_mobile has NO affection slider; otome_console keeps its own system removed too per this request (mobile only per user's request, but console retains none now since we deleted the toggle system entirely per simplification) ----------
+  function renderCharactersSection(g, grp){
+    var panel = document.getElementById('sectionCharacters');
 
     var html = '<div class="panel-box">' +
-      '<div class="panel-box-title">男主<button class="add-fab" id="addCharBtn">+</button></div>';
+      '<div class="panel-box-title"><span><span class="panel-icon">💗</span>男主</span><button class="add-fab" id="addCharBtn">+</button></div>';
     if(g.characters.length === 0){
       html += '<div class="empty-hint">還沒有新增男主，點「+」開始追蹤。</div>';
     } else {
       g.characters.forEach(function(c){
-        var affectionBlock = '';
-        if(grp === 'otome_console'){
-          affectionBlock =
-            '<span class="affection-toggle" data-action="toggle-affection-mode" data-id="' + c.id + '">' +
-              (c.useAffection ? '切換為純文字進度' : '切換為好感度數值') +
-            '</span>';
-          if(c.useAffection){
-            affectionBlock +=
-              '<div class="char-field" style="margin-bottom:8px;">' +
-                '<label>好感度</label>' +
-                '<div class="affection-row">' +
-                  '<input type="range" min="0" max="100" value="' + c.affection + '" data-id="' + c.id + '" data-field="affection">' +
-                  '<span class="affection-val" id="affectionVal_' + c.id + '">' + c.affection + '</span>' +
-                '</div>' +
-              '</div>';
-          }
-        } else {
-          affectionBlock =
-            '<div class="char-field" style="margin-bottom:8px;">' +
-              '<label>好感度 / 思念值</label>' +
-              '<div class="affection-row">' +
-                '<input type="range" min="0" max="100" value="' + c.affection + '" data-id="' + c.id + '" data-field="affection">' +
-                '<span class="affection-val" id="affectionVal_' + c.id + '">' + c.affection + '</span>' +
-              '</div>' +
-            '</div>';
-        }
-
         html +=
-          '<div class="char-card">' +
+          '<div class="char-card" data-char-id="' + c.id + '">' +
             '<div class="char-top">' +
               '<input class="char-name-input" data-id="' + c.id + '" data-field="name" value="' + escapeHtml(c.name) + '" placeholder="角色名稱">' +
               '<button class="char-del" data-action="delete-char" data-id="' + c.id + '">×</button>' +
@@ -1636,46 +1865,21 @@
             '<div class="char-fields">' +
               '<div class="char-field"><label>目前進度 / 線</label><input type="text" data-id="' + c.id + '" data-field="route" value="' + escapeHtml(c.route) + '" placeholder="輸入目前進度"></div>' +
             '</div>' +
-            affectionBlock +
-            '<span class="char-note-label">筆記</span>' +
-            '<textarea class="char-note-input" data-id="' + c.id + '" data-field="note" placeholder="記錄想法、細節...">' + escapeHtml(c.note) + '</textarea>' +
+            '<div class="char-subsection-title">記錄筆記<button class="add-fab small" id="fabCharNote_' + c.id + '">+</button></div>' +
+            '<div data-role="memo-filter-area"></div>' +
+            '<div class="memo-editor hidden" data-role="memo-editor" data-char-id="' + c.id + '"></div>' +
+            '<div data-role="memo-list-area" data-char-id="' + c.id + '"></div>' +
           '</div>';
       });
     }
     html += '</div>';
-    panel.innerHTML = cardNotesBlock + html;
-
-    if(grp === 'otome_mobile'){
-      document.getElementById('cardNotesTextarea').addEventListener('input', function(e){
-        updateGame(g.id, { cardNotes: e.target.value });
-      });
-    }
+    panel.innerHTML = html;
 
     panel.querySelectorAll('[data-field="name"]').forEach(function(el){
       el.addEventListener('input', function(){ updateCharField(g, el.getAttribute('data-id'), 'name', el.value); });
     });
     panel.querySelectorAll('[data-field="route"]').forEach(function(el){
       el.addEventListener('input', function(){ updateCharField(g, el.getAttribute('data-id'), 'route', el.value); });
-    });
-    panel.querySelectorAll('[data-field="note"]').forEach(function(el){
-      el.addEventListener('input', function(){ updateCharField(g, el.getAttribute('data-id'), 'note', el.value); });
-    });
-    panel.querySelectorAll('[data-field="affection"]').forEach(function(el){
-      el.addEventListener('input', function(){
-        var id = el.getAttribute('data-id');
-        var span = document.getElementById('affectionVal_' + id);
-        if(span) span.textContent = el.value;
-      });
-      el.addEventListener('change', function(){
-        updateCharField(g, el.getAttribute('data-id'), 'affection', Number(el.value));
-      });
-    });
-    panel.querySelectorAll('[data-action="toggle-affection-mode"]').forEach(function(el){
-      el.addEventListener('click', function(){
-        var id = el.getAttribute('data-id');
-        var c = g.characters.filter(function(x){return x.id===id;})[0];
-        if(c){ c.useAffection = !c.useAffection; saveState(); renderGameView(); }
-      });
     });
     panel.querySelectorAll('[data-action="delete-char"]').forEach(function(el){
       el.addEventListener('click', function(){
@@ -1685,9 +1889,27 @@
       });
     });
     document.getElementById('addCharBtn').addEventListener('click', function(){
-      g.characters.push({ id: uid(), name: '新男主', route: '', affection: 0, useAffection: (grp !== 'otome_console'), note: '' });
+      g.characters.push({ id: uid(), name: '新男主', route: '', cardNotes: [] });
       saveState();
       renderGameView();
+    });
+
+    g.characters.forEach(function(c){
+      var cardEl = panel.querySelector('.char-card[data-char-id="' + c.id + '"]');
+      if(!cardEl) return;
+      var fab = document.getElementById('fabCharNote_' + c.id);
+      renderMemoList(cardEl, c.cardNotes, function(newArr){
+        c.cardNotes = newArr;
+        saveState();
+      });
+      if(fab){
+        fab.addEventListener('click', function(){
+          openMemoEditor(cardEl, c.cardNotes, null, function(newArr){
+            c.cardNotes = newArr;
+            saveState();
+          });
+        });
+      }
     });
   }
 
@@ -1698,13 +1920,14 @@
     saveState();
   }
 
-  function renderEndingsPanel(g){
-    var panel = document.getElementById('panelEndings');
+  // ---------- Endings ----------
+  function renderEndingsSection(g){
+    var panel = document.getElementById('sectionEndings');
     var typeSelectHtml = ENDING_TYPES.map(function(t){ return '<option value="' + t.key + '">' + t.label + '</option>'; }).join('');
 
     panel.innerHTML =
       '<div class="panel-box">' +
-        '<div class="panel-box-title">結局收集<button class="add-fab" id="fabEnding">+</button></div>' +
+        '<div class="panel-box-title"><span><span class="panel-icon">🏁</span>結局收集</span><button class="add-fab" id="fabEnding">+</button></div>' +
         '<div class="add-form hidden" id="formEnding">' +
           '<div class="add-form-row">' +
             '<select id="newEndingType">' + typeSelectHtml + '</select>' +
@@ -1760,8 +1983,9 @@
     renderGameView();
   }
 
-  function renderCurrencyPanel(g){
-    var panel = document.getElementById('panelCurrency');
+  // ---------- Events (moved directly below hero) ----------
+  function renderEventsSection(g){
+    var panel = document.getElementById('sectionEvents');
 
     var sorted = g.events.slice().sort(function(a,b){
       return (a.refreshDateTime||'9999').localeCompare(b.refreshDateTime||'9999');
@@ -1787,7 +2011,7 @@
 
     panel.innerHTML =
       '<div class="panel-box">' +
-        '<div class="panel-box-title">活動倒數<button class="add-fab" id="fabEvent">+</button></div>' +
+        '<div class="panel-box-title"><span><span class="panel-icon">🔔</span>活動倒數</span><button class="add-fab" id="fabEvent">+</button></div>' +
         '<div class="add-form hidden" id="formEvent">' +
           '<div class="add-form-row">' +
             '<input type="text" id="newEventName" placeholder="活動名稱">' +
@@ -1803,24 +2027,6 @@
           '</div>' +
         '</div>' +
         '<div id="eventListArea">' + eventListHtml + '</div>' +
-      '</div>' +
-      '<div class="panel-box">' +
-        '<p class="panel-box-title">資源 / 儲值 / 石頭數量</p>' +
-        '<div class="currency-row">' +
-          '<div class="currency-field"><label>資源名稱 1</label><input type="text" id="currName1" value="' + escapeHtml(g.currency.name1) + '" placeholder="輸入資源名稱"></div>' +
-          '<div class="currency-field"><label>目前數量</label><input type="text" id="currVal1" value="' + escapeHtml(g.currency.val1) + '" placeholder="輸入數量" inputmode="numeric"></div>' +
-        '</div>' +
-        '<div class="currency-row" style="margin-top:10px;">' +
-          '<div class="currency-field"><label>資源名稱 2</label><input type="text" id="currName2" value="' + escapeHtml(g.currency.name2) + '" placeholder="輸入資源名稱"></div>' +
-          '<div class="currency-field"><label>數量</label><input type="text" id="currVal2" value="' + escapeHtml(g.currency.val2) + '" placeholder="輸入數量"></div>' +
-        '</div>' +
-        '<div class="gacha-box">' +
-          '<p class="panel-box-title">抽卡資源換算器</p>' +
-          '<div class="currency-row">' +
-            '<div class="currency-field"><label>一抽消耗（資源1單位）</label><input type="text" id="pullCostInput" value="' + escapeHtml(g.currency.pullCost) + '" placeholder="輸入一抽消耗量" inputmode="numeric"></div>' +
-          '</div>' +
-          '<div id="gachaResultArea"></div>' +
-        '</div>' +
       '</div>';
 
     wireAddToggle('fabEvent', 'formEvent');
@@ -1834,6 +2040,43 @@
         saveState(); renderGameView();
       });
     });
+  }
+
+  function addEvent(g){
+    var nameInput = document.getElementById('newEventName');
+    var dateInput = document.getElementById('newEventDate');
+    var timeInput = document.getElementById('newEventTime');
+    var name = nameInput.value.trim();
+    if(!name) return;
+    if(!dateInput.value){ dateInput.focus(); return; }
+    var dt = dateInput.value + 'T' + (timeInput.value || '23:59');
+    g.events.push({ id: uid(), name: name, refreshDateTime: dt });
+    saveState();
+    renderGameView();
+  }
+
+  // ---------- Currency / gacha calculator ----------
+  function renderCurrencySection(g){
+    var panel = document.getElementById('sectionCurrency');
+    panel.innerHTML =
+      '<div class="panel-box">' +
+        '<p class="panel-box-title"><span><span class="panel-icon">💎</span>資源 / 儲值 / 石頭數量</span></p>' +
+        '<div class="currency-row">' +
+          '<div class="currency-field"><label>資源名稱 1</label><input type="text" id="currName1" value="' + escapeHtml(g.currency.name1) + '" placeholder="輸入資源名稱"></div>' +
+          '<div class="currency-field"><label>目前數量</label><input type="text" id="currVal1" value="' + escapeHtml(g.currency.val1) + '" placeholder="輸入數量" inputmode="numeric"></div>' +
+        '</div>' +
+        '<div class="currency-row" style="margin-top:11px;">' +
+          '<div class="currency-field"><label>資源名稱 2</label><input type="text" id="currName2" value="' + escapeHtml(g.currency.name2) + '" placeholder="輸入資源名稱"></div>' +
+          '<div class="currency-field"><label>數量</label><input type="text" id="currVal2" value="' + escapeHtml(g.currency.val2) + '" placeholder="輸入數量"></div>' +
+        '</div>' +
+        '<div class="gacha-box">' +
+          '<p class="panel-box-title"><span><span class="panel-icon">🎲</span>抽卡資源換算器</span></p>' +
+          '<div class="currency-row">' +
+            '<div class="currency-field"><label>一抽消耗（資源1單位）</label><input type="text" id="pullCostInput" value="' + escapeHtml(g.currency.pullCost) + '" placeholder="輸入一抽消耗量" inputmode="numeric"></div>' +
+          '</div>' +
+          '<div id="gachaResultArea"></div>' +
+        '</div>' +
+      '</div>';
 
     ['currName1','currVal1','currName2','currVal2'].forEach(function(id){
       document.getElementById(id).addEventListener('input', function(e){
@@ -1852,26 +2095,13 @@
     renderGachaResult(g);
   }
 
-  function addEvent(g){
-    var nameInput = document.getElementById('newEventName');
-    var dateInput = document.getElementById('newEventDate');
-    var timeInput = document.getElementById('newEventTime');
-    var name = nameInput.value.trim();
-    if(!name) return;
-    if(!dateInput.value){ dateInput.focus(); return; }
-    var dt = dateInput.value + 'T' + (timeInput.value || '23:59');
-    g.events.push({ id: uid(), name: name, refreshDateTime: dt });
-    saveState();
-    renderGameView();
-  }
-
   function renderGachaResult(g){
     var area = document.getElementById('gachaResultArea');
     if(!area) return;
     var have = parseFloat(g.currency.val1);
     var cost = parseFloat(g.currency.pullCost);
     if(isNaN(have) || isNaN(cost) || cost <= 0){
-      area.innerHTML = '<p class="field-hint" style="margin-top:10px;">輸入「目前數量」與「一抽消耗」後，這裡會自動算出可以抽幾次。</p>';
+      area.innerHTML = '<p class="field-hint" style="margin-top:11px;">輸入「目前數量」與「一抽消耗」後，這裡會自動算出可以抽幾次。</p>';
       return;
     }
     var pulls = Math.floor(have / cost);
@@ -1885,15 +2115,22 @@
       '</div>';
   }
 
-  function renderNotesPanel(g){
-    var panel = document.getElementById('panelNotes');
-    panel.innerHTML =
-      '<div class="panel-box">' +
-        '<textarea class="notes-textarea" id="notesTextarea" placeholder="隨手記錄任何筆記...">' + escapeHtml(g.notes) + '</textarea>' +
-        '<p class="notes-hint">內容會自動儲存在這台裝置上。</p>' +
-      '</div>';
-    document.getElementById('notesTextarea').addEventListener('input', function(e){
-      updateGame(g.id, { notes: e.target.value });
+  // ---------- Game-wide notes (tagged memo list) ----------
+  function renderNotesSection(g){
+    var panel = document.getElementById('sectionNotes');
+    panel.innerHTML = memoSectionSkeleton('自由筆記', 'fabGameNote', '📝');
+    var containerEl = panel.querySelector('.panel-box');
+
+    renderMemoList(containerEl, g.notes, function(newArr){
+      g.notes = newArr;
+      saveState();
+    });
+
+    document.getElementById('fabGameNote').addEventListener('click', function(){
+      openMemoEditor(containerEl, g.notes, null, function(newArr){
+        g.notes = newArr;
+        saveState();
+      });
     });
   }
 
@@ -1943,6 +2180,8 @@
 
   var editModal = document.getElementById('editModal');
   var editGameNameInput = document.getElementById('editGameNameInput');
+  var editDailyResetTimeInput = document.getElementById('editDailyResetTimeInput');
+  var editDailyResetTimeField = document.getElementById('editDailyResetTimeField');
   var editSelectedPlatform = 'console';
   var editingGameId = null;
 
@@ -1950,14 +2189,25 @@
     renderPlatformPickInto('editPlatformPick', editSelectedPlatform, function(key){
       editSelectedPlatform = key;
       renderEditPlatformPick();
+      updateEditResetTimeVisibility();
     });
+  }
+  function updateEditResetTimeVisibility(){
+    var grp = platformGroup(editSelectedPlatform);
+    if(grp === 'mobile' || grp === 'otome_mobile'){
+      editDailyResetTimeField.classList.remove('hidden');
+    } else {
+      editDailyResetTimeField.classList.add('hidden');
+    }
   }
 
   function openEditModal(g){
     editingGameId = g.id;
     editGameNameInput.value = g.name;
     editSelectedPlatform = g.platform;
+    editDailyResetTimeInput.value = g.dailyResetTime || '00:00';
     renderEditPlatformPick();
+    updateEditResetTimeVisibility();
     editModal.classList.remove('hidden');
   }
   document.getElementById('cancelEditBtn').addEventListener('click', function(){ editModal.classList.add('hidden'); });
@@ -1967,14 +2217,9 @@
     if(!name || !editingGameId) return;
     var g = state.games.filter(function(x){return x.id===editingGameId;})[0];
     if(!g) return;
-    var oldGroup = platformGroup(g.platform);
-    var newGroup = platformGroup(editSelectedPlatform);
     g.name = name;
     g.platform = editSelectedPlatform;
-    if(oldGroup !== newGroup){
-      var validTabs = validTabsForGroup(newGroup);
-      g.activeTab = validTabs[0];
-    }
+    g.dailyResetTime = editDailyResetTimeInput.value || '00:00';
     saveState();
     editModal.classList.add('hidden');
     renderGameView();
@@ -2011,6 +2256,7 @@
   if(window.__fb){ wireFirebaseAuth(); }
   else { window.addEventListener('fb-ready', wireFirebaseAuth, { once: true }); }
 })();
+
 </script>
 </body>
 </html>
