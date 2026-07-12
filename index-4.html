@@ -1,0 +1,2076 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>存檔本 · 遊戲進度與筆記</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+
+  :root{
+    --bg: #10171a;
+    --bg-raised: #1c2a2e;
+    --bg-raised-2: #223338;
+    --line: #26363b;
+    --line-bright: #35494f;
+    --ink: #e8f1f0;
+    --ink-dim: #93a8a8;
+    --ink-faint: #56696c;
+    --accent: #4fd6c4;
+    --accent-dim: #2f8f82;
+    --accent-soft: rgba(79,214,196,.14);
+    --sapphire: #6d9bf2;
+    --amber: #f0b855;
+    --rose: #ea7c94;
+    --violet: #a78cf2;
+    --pink: #f0a8cc;
+    --danger: #ea7c94;
+  }
+
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:
+      radial-gradient(1100px 560px at 10% -8%, #17272a 0%, transparent 58%),
+      radial-gradient(1000px 520px at 105% 5%, #142526 0%, transparent 55%),
+      var(--bg);
+    color: var(--ink);
+    font-family: 'Noto Sans TC', 'Space Grotesk', -apple-system, sans-serif;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .display{ font-family: 'Space Grotesk', 'Noto Sans TC', sans-serif; }
+  ::selection{ background: var(--accent); color: #0a1214; }
+  ::-webkit-scrollbar{ width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track{ background: transparent; }
+  ::-webkit-scrollbar-thumb{ background: var(--line-bright); border-radius: 6px; }
+
+  .app{ max-width: 900px; margin: 0 auto; padding: 18px 16px 80px; }
+
+  .home-header{
+    display:flex; align-items:center; justify-content:space-between;
+    gap: 12px; flex-wrap: wrap;
+    padding: 12px 4px 18px;
+    margin-bottom: 18px;
+  }
+  .home-header-left{ display:flex; align-items:center; gap: 12px; min-width:0; }
+  .hamburger-btn{
+    width: 42px; height: 42px; flex-shrink:0;
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 11px;
+    cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+    transition: border-color .15s ease, transform .15s ease;
+  }
+  .hamburger-btn:hover{ border-color: var(--accent); }
+  .hamburger-btn:active{ transform: scale(0.95); }
+  .hamburger-btn span{ width: 18px; height: 2px; background: var(--ink-dim); border-radius: 1px; transition: background .15s ease; }
+  .hamburger-btn:hover span{ background: var(--accent); }
+
+  .brand-title{ font-size: 17px; font-weight: 700; letter-spacing: 0.3px; margin: 0; }
+  .brand-sub{ margin:0; color: var(--ink-faint); font-size: 12px; }
+
+  .platform-filter{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom: 16px; }
+  .filter-chip{
+    font-size: 11px; padding: 6px 12px; border-radius: 20px; border: 1px solid var(--line);
+    color: var(--ink-faint); cursor:pointer; background: var(--bg-raised); font-family: inherit;
+    transition: all .15s ease;
+  }
+  .filter-chip:hover{ border-color: var(--line-bright); color: var(--ink-dim); }
+  .filter-chip.active{ border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+
+  .home-grid{ display:flex; flex-direction:column; gap: 10px; }
+  .overview-card{
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 14px;
+    padding: 14px 16px; cursor: pointer; transition: border-color .15s ease, transform .1s ease;
+    position: relative; overflow: hidden;
+  }
+  .overview-card:hover{ border-color: var(--line-bright); }
+  .overview-card:active{ transform: scale(0.995); }
+  .overview-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom: 6px; }
+  .overview-name-wrap{ display:flex; align-items:center; gap:9px; min-width:0; }
+  .overview-name{ font-size: 15px; font-weight: 700; color: var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .overview-platform-tag{ font-size: 10px; color: var(--ink-faint); flex-shrink:0; }
+  .overview-status{ font-size: 10px; padding: 3px 9px; border-radius: 20px; white-space:nowrap; flex-shrink:0; font-weight: 600; }
+  .status-playing{ background: rgba(79,214,196,.16); color: var(--accent); }
+  .status-paused{ background: rgba(240,184,85,.16); color: var(--amber); }
+  .status-done{ background: rgba(167,140,242,.16); color: var(--violet); }
+  .status-backlog{ background: rgba(147,168,168,.16); color: var(--ink-dim); }
+
+  .overview-sub{ font-size: 12px; color: var(--ink-dim); margin-bottom: 8px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .progress-track{ height: 4px; background: var(--line); border-radius: 2px; overflow:hidden; margin-bottom: 8px; }
+  .progress-fill{ height:100%; background: linear-gradient(90deg, var(--accent-dim), var(--accent)); }
+
+  .overview-badge-row{ display:flex; flex-wrap:wrap; gap: 6px; }
+  .overview-badge{
+    font-size: 10px; padding: 3px 9px; border-radius: 20px; display:inline-flex; align-items:center; gap:4px;
+  }
+  .overview-badge.daily{ color: var(--rose); background: rgba(234,124,148,.12); }
+  .overview-badge.event-urgent{ color: var(--rose); background: rgba(234,124,148,.16); }
+  .overview-badge.event-soon{ color: var(--amber); background: rgba(240,184,85,.16); }
+  .overview-badge.event-normal{ color: var(--accent); background: rgba(79,214,196,.12); }
+
+  .add-game-btn{
+    width:100%; margin-top: 4px; padding: 14px; background: transparent;
+    border: 1.5px dashed var(--line-bright); color: var(--ink-faint); border-radius: 14px;
+    font-size: 13px; cursor: pointer; font-family: inherit; transition: all .15s ease;
+  }
+  .add-game-btn:hover{ border-color: var(--accent); color: var(--accent); }
+  .empty-hint{ text-align:center; padding: 30px 10px; color: var(--ink-faint); font-size:13px; }
+
+  .empty-state{ text-align:center; padding: 90px 20px; color: var(--ink-faint); }
+  .empty-state-title{ font-size: 15px; color: var(--ink-dim); margin-bottom: 12px; font-weight: 700; }
+
+  .drawer-overlay{
+    position: fixed; inset: 0; background: rgba(6,10,11,.65); z-index: 60;
+    opacity: 0; pointer-events: none; transition: opacity .2s ease;
+  }
+  .drawer-overlay.open{ opacity: 1; pointer-events: auto; }
+  .drawer{
+    position: fixed; top:0; left:0; bottom:0; width: 310px; max-width: 88vw;
+    background: var(--bg-raised); border-right: 1px solid var(--line-bright);
+    z-index: 61; transform: translateX(-100%); transition: transform .25s cubic-bezier(.2,.8,.2,1);
+    display:flex; flex-direction:column;
+  }
+  .drawer.open{ transform: translateX(0); }
+
+  .drawer-auth{
+    padding: 18px 16px; background: linear-gradient(160deg, rgba(79,214,196,.1), transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  .drawer-auth-signedout{ text-align:center; }
+  .drawer-auth-signedout p{ font-size: 12px; color: var(--ink-faint); margin: 0 0 12px; }
+  .google-signin-btn{
+    width: 100%; background: var(--ink); color: #0a1214; border:none; padding: 11px;
+    border-radius: 10px; font-size: 13px; font-weight: 700; cursor:pointer; font-family: inherit;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .google-signin-btn:hover{ background: #fff; }
+  .drawer-auth-signedin{ display:flex; align-items:center; gap: 10px; }
+  .drawer-auth-signedin img{ width:36px; height:36px; border-radius:50%; flex-shrink:0; }
+  .drawer-auth-info{ flex:1; min-width:0; }
+  .drawer-auth-name{ font-size: 13px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .sync-badge{ font-size: 9px; padding: 2px 7px; border-radius: 20px; display:inline-block; margin-top:3px; }
+  .sync-badge.synced{ background: rgba(79,214,196,.15); color: var(--accent); }
+  .sync-badge.local{ background: rgba(147,168,168,.15); color: var(--ink-dim); }
+  .sync-badge.syncing{ background: rgba(240,184,85,.15); color: var(--amber); }
+  .drawer-signout-btn{
+    background:none; border: 1px solid var(--line); color: var(--ink-faint); font-size: 11px;
+    padding: 6px 10px; border-radius: 8px; cursor:pointer; font-family: inherit; flex-shrink:0;
+  }
+  .drawer-signout-btn:hover{ border-color: var(--danger); color: var(--danger); }
+
+  .drawer-header{ display:flex; align-items:center; justify-content:space-between; padding: 14px 16px 10px; }
+  .drawer-header h2{ font-size: 11px; letter-spacing: 1px; color: var(--ink-faint); margin:0; text-transform: uppercase; }
+  .drawer-close{
+    width: 30px; height:30px; background:none; border:1px solid var(--line); color: var(--ink-dim);
+    border-radius: 8px; cursor:pointer; font-size: 14px;
+  }
+  .drawer-close:hover{ border-color: var(--rose); color: var(--rose); }
+  .drawer-body{ flex:1; overflow-y: auto; padding: 0 16px 16px; }
+
+  .drawer-nav-btn{
+    width:100%; text-align:left; background: none; border: none; color: var(--ink);
+    padding: 10px 8px; border-radius: 8px; cursor:pointer; font-size: 13px; font-family: inherit;
+    display:flex; align-items:center; gap:8px; margin-bottom: 4px;
+  }
+  .drawer-nav-btn:hover{ background: var(--bg-raised-2); }
+
+  .game-card{
+    display:flex; flex-direction:column; gap:6px; padding: 10px 10px; border-radius: 10px;
+    border: 1px solid transparent; cursor: pointer; margin-bottom: 6px;
+    transition: background .12s ease, border-color .12s ease; position: relative;
+  }
+  .game-card:hover{ background: var(--bg-raised-2); }
+  .game-card.active{ background: var(--bg-raised-2); border-color: var(--line-bright); }
+  .game-card-top{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .game-name-wrap{ display:flex; align-items:center; gap:6px; min-width:0; }
+  .platform-dot{ width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+  .game-name{ font-size: 13px; font-weight:600; color: var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+  .game-topbar{
+    display:flex; align-items:center; gap: 10px; margin-bottom: 14px;
+  }
+  .back-btn{
+    width: 36px; height: 36px; flex-shrink:0; background: var(--bg-raised); border: 1px solid var(--line);
+    border-radius: 10px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    color: var(--ink-dim); font-size: 16px; transition: all .15s ease;
+  }
+  .back-btn:hover{ border-color: var(--accent); color: var(--accent); }
+  .game-topbar-title{ font-size: 13px; color: var(--ink-faint); flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+  .game-hero{
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 16px;
+    padding: 20px 20px 18px; margin-bottom: 14px;
+  }
+  .game-hero-top{ display:flex; justify-content:space-between; align-items:flex-start; gap: 12px; flex-wrap: wrap; }
+  .game-hero-title-block{ flex:1; min-width:0; }
+  .game-title-display{ font-size: 20px; font-weight: 700; color: var(--ink); margin: 0 0 8px; line-height:1.3; }
+  .game-hero-tags{ display:flex; align-items:center; gap: 8px; flex-wrap: wrap; }
+  .platform-badge{
+    font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight:600;
+  }
+  .game-hero-actions{ display:flex; gap:6px; flex-shrink:0; }
+  .icon-btn{
+    background: none; border: 1px solid var(--line); color: var(--ink-dim);
+    width: 34px; height:34px; border-radius:10px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; font-size: 14px; flex-shrink:0;
+    transition: all .15s ease;
+  }
+  .icon-btn:hover{ border-color: var(--accent); color: var(--accent); }
+  .icon-btn.danger:hover{ border-color: var(--danger); color: var(--danger); }
+
+  .progress-block{ margin-top: 16px; }
+  .progress-label-row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+  .progress-label-row span{ font-size: 12px; color: var(--ink-dim); }
+  .progress-pct{ font-size: 13px; font-weight: 700; color: var(--accent); }
+  .progress-bar-lg{ height: 8px; background: var(--line); border-radius: 5px; overflow:hidden; }
+  .progress-bar-lg .progress-fill{ height:100%; border-radius:5px; }
+  input[type=range]{ width:100%; margin-top:8px; accent-color: var(--accent); }
+
+  .section-block{ margin-bottom: 14px; }
+  .section-block:last-child{ margin-bottom: 0; }
+
+  .panel-box{ background: var(--bg-raised); border:1px solid var(--line); border-radius:14px; padding: 16px; }
+  .panel-box-title{ font-size: 12px; letter-spacing: .3px; color: var(--ink); margin: 0 0 12px; font-weight: 700; display:flex; align-items:center; gap:8px; justify-content: space-between; }
+  .panel-box-title .title-count{ font-size: 10px; color: var(--ink-faint); font-weight:400; margin-right: auto; margin-left: 6px; }
+
+  .add-fab{
+    width: 32px; height:32px; border-radius: 50%; background: var(--accent); color:#0a1214;
+    border:none; font-size: 18px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    font-weight:700; transition: transform .15s ease;
+    flex-shrink: 0;
+  }
+  .add-fab:hover{ transform: scale(1.08); }
+  .add-form{
+    background: var(--bg-raised-2); border: 1px solid var(--line-bright); border-radius: 12px;
+    padding: 12px; margin-bottom: 12px; display:flex; flex-direction:column; gap:8px;
+  }
+  .add-form.hidden{ display:none; }
+  .add-form-row{ display:flex; gap:8px; flex-wrap: wrap; }
+  .add-form select{
+    background: var(--bg-raised); border:1px solid var(--line); color:var(--ink);
+    padding: 9px 10px; border-radius:8px; font-size:12px; font-family:inherit; flex-shrink:0;
+  }
+  .add-form input[type=text]{
+    flex:1; background: var(--bg-raised); border:1px solid var(--line); color:var(--ink);
+    padding: 9px 12px; border-radius:8px; font-size:13px; font-family:inherit; min-width: 100px;
+  }
+  .add-form input[type=date], .add-form input[type=time]{
+    background: var(--bg-raised); border:1px solid var(--line); color:var(--ink);
+    padding: 9px 10px; border-radius:8px; font-size:12px; font-family:inherit; flex-shrink:0;
+  }
+  .add-form textarea{
+    width:100%; background: var(--bg-raised); border:1px solid var(--line); color:var(--ink);
+    padding: 9px 12px; border-radius:8px; font-size:13px; font-family:inherit; resize:vertical; min-height:70px;
+  }
+  .add-form input:focus, .add-form select:focus, .add-form textarea:focus{ outline:none; border-color:var(--accent); }
+  .add-form-actions{ display:flex; gap:8px; justify-content:flex-end; }
+  .btn-confirm{
+    background: var(--accent); color:#0a1214; border:none; padding: 8px 16px;
+    border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;
+  }
+  .btn-confirm:hover{ background:#6ee6d6; }
+  .btn-cancel-inline{
+    background:none; border:1px solid var(--line); color: var(--ink-faint); padding: 8px 14px;
+    border-radius:8px; font-size:12px; cursor:pointer;
+  }
+  .btn-cancel-inline:hover{ border-color: var(--line-bright); color: var(--ink-dim); }
+  .field-hint{ font-size: 10px; color: var(--ink-faint); margin: 0; }
+
+  .checklist-group-title{ font-size: 10px; letter-spacing: .5px; color: var(--ink-faint); margin: 14px 0 6px; text-transform: uppercase; }
+  .checklist-group-title:first-child{ margin-top: 0; }
+
+  .todo-item{ display:flex; align-items:flex-start; gap:10px; padding: 10px 6px; border-bottom: 1px solid var(--line); }
+  .todo-item:last-child{ border-bottom:none; }
+  .todo-check{
+    width:19px; height:19px; border-radius: 6px; border: 1.5px solid var(--line-bright);
+    flex-shrink:0; cursor:pointer; margin-top:1px; display:flex; align-items:center; justify-content:center;
+    font-size: 11px; background: var(--bg-raised-2);
+  }
+  .todo-check.checked{ background: var(--accent); border-color: var(--accent); color: #0a1214; }
+  .todo-text{ flex:1; font-size: 13px; line-height:1.5; word-break: break-word; }
+  .todo-item.done .todo-text{ color: var(--ink-faint); text-decoration: line-through; }
+  .todo-del{ background:none; border:none; color: var(--ink-faint); cursor:pointer; font-size: 16px; flex-shrink:0; padding: 0 2px; line-height:1; }
+  .todo-del:hover{ color: var(--danger); }
+
+  .reset-hint{ font-size: 10px; color: var(--ink-faint); margin-bottom: 10px; }
+  .reset-btn{
+    background: none; border: 1px solid var(--line); color: var(--ink-faint); font-size: 10px;
+    padding: 5px 10px; border-radius: 20px; cursor: pointer; font-family: inherit;
+  }
+  .reset-btn:hover{ border-color: var(--accent); color: var(--accent); }
+
+  .daily-subsection-title{ font-size: 11px; color: var(--ink-dim); font-weight:600; margin: 16px 0 6px; display:flex; justify-content:space-between; align-items:center; }
+  .daily-subsection-title:first-child{ margin-top: 0; }
+
+  .event-item{ padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; margin-bottom: 8px; background: var(--bg-raised-2); }
+  .event-item:last-child{ margin-bottom: 0; }
+  .event-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+  .event-name{ font-size: 13px; font-weight: 600; flex:1; }
+  .event-days{ font-size: 11px; padding: 3px 10px; border-radius: 20px; white-space:nowrap; flex-shrink:0; }
+  .event-days.urgent{ background: rgba(234,124,148,.18); color: var(--rose); }
+  .event-days.soon{ background: rgba(240,184,85,.18); color: var(--amber); }
+  .event-days.normal{ background: rgba(79,214,196,.15); color: var(--accent); }
+  .event-days.expired{ background: rgba(86,105,108,.2); color: var(--ink-faint); }
+  .event-date-row{ font-size: 11px; color: var(--ink-faint); margin-top: 6px; line-height: 1.6; }
+  .event-del{ background:none; border:none; color: var(--ink-faint); cursor:pointer; font-size: 15px; padding: 0 2px; }
+  .event-del:hover{ color: var(--danger); }
+
+  .quest-item{
+    border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px;
+    background: var(--bg-raised-2);
+  }
+  .quest-item:last-child{ margin-bottom: 0; }
+  .quest-top{ display:flex; align-items:flex-start; gap:8px; }
+  .quest-check{
+    width:19px; height:19px; border-radius: 6px; border: 1.5px solid var(--line-bright);
+    flex-shrink:0; cursor:pointer; margin-top:1px; display:flex; align-items:center; justify-content:center;
+    font-size: 11px; background: var(--bg-raised);
+  }
+  .quest-check.checked{ background: var(--accent); border-color: var(--accent); color: #0a1214; }
+  .quest-text{ flex:1; font-size: 13px; line-height:1.5; }
+  .quest-char-tag{
+    font-size: 10px; color: var(--pink); background: rgba(240,168,204,.12); padding: 2px 8px;
+    border-radius: 20px; flex-shrink:0; margin-top:1px;
+  }
+  .quest-del{ background:none; border:none; color: var(--ink-faint); cursor:pointer; font-size: 15px; flex-shrink:0; }
+  .quest-del:hover{ color: var(--danger); }
+  .view-history-link{
+    display:inline-block; margin-top: 10px; font-size: 11px; color: var(--ink-faint);
+    cursor: pointer; text-decoration: underline;
+  }
+  .view-history-link:hover{ color: var(--accent); }
+  .history-item{ font-size: 12px; color: var(--ink-faint); padding: 8px 6px; border-bottom: 1px solid var(--line); text-decoration: line-through; }
+  .history-item:last-child{ border-bottom: none; }
+
+  .material-day-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(120px,1fr)); gap: 8px; margin-bottom: 12px; }
+  .material-day-box{
+    border: 1px solid var(--line); border-radius: 10px; padding: 9px 10px; background: var(--bg-raised-2);
+  }
+  .material-day-box label{ display:block; font-size: 10px; color: var(--sapphire); font-weight:700; margin-bottom: 5px; }
+  .material-day-box input{
+    width:100%; background: var(--bg-raised); border:1px solid var(--line); color: var(--ink);
+    padding: 6px 8px; border-radius: 6px; font-size: 12px; font-family: inherit;
+  }
+  .material-day-box input:focus{ outline:none; border-color: var(--sapphire); }
+  .material-list-item{ display:flex; align-items:center; gap:8px; padding: 8px 6px; border-bottom: 1px solid var(--line); }
+  .material-list-item:last-child{ border-bottom:none; }
+  .material-check{
+    width:19px; height:19px; border-radius: 6px; border: 1.5px solid var(--line-bright);
+    flex-shrink:0; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    font-size: 11px; background: var(--bg-raised);
+  }
+  .material-check.checked{ background: var(--sapphire); border-color: var(--sapphire); color: #0a1214; }
+
+  .char-card{
+    border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px;
+    background: var(--bg-raised-2); border-left: 3px solid var(--pink);
+  }
+  .char-card:last-child{ margin-bottom: 0; }
+  .char-top{ display:flex; justify-content:space-between; align-items:center; gap: 8px; margin-bottom: 10px; }
+  .char-name-input{
+    background:none; border:none; color: var(--ink); font-size: 14px; font-weight:700;
+    font-family: inherit; flex:1; min-width:0; padding: 2px 0;
+  }
+  .char-name-input:focus{ outline:none; border-bottom: 1px solid var(--pink); }
+  .char-del{ background:none; border:none; color: var(--ink-faint); cursor:pointer; font-size: 15px; flex-shrink:0; }
+  .char-del:hover{ color: var(--danger); }
+  .char-fields{ display:flex; gap:10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .char-field{ flex:1; min-width: 110px; }
+  .char-field label{ display:block; font-size: 9px; color: var(--ink-faint); margin-bottom: 4px; }
+  .char-field input[type=text]{
+    width:100%; background: var(--bg-raised); border:1px solid var(--line); color: var(--ink);
+    padding: 7px 9px; border-radius: 6px; font-size: 12px; font-family: inherit;
+  }
+  .char-field input:focus{ outline:none; border-color: var(--pink); }
+  .affection-row{ display:flex; align-items:center; gap:8px; }
+  .affection-row input[type=range]{ flex:1; accent-color: var(--pink); margin:0; }
+  .affection-val{ font-size: 12px; font-weight: 700; color: var(--pink); width: 40px; text-align:right; flex-shrink:0; }
+  .affection-toggle{
+    font-size: 10px; color: var(--ink-faint); cursor:pointer; text-decoration: underline; margin-bottom: 8px; display:inline-block;
+  }
+  .affection-toggle:hover{ color: var(--pink); }
+  .char-subsection-title{ font-size: 10px; color: var(--ink-faint); font-weight:700; margin: 12px 0 6px; text-transform: uppercase; letter-spacing:.3px; display:flex; justify-content:space-between; align-items:center; }
+  .add-char-btn{
+    width:100%; padding: 10px; background: transparent; border: 1px dashed var(--line-bright);
+    color: var(--ink-faint); border-radius: 10px; font-size: 12px; cursor: pointer; font-family: inherit;
+  }
+  .add-char-btn:hover{ border-color: var(--pink); color: var(--pink); }
+
+  .ending-item{ display:flex; align-items:center; gap:10px; padding: 9px 6px; border-bottom: 1px solid var(--line); }
+  .ending-item:last-child{ border-bottom:none; }
+  .ending-type-badge{ font-size: 10px; padding: 3px 9px; border-radius: 20px; flex-shrink:0; font-weight:700; }
+  .ending-badge-TE{ background: rgba(240,184,85,.18); color: var(--amber); }
+  .ending-badge-GE{ background: rgba(79,214,196,.15); color: var(--accent); }
+  .ending-badge-BE{ background: rgba(234,124,148,.15); color: var(--rose); }
+  .ending-badge-Other{ background: rgba(147,168,168,.15); color: var(--ink-dim); }
+  .ending-name{ flex:1; font-size: 13px; }
+
+  .currency-row{ display:flex; gap:10px; flex-wrap: wrap; }
+  .currency-field{ flex:1; min-width: 130px; }
+  .currency-field label{ display:block; font-size: 10px; color: var(--ink-faint); margin-bottom: 5px; }
+  .currency-field input{
+    width:100%; background: var(--bg-raised-2); border:1px solid var(--line); color: var(--ink);
+    padding: 9px 11px; border-radius: 8px; font-size: 14px; font-family: inherit; font-weight: 700;
+  }
+  .currency-field input:focus{ outline:none; border-color: var(--accent); }
+  .gacha-box{ margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--line); }
+  .gacha-result{
+    margin-top: 12px; padding: 16px; background: var(--bg-raised-2); border-radius: 10px;
+    border-left: 3px solid var(--accent); text-align: center;
+  }
+  .gacha-result .big-num{ font-size: 26px; font-weight: 700; color: var(--accent); font-family: 'Space Grotesk', sans-serif; }
+  .gacha-result .sub{ font-size: 11px; color: var(--ink-dim); margin-top: 8px; }
+  .gacha-result .remainder{ font-size: 11px; color: var(--ink-faint); margin-top: 4px; }
+
+  .memo-list{ display:flex; flex-direction:column; }
+  .memo-item{
+    display:flex; align-items:flex-start; gap:10px; padding: 10px 6px; border-bottom: 1px solid var(--line);
+    cursor: pointer;
+  }
+  .memo-item:last-child{ border-bottom: none; }
+  .memo-item:hover{ background: var(--bg-raised-2); border-radius: 8px; }
+  .memo-item-body{ flex:1; min-width:0; }
+  .memo-item-title{ font-size: 13px; font-weight: 600; color: var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .memo-item-preview{ font-size: 11px; color: var(--ink-faint); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top: 2px; }
+  .memo-item-del{ background:none; border:none; color: var(--ink-faint); cursor:pointer; font-size: 15px; flex-shrink:0; padding: 2px; }
+  .memo-item-del:hover{ color: var(--danger); }
+  .memo-editor{
+    background: var(--bg-raised-2); border: 1px solid var(--line-bright); border-radius: 10px;
+    padding: 12px; margin-bottom: 10px; display:flex; flex-direction:column; gap:8px;
+  }
+  .memo-editor.hidden{ display:none; }
+  .memo-editor input[type=text]{
+    background: var(--bg-raised); border:1px solid var(--line); color:var(--ink); font-weight:600;
+    padding: 9px 12px; border-radius:8px; font-size:13px; font-family:inherit;
+  }
+  .memo-editor textarea{
+    width:100%; background: var(--bg-raised); border:1px solid var(--line); color:var(--ink);
+    padding: 10px 12px; border-radius:8px; font-size:13px; font-family:inherit; resize:vertical; min-height:100px; line-height:1.6;
+  }
+  .memo-editor input:focus, .memo-editor textarea:focus{ outline:none; border-color:var(--accent); }
+
+  .notes-hint{ font-size: 11px; color: var(--ink-faint); margin-top: 8px; }
+
+  .modal-overlay{
+    position: fixed; inset:0; background: rgba(6,10,11,.72);
+    display:flex; align-items:center; justify-content:center; z-index: 70; padding: 20px;
+  }
+  .modal{ background: var(--bg-raised); border: 1px solid var(--line-bright); border-radius: 16px; padding: 24px; width: 100%; max-width: 400px; max-height: 90vh; overflow-y:auto; }
+  .modal h3{ margin: 0 0 16px; font-size: 16px; color: var(--ink); font-weight: 700; }
+  .modal .field{ margin-bottom: 14px; }
+  .modal .field label{ display:block; font-size: 10px; color: var(--ink-faint); letter-spacing:.3px; margin-bottom:6px; }
+  .modal .field input[type=text], .modal .field select{
+    width:100%; background: var(--bg-raised-2); border:1px solid var(--line);
+    color: var(--ink); padding: 10px 12px; border-radius: 8px; font-size: 13px; font-family: inherit;
+  }
+  .modal .field input:focus{ outline:none; border-color: var(--accent); }
+  .modal-actions{ display:flex; gap:8px; margin-top: 18px; }
+  .btn-primary{ flex:1; background: var(--accent); color:#0a1214; border:none; padding: 11px; border-radius:10px; font-weight:700; cursor:pointer; font-size:13px; }
+  .btn-primary:hover{ background:#6ee6d6; }
+  .btn-secondary{ flex:1; background:none; color: var(--ink-dim); border:1px solid var(--line); padding: 11px; border-radius:10px; cursor:pointer; font-size:13px; }
+  .btn-secondary:hover{ border-color: var(--line-bright); color: var(--ink); }
+  .confirm-text{ font-size: 13px; color: var(--ink-dim); line-height:1.6; }
+  .hidden{ display:none !important; }
+
+  .platform-pick{ display:flex; flex-wrap:wrap; gap:8px; }
+  .platform-pick-opt{
+    flex:1; min-width: 100px; padding: 11px 8px; border: 1.5px solid var(--line); border-radius: 10px;
+    text-align:center; cursor:pointer; font-size: 11px; color: var(--ink-dim); transition: all .15s ease;
+    background: var(--bg-raised-2); user-select: none;
+  }
+  .platform-pick-opt:hover{ border-color: var(--line-bright); color: var(--ink); }
+  .platform-pick-opt.selected{ border-color: var(--accent); color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+  .platform-pick-opt.selected::before{ content: '✓ '; }
+</style>
+</head>
+<body>
+<div class="app" id="appRoot">
+  <div id="homeView">
+    <div class="home-header">
+      <div class="home-header-left">
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="開啟選單">
+          <span></span><span></span><span></span>
+        </button>
+        <div>
+          <p class="brand-title display">存檔本</p>
+          <p class="brand-sub">你的遊戲進度總覽</p>
+        </div>
+      </div>
+    </div>
+    <div class="platform-filter" id="platformFilter"></div>
+    <div class="home-grid" id="homeGrid"></div>
+    <button class="add-game-btn" id="addGameBtnHome">+ 新增一款遊戲</button>
+  </div>
+
+  <div id="gameView" class="hidden">
+    <div class="game-topbar">
+      <button class="back-btn" id="backToHomeBtn" title="返回主頁">←</button>
+      <span class="game-topbar-title" id="gameTopbarTitle"></span>
+    </div>
+    <div id="gameMain"></div>
+  </div>
+</div>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<div class="drawer" id="drawer">
+  <div id="drawerAuthArea" class="drawer-auth"></div>
+  <div class="drawer-header">
+    <h2>我的遊戲庫 (<span id="gameCount">0</span>)</h2>
+    <button class="drawer-close" id="drawerCloseBtn">✕</button>
+  </div>
+  <div class="drawer-body">
+    <button class="drawer-nav-btn" id="goHomeFromDrawerBtn">🏠 &nbsp;回到主頁總覽</button>
+    <div id="drawerGameList"></div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="addModal">
+  <div class="modal">
+    <h3>新增遊戲</h3>
+    <div class="field">
+      <label>遊戲名稱</label>
+      <input type="text" id="newGameNameInput" placeholder="輸入遊戲名稱">
+    </div>
+    <div class="field">
+      <label>平台 / 類型</label>
+      <div class="platform-pick" id="platformPick"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" id="cancelAddBtn">取消</button>
+      <button class="btn-primary" id="confirmAddBtn">新增</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="deleteModal">
+  <div class="modal">
+    <h3 style="color:var(--danger)">刪除遊戲</h3>
+    <p class="confirm-text" id="deleteConfirmText">確定要刪除嗎？</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" id="cancelDeleteBtn">取消</button>
+      <button class="btn-primary" style="background:var(--danger)" id="confirmDeleteBtn">確定刪除</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="editModal">
+  <div class="modal">
+    <h3>編輯遊戲設定</h3>
+    <div class="field">
+      <label>遊戲名稱</label>
+      <input type="text" id="editGameNameInput">
+    </div>
+    <div class="field">
+      <label>平台 / 類型</label>
+      <div class="platform-pick" id="editPlatformPick"></div>
+      <p class="field-hint" style="margin-top:8px;">切換平台類型會改變下方可用的區塊。</p>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" id="cancelEditBtn">取消</button>
+      <button class="btn-primary" id="confirmEditBtn">儲存</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="historyModal">
+  <div class="modal">
+    <h3>已完成的支線紀錄</h3>
+    <div id="historyListArea"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" id="closeHistoryBtn">關閉</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import {
+    getFirestore, doc, getDoc, setDoc, onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC06RRYcvoUnCmEgxPxJVWl2KndxwHYRGg",
+    authDomain: "game-tracker-c9494.firebaseapp.com",
+    projectId: "game-tracker-c9494",
+    storageBucket: "game-tracker-c9494.firebasestorage.app",
+    messagingSenderId: "240668387798",
+    appId: "1:240668387798:web:9f9f2907faf7068e165c77"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+
+  window.__fb = {
+    auth, db,
+    doc, getDoc, setDoc, onSnapshot,
+    signIn: () => signInWithPopup(auth, provider),
+    signOutUser: () => signOut(auth),
+    onAuthStateChanged: (cb) => onAuthStateChanged(auth, cb)
+  };
+  window.dispatchEvent(new Event('fb-ready'));
+</script>
+
+<script>
+(function(){
+  'use strict';
+
+  var STORAGE_KEY = 'save-log-games-v6';
+  var OLD_KEYS = ['save-log-games-v5','save-log-games-v4','save-log-games-v3','save-log-games-v2','save-log-games-v1'];
+
+  var PLATFORMS = [
+    { key: 'console',       label: 'Switch/主機',  short: '主機',    color: '#4fd6c4', group: 'console' },
+    { key: 'steam',         label: 'Steam',        short: 'Steam',   color: '#a78cf2', group: 'console' },
+    { key: 'mobile',        label: '一般向手遊',    short: '手遊',    color: '#f0b855', group: 'mobile' },
+    { key: 'otome_mobile',  label: '乙女手遊',      short: '乙女手遊', color: '#f0a8cc', group: 'otome_mobile' },
+    { key: 'otome_console', label: 'NS/主機乙女',   short: 'NS乙女',  color: '#6d9bf2', group: 'otome_console' }
+  ];
+
+  function platformInfo(key){
+    for(var i=0;i<PLATFORMS.length;i++){ if(PLATFORMS[i].key===key) return PLATFORMS[i]; }
+    return PLATFORMS[0];
+  }
+  function platformGroup(key){ return platformInfo(key).group; }
+
+  var STATUS_OPTIONS = [
+    { key: 'playing', label: '進行中', cls: 'status-playing' },
+    { key: 'paused', label: '暫停', cls: 'status-paused' },
+    { key: 'done', label: '通關', cls: 'status-done' },
+    { key: 'backlog', label: '待玩', cls: 'status-backlog' }
+  ];
+
+  var TAG_OPTIONS = [
+    { key: 'main', label: '主線' },
+    { key: 'side', label: '支線' },
+    { key: 'todo', label: '待辦' },
+    { key: 'collect', label: '收集' }
+  ];
+
+  var ENDING_TYPES = [
+    { key: 'TE', label: 'True End' },
+    { key: 'GE', label: 'Good End' },
+    { key: 'BE', label: 'Bad End' },
+    { key: 'Other', label: '其他' }
+  ];
+
+  var WEEKDAYS = ['週一','週二','週三','週四','週五','週六','週日'];
+
+  function uid(){ return Math.random().toString(36).slice(2,10); }
+  function todayStr(){ return new Date().toISOString().slice(0,10); }
+  function escapeHtml(str){
+    var div = document.createElement('div');
+    div.textContent = str == null ? '' : str;
+    return div.innerHTML;
+  }
+  function firstLine(str){
+    if(!str) return '';
+    var idx = str.indexOf('\n');
+    return idx === -1 ? str : str.slice(0, idx);
+  }
+
+  function makeGame(name, platform){
+    return {
+      id: uid(),
+      name: name,
+      platform: platform,
+      status: 'playing',
+      progress: 0,
+      currentQuest: '',
+      notes: [],
+      todos: [],
+      quests: [],
+      questHistory: [],
+      dailies: [],
+      lastDailyReset: todayStr(),
+      lastWeeklyReset: todayStr(),
+      events: [],
+      currency: { name1: '', val1: '', name2: '', val2: '', pullCost: '' },
+      characters: [],
+      endings: [],
+      materialDays: { mon:'', tue:'', wed:'', thu:'', fri:'', sat:'', sun:'' },
+      materialList: []
+    };
+  }
+
+  function migrate(games){
+    games.forEach(function(g){
+      if(!g.platform) g.platform = 'console';
+      if(g.platform === 'otome') g.platform = 'otome_mobile';
+
+      if(g.dailies === undefined) g.dailies = [];
+      if(g.events === undefined) g.events = [];
+      if(g.characters === undefined) g.characters = [];
+      if(g.currency === undefined) g.currency = { name1:'', val1:'', name2:'', val2:'', pullCost:'' };
+      if(g.currency.pullCost === undefined) g.currency.pullCost = '';
+      if(g.lastDailyReset === undefined) g.lastDailyReset = todayStr();
+      if(g.lastWeeklyReset === undefined) g.lastWeeklyReset = todayStr();
+      if(g.quests === undefined) g.quests = [];
+      if(g.questHistory === undefined) g.questHistory = [];
+      if(g.endings === undefined) g.endings = [];
+      if(g.materialDays === undefined) g.materialDays = { mon:'', tue:'', wed:'', thu:'', fri:'', sat:'', sun:'' };
+      if(g.materialList === undefined) g.materialList = [];
+
+      if(typeof g.notes === 'string'){
+        var oldNote = g.notes;
+        g.notes = oldNote.trim() ? [{ id: uid(), title: firstLine(oldNote) || '筆記', body: oldNote }] : [];
+      }
+      if(g.notes === undefined) g.notes = [];
+
+      if(typeof g.cardNotes === 'string' && g.cardNotes.trim() && g.characters && g.characters.length){
+        g.characters[0].cardNotes = g.characters[0].cardNotes || [];
+        g.characters[0].cardNotes.push({ id: uid(), title: '卡面收集', body: g.cardNotes });
+      }
+      delete g.cardNotes;
+
+      if(g.characters){
+        g.characters.forEach(function(c){
+          if(c.useAffection === undefined) c.useAffection = (c.affection !== undefined && c.affection !== null && c.affection !== '');
+          if(c.affection === undefined) c.affection = 0;
+          if(c.route === undefined) c.route = '';
+          if(typeof c.note === 'string'){
+            var oldCharNote = c.note;
+            c.cardNotes = c.cardNotes || [];
+            if(oldCharNote.trim()){
+              c.cardNotes.push({ id: uid(), title: firstLine(oldCharNote) || '筆記', body: oldCharNote });
+            }
+            delete c.note;
+          }
+          if(c.cardNotes === undefined) c.cardNotes = [];
+        });
+      }
+
+      g.events.forEach(function(ev){
+        if(ev.refreshDateTime === undefined){
+          ev.refreshDateTime = ev.endDate ? (ev.endDate + 'T23:59') : '';
+        }
+      });
+    });
+    return games;
+  }
+
+  function loadGames(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if(raw) return migrate(JSON.parse(raw));
+      for(var i=0;i<OLD_KEYS.length;i++){
+        var old = localStorage.getItem(OLD_KEYS[i]);
+        if(old){
+          var parsed = JSON.parse(old);
+          return migrate(parsed.map(function(g){ if(!g.platform) g.platform='console'; return g; }));
+        }
+      }
+    }catch(e){}
+    return [];
+  }
+
+  var state = {
+    games: loadGames(),
+    activeId: null,
+    filterPlatform: 'all',
+    drawerOpen: false,
+    view: 'home'
+  };
+
+  var cloudUser = null;
+  var cloudSyncStatus = 'local';
+  var cloudUnsub = null;
+  var applyingRemoteUpdate = false;
+  var pushDebounceTimer = null;
+
+  (function autoReset(){
+    var today = todayStr();
+    var dayOfWeek = new Date().getDay();
+    state.games.forEach(function(g){
+      if(g.lastDailyReset !== today){
+        g.dailies.forEach(function(d){ if(d.freq==='daily') d.done = false; });
+        g.lastDailyReset = today;
+      }
+      if(dayOfWeek === 1 && g.lastWeeklyReset !== today){
+        g.dailies.forEach(function(d){ if(d.freq==='weekly') d.done = false; });
+        g.lastWeeklyReset = today;
+      }
+    });
+  })();
+
+  function saveState(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.games));
+    }catch(e){}
+    schedulePushToCloud();
+  }
+
+  function schedulePushToCloud(){
+    if(applyingRemoteUpdate) return;
+    if(!cloudUser || !window.__fb) return;
+    if(pushDebounceTimer) clearTimeout(pushDebounceTimer);
+    pushDebounceTimer = setTimeout(pushToCloudNow, 600);
+  }
+
+  function pushToCloudNow(){
+    if(!cloudUser || !window.__fb) return;
+    cloudSyncStatus = 'syncing';
+    renderDrawerAuth();
+    var ref = window.__fb.doc(window.__fb.db, 'users', cloudUser.uid, 'data', 'games');
+    window.__fb.setDoc(ref, { games: state.games, updatedAt: Date.now() })
+      .then(function(){ cloudSyncStatus = 'synced'; renderDrawerAuth(); })
+      .catch(function(err){ console.error('雲端同步失敗', err); cloudSyncStatus = 'local'; renderDrawerAuth(); });
+  }
+
+  function startCloudListener(user){
+    if(cloudUnsub){ cloudUnsub(); cloudUnsub = null; }
+    var ref = window.__fb.doc(window.__fb.db, 'users', user.uid, 'data', 'games');
+    cloudSyncStatus = 'syncing';
+    renderDrawerAuth();
+    cloudUnsub = window.__fb.onSnapshot(ref, function(snap){
+      if(snap.exists()){
+        var data = snap.data();
+        if(data && Array.isArray(data.games)){
+          applyingRemoteUpdate = true;
+          state.games = migrate(data.games);
+          if(!state.games.find(function(g){ return g.id === state.activeId; })){
+            state.activeId = state.games.length ? state.games[0].id : null;
+          }
+          try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state.games)); }catch(e){}
+          renderCurrentView();
+          applyingRemoteUpdate = false;
+        }
+      } else {
+        pushToCloudNow();
+      }
+      cloudSyncStatus = 'synced';
+      renderDrawerAuth();
+    }, function(err){
+      console.error('雲端讀取失敗', err);
+      cloudSyncStatus = 'local';
+      renderDrawerAuth();
+    });
+  }
+
+  function stopCloudListener(){
+    if(cloudUnsub){ cloudUnsub(); cloudUnsub = null; }
+    cloudSyncStatus = 'local';
+  }
+
+  function renderDrawerAuth(){
+    var el = document.getElementById('drawerAuthArea');
+    if(!el) return;
+    if(!window.__fb){ el.innerHTML = ''; return; }
+    if(cloudUser){
+      var badge = cloudSyncStatus === 'synced'
+        ? '<span class="sync-badge synced">已同步雲端</span>'
+        : cloudSyncStatus === 'syncing'
+          ? '<span class="sync-badge syncing">同步中...</span>'
+          : '<span class="sync-badge local">僅本機</span>';
+      var photo = cloudUser.photoURL ? '<img src="' + cloudUser.photoURL + '" alt="">' : '';
+      el.innerHTML =
+        '<div class="drawer-auth-signedin">' + photo +
+          '<div class="drawer-auth-info">' +
+            '<div class="drawer-auth-name">' + escapeHtml(cloudUser.displayName || cloudUser.email || '已登入') + '</div>' +
+            badge +
+          '</div>' +
+          '<button class="drawer-signout-btn" id="drawerSignOutBtn">登出</button>' +
+        '</div>';
+      var btn = document.getElementById('drawerSignOutBtn');
+      if(btn) btn.addEventListener('click', function(){ window.__fb.signOutUser(); });
+    } else {
+      el.innerHTML =
+        '<div class="drawer-auth-signedout">' +
+          '<p>登入 Google 帳號，讓進度在手機、電腦之間自動同步</p>' +
+          '<button class="google-signin-btn" id="drawerSignInBtn">用 Google 帳號登入</button>' +
+        '</div>';
+      var btn2 = document.getElementById('drawerSignInBtn');
+      if(btn2) btn2.addEventListener('click', function(){ window.__fb.signIn().catch(function(err){ console.error(err); }); });
+    }
+  }
+
+  function getActiveGame(){
+    for(var i=0;i<state.games.length;i++){
+      if(state.games[i].id === state.activeId) return state.games[i];
+    }
+    return null;
+  }
+
+  function updateGame(id, patch){
+    var g = null;
+    for(var i=0;i<state.games.length;i++){
+      if(state.games[i].id === id){ g = state.games[i]; break; }
+    }
+    if(!g) return;
+    Object.assign(g, patch);
+    saveState();
+  }
+
+  function hexAlpha(hex, alpha){
+    var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+  }
+
+  var homeViewEl = document.getElementById('homeView');
+  var gameViewEl = document.getElementById('gameView');
+
+  function goHome(){
+    state.view = 'home';
+    state.activeId = null;
+    homeViewEl.classList.remove('hidden');
+    gameViewEl.classList.add('hidden');
+    renderHomeView();
+  }
+  function goToGame(gameId){
+    state.view = 'game';
+    state.activeId = gameId;
+    homeViewEl.classList.add('hidden');
+    gameViewEl.classList.remove('hidden');
+    renderGameView();
+  }
+  function renderCurrentView(){
+    if(state.view === 'game' && getActiveGame()){
+      renderGameView();
+    } else {
+      goHome();
+    }
+  }
+
+  document.getElementById('backToHomeBtn').addEventListener('click', goHome);
+  document.getElementById('goHomeFromDrawerBtn').addEventListener('click', function(){ closeDrawer(); goHome(); });
+
+  var drawerEl = document.getElementById('drawer');
+  var drawerOverlayEl = document.getElementById('drawerOverlay');
+  function openDrawer(){ state.drawerOpen = true; drawerEl.classList.add('open'); drawerOverlayEl.classList.add('open'); renderDrawerGameList(); renderDrawerAuth(); }
+  function closeDrawer(){ state.drawerOpen = false; drawerEl.classList.remove('open'); drawerOverlayEl.classList.remove('open'); }
+  document.getElementById('hamburgerBtn').addEventListener('click', openDrawer);
+  document.getElementById('drawerCloseBtn').addEventListener('click', closeDrawer);
+  drawerOverlayEl.addEventListener('click', closeDrawer);
+
+  function renderDrawerGameList(){
+    document.getElementById('gameCount').textContent = state.games.length;
+    var listEl = document.getElementById('drawerGameList');
+    listEl.innerHTML = '';
+    state.games.forEach(function(g){
+      var pInfo = platformInfo(g.platform);
+      var card = document.createElement('div');
+      card.className = 'game-card' + (g.id === state.activeId ? ' active' : '');
+      card.innerHTML =
+        '<div class="game-card-top">' +
+          '<div class="game-name-wrap">' +
+            '<span class="platform-dot" style="background:' + pInfo.color + '"></span>' +
+            '<span class="game-name">' + escapeHtml(g.name) + '</span>' +
+          '</div>' +
+        '</div>';
+      card.addEventListener('click', function(){
+        closeDrawer();
+        goToGame(g.id);
+      });
+      listEl.appendChild(card);
+    });
+  }
+
+  function getSafeDeadline(refreshDateTime){
+    if(!refreshDateTime) return null;
+    var refresh = new Date(refreshDateTime);
+    if(isNaN(refresh.getTime())) return null;
+    var refreshHour = refresh.getHours() + refresh.getMinutes()/60;
+    var safeDeadline = new Date(refresh);
+    if(refreshHour < 12){
+      safeDeadline.setDate(safeDeadline.getDate() - 1);
+    }
+    safeDeadline.setHours(23,59,59,999);
+    return safeDeadline;
+  }
+  function daysUntilSafe(refreshDateTime){
+    var deadline = getSafeDeadline(refreshDateTime);
+    if(!deadline) return null;
+    var now = new Date();
+    return Math.ceil((deadline - now) / (1000*60*60*24));
+  }
+  function formatDateTimeShort(dtStr){
+    if(!dtStr) return '未設定';
+    var d = new Date(dtStr);
+    if(isNaN(d.getTime())) return '未設定';
+    var mm = d.getMonth()+1, dd = d.getDate();
+    var hh = String(d.getHours()).padStart(2,'0'), mi = String(d.getMinutes()).padStart(2,'0');
+    return mm + '/' + dd + ' ' + hh + ':' + mi;
+  }
+  function eventBadge(days){
+    if(days === null) return { cls: 'expired', text: '未設定時間' };
+    if(days < 0) return { cls: 'expired', text: '已結束' };
+    if(days === 0) return { cls: 'urgent', text: '今天是最後準備日' };
+    if(days <= 3) return { cls: 'urgent', text: '剩 ' + days + ' 天' };
+    if(days <= 7) return { cls: 'soon', text: '剩 ' + days + ' 天' };
+    return { cls: 'normal', text: '剩 ' + days + ' 天' };
+  }
+  function nearestEventFor(g){
+    var nearest = null, nearestDays = null;
+    g.events.forEach(function(ev){
+      var d = daysUntilSafe(ev.refreshDateTime);
+      if(d !== null && d >= 0 && (nearestDays === null || d < nearestDays)){
+        nearestDays = d; nearest = ev;
+      }
+    });
+    return nearest ? { event: nearest, days: nearestDays } : null;
+  }
+
+  function renderPlatformFilter(){
+    var el = document.getElementById('platformFilter');
+    var chips = '<button class="filter-chip' + (state.filterPlatform==='all'?' active':'') + '" data-p="all">全部</button>';
+    PLATFORMS.forEach(function(p){
+      chips += '<button class="filter-chip' + (state.filterPlatform===p.key?' active':'') + '" data-p="' + p.key + '">' + p.short + '</button>';
+    });
+    el.innerHTML = chips;
+    el.querySelectorAll('.filter-chip').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        state.filterPlatform = btn.getAttribute('data-p');
+        renderHomeView();
+      });
+    });
+  }
+
+  function renderHomeView(){
+    renderPlatformFilter();
+    renderDrawerAuth();
+    var visibleGames = state.games.filter(function(g){
+      return state.filterPlatform === 'all' || g.platform === state.filterPlatform;
+    });
+    var gridEl = document.getElementById('homeGrid');
+    gridEl.innerHTML = '';
+
+    if(state.games.length === 0){
+      gridEl.innerHTML = '<div class="empty-state"><div class="empty-state-title">尚無遊戲紀錄</div><p style="color:var(--ink-faint); font-size:13px;">點下方「新增一款遊戲」開始記錄。</p></div>';
+      return;
+    }
+    if(visibleGames.length === 0){
+      gridEl.innerHTML = '<div class="empty-hint">這個分類還沒有遊戲。</div>';
+      return;
+    }
+
+    visibleGames.forEach(function(g){
+      var statusOpt = STATUS_OPTIONS.filter(function(o){return o.key===g.status;})[0] || STATUS_OPTIONS[0];
+      var pInfo = platformInfo(g.platform);
+      var grp = platformGroup(g.platform);
+      var card = document.createElement('div');
+      card.className = 'overview-card';
+
+      var badges = '';
+      if(grp === 'mobile' || grp === 'otome_mobile'){
+        var pendingDaily = g.dailies.filter(function(d){ return !d.done; }).length;
+        if(g.dailies.length > 0){
+          badges += '<span class="overview-badge daily">📋 ' + pendingDaily + ' 項待辦</span>';
+        }
+        var ne = nearestEventFor(g);
+        if(ne){
+          var b = eventBadge(ne.days);
+          badges += '<span class="overview-badge ' + (b.cls==='urgent'?'event-urgent':b.cls==='soon'?'event-soon':'event-normal') + '">🔔 ' + escapeHtml(ne.event.name) + '：剩' + ne.days + '天</span>';
+        }
+      }
+
+      var subLine = g.currentQuest || '尚未記錄目前進度';
+      var progressHtml = (grp === 'console')
+        ? '<div class="progress-track"><div class="progress-fill" style="width:' + g.progress + '%; background: linear-gradient(90deg,' + pInfo.color + '99,' + pInfo.color + ')"></div></div>'
+        : '';
+
+      card.innerHTML =
+        '<div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:' + pInfo.color + '"></div>' +
+        '<div class="overview-top">' +
+          '<div class="overview-name-wrap">' +
+            '<span class="overview-name">' + escapeHtml(g.name) + '</span>' +
+          '</div>' +
+          '<span class="overview-status ' + statusOpt.cls + '">' + statusOpt.label + '</span>' +
+        '</div>' +
+        '<div class="overview-platform-tag">' + pInfo.label + '</div>' +
+        '<div class="overview-sub" style="margin-top:6px;">' + escapeHtml(subLine) + '</div>' +
+        progressHtml +
+        (badges ? '<div class="overview-badge-row">' + badges + '</div>' : '');
+      card.addEventListener('click', function(){ goToGame(g.id); });
+      gridEl.appendChild(card);
+    });
+  }
+
+  document.getElementById('addGameBtnHome').addEventListener('click', function(){ openAddModal(); });
+
+  function renderGameView(){
+    var g = getActiveGame();
+    var mainEl = document.getElementById('gameMain');
+    var topbarTitle = document.getElementById('gameTopbarTitle');
+    if(!g){ goHome(); return; }
+
+    topbarTitle.textContent = g.name;
+
+    var pInfo = platformInfo(g.platform);
+    var grp = platformGroup(g.platform);
+    var statusOpt = STATUS_OPTIONS.filter(function(o){return o.key===g.status;})[0] || STATUS_OPTIONS[0];
+
+    var progressHtml = '';
+    if(grp === 'console'){
+      progressHtml =
+        '<div class="progress-block">' +
+          '<div class="progress-label-row"><span>主線完成度</span><span class="progress-pct" id="progressPct">' + g.progress + '%</span></div>' +
+          '<div class="progress-bar-lg"><div class="progress-fill" id="progressFillBar" style="width:' + g.progress + '%"></div></div>' +
+          '<input type="range" min="0" max="100" id="progressRange" value="' + g.progress + '">' +
+        '</div>';
+    }
+
+    var sectionsHtml = '';
+    if(grp === 'mobile' || grp === 'otome_mobile'){
+      sectionsHtml += '<div class="section-block" id="sectionDaily"></div>';
+    }
+    if(grp === 'console'){
+      sectionsHtml += '<div class="section-block" id="sectionChecklist"></div>';
+    }
+    if(grp === 'mobile' || grp === 'otome_mobile' || grp === 'otome_console'){
+      sectionsHtml += '<div class="section-block" id="sectionStory"></div>';
+    }
+    if(grp === 'otome_mobile' || grp === 'otome_console'){
+      sectionsHtml += '<div class="section-block" id="sectionCharacters"></div>';
+    }
+    if(grp === 'mobile' || grp === 'otome_mobile'){
+      sectionsHtml += '<div class="section-block" id="sectionEvents"></div>';
+    }
+    if(grp === 'mobile'){
+      sectionsHtml += '<div class="section-block" id="sectionMaterials"></div>';
+    }
+    if(grp === 'otome_console'){
+      sectionsHtml += '<div class="section-block" id="sectionEndings"></div>';
+    }
+    if(grp === 'mobile' || grp === 'otome_mobile'){
+      sectionsHtml += '<div class="section-block" id="sectionCurrency"></div>';
+    }
+    sectionsHtml += '<div class="section-block" id="sectionNotes"></div>';
+
+    mainEl.innerHTML =
+      '<div class="game-hero">' +
+        '<div class="game-hero-top">' +
+          '<div class="game-hero-title-block">' +
+            '<div class="game-title-display display">' + escapeHtml(g.name) + '</div>' +
+            '<div class="game-hero-tags">' +
+              '<span class="platform-badge" style="background:' + hexAlpha(pInfo.color,0.16) + '; color:' + pInfo.color + '">' + pInfo.label + '</span>' +
+              '<span class="overview-status ' + statusOpt.cls + '">' + statusOpt.label + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="game-hero-actions">' +
+            '<button class="icon-btn" id="editGameBtn" title="編輯遊戲設定">⚙</button>' +
+            '<button class="icon-btn danger" id="deleteGameBtn" title="刪除這款遊戲">✕</button>' +
+          '</div>' +
+        '</div>' +
+        progressHtml +
+      '</div>' +
+      sectionsHtml;
+
+    document.getElementById('editGameBtn').addEventListener('click', function(){ openEditModal(g); });
+    document.getElementById('deleteGameBtn').addEventListener('click', function(){ openDeleteModal(g); });
+
+    if(grp === 'console'){
+      var rangeEl = document.getElementById('progressRange');
+      rangeEl.addEventListener('input', function(e){
+        var val = Number(e.target.value);
+        document.getElementById('progressPct').textContent = val + '%';
+        document.getElementById('progressFillBar').style.width = val + '%';
+      });
+      rangeEl.addEventListener('change', function(e){
+        updateGame(g.id, { progress: Number(e.target.value) });
+      });
+    }
+
+    if(grp === 'console') renderChecklistSection(g);
+    if(grp === 'mobile' || grp === 'otome_mobile') renderDailySection(g);
+    if(grp === 'mobile' || grp === 'otome_mobile' || grp === 'otome_console') renderStorySection(g, grp);
+    if(grp === 'otome_mobile' || grp === 'otome_console') renderCharactersSection(g, grp);
+    if(grp === 'mobile' || grp === 'otome_mobile') renderEventsSection(g);
+    if(grp === 'mobile') renderMaterialsSection(g);
+    if(grp === 'otome_console') renderEndingsSection(g);
+    if(grp === 'mobile' || grp === 'otome_mobile') renderCurrencySection(g);
+    renderNotesSection(g);
+  }
+
+  function wireAddToggle(fabId, formId){
+    var fab = document.getElementById(fabId);
+    var form = document.getElementById(formId);
+    if(!fab || !form) return;
+    fab.addEventListener('click', function(){
+      form.classList.toggle('hidden');
+      if(!form.classList.contains('hidden')){
+        var firstInput = form.querySelector('input[type=text]');
+        if(firstInput) setTimeout(function(){ firstInput.focus(); }, 0);
+      }
+    });
+  }
+
+  function renderChecklistSection(g){
+    var panel = document.getElementById('sectionChecklist');
+    var tagSelectHtml = TAG_OPTIONS.map(function(t){ return '<option value="' + t.key + '">' + t.label + '</option>'; }).join('');
+    var doneCount = g.todos.filter(function(t){return t.done;}).length;
+
+    panel.innerHTML =
+      '<div class="panel-box">' +
+        '<div class="panel-box-title">任務清單<span class="title-count">' + doneCount + '/' + g.todos.length + '</span><button class="add-fab" id="fabTodo">+</button></div>' +
+        '<div class="add-form hidden" id="formTodo">' +
+          '<div class="add-form-row">' +
+            '<select id="newTodoTag">' + tagSelectHtml + '</select>' +
+            '<input type="text" id="newTodoText" placeholder="新增任務、支線、待辦或收集品...">' +
+          '</div>' +
+          '<div class="add-form-actions">' +
+            '<button class="btn-cancel-inline" id="cancelTodoBtn">取消</button>' +
+            '<button class="btn-confirm" id="addTodoBtn">新增</button>' +
+          '</div>' +
+        '</div>' +
+        '<div id="todoListArea"></div>' +
+      '</div>';
+
+    var listArea = document.getElementById('todoListArea');
+    if(g.todos.length === 0){
+      listArea.innerHTML = '<div class="empty-hint">還沒有任何項目，點右上角「+」新增。</div>';
+    } else {
+      var groupsHtml = '';
+      TAG_OPTIONS.forEach(function(tagOpt){
+        var items = g.todos.filter(function(t){ return t.tag === tagOpt.key; });
+        if(items.length === 0) return;
+        groupsHtml += '<p class="checklist-group-title">' + tagOpt.label + ' (' + items.length + ')</p>';
+        items.forEach(function(t){
+          groupsHtml +=
+            '<div class="todo-item' + (t.done?' done':'') + '">' +
+              '<div class="todo-check' + (t.done?' checked':'') + '" data-action="toggle" data-id="' + t.id + '">' + (t.done ? '✓' : '') + '</div>' +
+              '<span class="todo-text">' + escapeHtml(t.text) + '</span>' +
+              '<button class="todo-del" data-action="delete" data-id="' + t.id + '">×</button>' +
+            '</div>';
+        });
+      });
+      listArea.innerHTML = groupsHtml;
+    }
+
+    wireAddToggle('fabTodo', 'formTodo');
+    document.getElementById('cancelTodoBtn').addEventListener('click', function(){ document.getElementById('formTodo').classList.add('hidden'); });
+    document.getElementById('addTodoBtn').addEventListener('click', function(){ addTodo(g); });
+    document.getElementById('newTodoText').addEventListener('keydown', function(e){ if(e.key === 'Enter') addTodo(g); });
+
+    listArea.querySelectorAll('[data-action="toggle"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        var todo = g.todos.filter(function(t){return t.id===id;})[0];
+        if(todo){ todo.done = !todo.done; saveState(); renderGameView(); }
+      });
+    });
+    listArea.querySelectorAll('[data-action="delete"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        g.todos = g.todos.filter(function(t){return t.id!==id;});
+        saveState(); renderGameView();
+      });
+    });
+  }
+
+  function addTodo(g){
+    var textInput = document.getElementById('newTodoText');
+    var tagSelect = document.getElementById('newTodoTag');
+    var text = textInput.value.trim();
+    if(!text) return;
+    g.todos.push({ id: uid(), text: text, tag: tagSelect.value, done: false });
+    saveState();
+    renderGameView();
+  }
+
+  function renderDailySection(g){
+    var panel = document.getElementById('sectionDaily');
+    var dailyItems = g.dailies.filter(function(d){ return d.freq === 'daily'; });
+    var weeklyItems = g.dailies.filter(function(d){ return d.freq === 'weekly'; });
+    var pendingDaily = g.dailies.filter(function(d){return !d.done;}).length;
+
+    panel.innerHTML =
+      '<div class="panel-box">' +
+        '<div class="panel-box-title">每日活動<span class="title-count">' + pendingDaily + ' 未完成</span><button class="add-fab" id="fabDaily">+</button></div>' +
+        '<div class="add-form hidden" id="formDaily">' +
+          '<div class="add-form-row">' +
+            '<select id="newDailyFreq"><option value="daily">每日</option><option value="weekly">每週</option></select>' +
+            '<input type="text" id="newDailyText" placeholder="新增待辦事項">' +
+          '</div>' +
+          '<div class="add-form-actions">' +
+            '<button class="btn-cancel-inline" id="cancelDailyBtn">取消</button>' +
+            '<button class="btn-confirm" id="addDailyBtn">新增</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="daily-subsection-title">每日<button class="reset-btn" id="resetDailyBtn">重置</button></div>' +
+        '<div id="dailyListAreaD"></div>' +
+        '<div class="daily-subsection-title">每週<button class="reset-btn" id="resetWeeklyBtn">重置</button></div>' +
+        '<div id="dailyListAreaW"></div>' +
+        '<p class="reset-hint" style="margin-top:10px; margin-bottom:0;">每日項目每天自動重置勾選，每週項目在星期一自動重置。</p>' +
+      '</div>';
+
+    function renderList(containerId, items){
+      var listArea = document.getElementById(containerId);
+      if(items.length === 0){
+        listArea.innerHTML = '<div class="empty-hint">還沒有項目。</div>';
+        return;
+      }
+      var html = '';
+      items.forEach(function(d){
+        html +=
+          '<div class="todo-item">' +
+            '<div class="todo-check' + (d.done?' checked':'') + '" data-action="toggle-daily" data-id="' + d.id + '">' + (d.done ? '✓' : '') + '</div>' +
+            '<span class="todo-text" style="' + (d.done?'color:var(--ink-faint);text-decoration:line-through;':'') + '">' + escapeHtml(d.text) + '</span>' +
+            '<button class="todo-del" data-action="delete-daily" data-id="' + d.id + '">×</button>' +
+          '</div>';
+      });
+      listArea.innerHTML = html;
+      listArea.querySelectorAll('[data-action="toggle-daily"]').forEach(function(el){
+        el.addEventListener('click', function(){
+          var id = el.getAttribute('data-id');
+          var d = g.dailies.filter(function(x){return x.id===id;})[0];
+          if(d){ d.done = !d.done; saveState(); renderGameView(); }
+        });
+      });
+      listArea.querySelectorAll('[data-action="delete-daily"]').forEach(function(el){
+        el.addEventListener('click', function(){
+          var id = el.getAttribute('data-id');
+          g.dailies = g.dailies.filter(function(x){return x.id!==id;});
+          saveState(); renderGameView();
+        });
+      });
+    }
+
+    renderList('dailyListAreaD', dailyItems);
+    renderList('dailyListAreaW', weeklyItems);
+
+    wireAddToggle('fabDaily', 'formDaily');
+    document.getElementById('cancelDailyBtn').addEventListener('click', function(){ document.getElementById('formDaily').classList.add('hidden'); });
+    document.getElementById('addDailyBtn').addEventListener('click', function(){ addDaily(g); });
+    document.getElementById('newDailyText').addEventListener('keydown', function(e){ if(e.key==='Enter') addDaily(g); });
+
+    document.getElementById('resetDailyBtn').addEventListener('click', function(){
+      g.dailies.forEach(function(d){ if(d.freq==='daily') d.done = false; });
+      saveState(); renderGameView();
+    });
+    document.getElementById('resetWeeklyBtn').addEventListener('click', function(){
+      g.dailies.forEach(function(d){ if(d.freq==='weekly') d.done = false; });
+      saveState(); renderGameView();
+    });
+  }
+
+  function addDaily(g){
+    var textInput = document.getElementById('newDailyText');
+    var freqSelect = document.getElementById('newDailyFreq');
+    var text = textInput.value.trim();
+    if(!text) return;
+    g.dailies.push({ id: uid(), text: text, freq: freqSelect.value, done: false });
+    saveState();
+    renderGameView();
+  }
+
+  function renderStorySection(g, grp){
+    var panel = document.getElementById('sectionStory');
+    var activeQuests = g.quests.filter(function(q){ return !q.done; });
+
+    var storyLabel = (grp === 'console') ? '目前進度 / 玩到哪' : '劇情進度';
+    var storyPlaceholder = (grp === 'console') ? '記錄目前玩到的章節或任務' : '自由輸入，例如：第二章、番外1、單推角色個人線';
+
+    panel.innerHTML =
+      '<div class="panel-box">' +
+        '<p class="panel-box-title">' + storyLabel + '</p>' +
+        '<textarea id="currentQuestInput" style="width:100%; min-height:60px; background:var(--bg-raised-2); border:1px solid var(--line); color:var(--ink); padding:12px; border-radius:10px; font-size:13px; font-family:inherit; resize:vertical; line-height:1.6;" placeholder="' + storyPlaceholder + '">' + escapeHtml(g.currentQuest) + '</textarea>' +
+        '<div class="daily-subsection-title" style="margin-top:16px;">支線 / 角色任務<button class="add-fab" id="fabQuest">+</button></div>' +
+        '<div class="add-form hidden" id="formQuest">' +
+          '<div class="add-form-row">' +
+            '<input type="text" id="newQuestText" placeholder="新增支線或角色任務">' +
+            '<input type="text" id="newQuestChar" placeholder="角色標籤（選填）" style="max-width:140px;">' +
+          '</div>' +
+          '<div class="add-form-actions">' +
+            '<button class="btn-cancel-inline" id="cancelQuestBtn">取消</button>' +
+            '<button class="btn-confirm" id="addQuestBtn">新增</button>' +
+          '</div>' +
+        '</div>' +
+        '<div id="questListArea"></div>' +
+        '<span class="view-history-link" id="viewHistoryLink">查看已完成的紀錄 (' + g.questHistory.length + ')</span>' +
+      '</div>';
+
+    document.getElementById('currentQuestInput').addEventListener('input', function(e){
+      updateGame(g.id, { currentQuest: e.target.value });
+    });
+
+    var listArea = document.getElementById('questListArea');
+    if(activeQuests.length === 0){
+      listArea.innerHTML = '<div class="empty-hint">目前沒有進行中的支線，點「+」新增一筆。</div>';
+    } else {
+      var html = '';
+      activeQuests.forEach(function(q){
+        html +=
+          '<div class="quest-item">' +
+            '<div class="quest-top">' +
+              '<div class="quest-check" data-action="complete-quest" data-id="' + q.id + '"></div>' +
+              '<span class="quest-text">' + escapeHtml(q.text) + '</span>' +
+              (q.charTag ? '<span class="quest-char-tag">' + escapeHtml(q.charTag) + '</span>' : '') +
+              '<button class="quest-del" data-action="delete-quest" data-id="' + q.id + '">×</button>' +
+            '</div>' +
+          '</div>';
+      });
+      listArea.innerHTML = html;
+    }
+
+    wireAddToggle('fabQuest', 'formQuest');
+    document.getElementById('cancelQuestBtn').addEventListener('click', function(){ document.getElementById('formQuest').classList.add('hidden'); });
+    document.getElementById('addQuestBtn').addEventListener('click', function(){ addQuest(g); });
+    document.getElementById('newQuestText').addEventListener('keydown', function(e){ if(e.key==='Enter') addQuest(g); });
+
+    listArea.querySelectorAll('[data-action="complete-quest"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        var q = g.quests.filter(function(x){return x.id===id;})[0];
+        if(q){
+          q.done = true;
+          q.completedAt = Date.now();
+          g.questHistory.unshift(q);
+          g.quests = g.quests.filter(function(x){ return x.id !== id; });
+          saveState(); renderGameView();
+        }
+      });
+    });
+    listArea.querySelectorAll('[data-action="delete-quest"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        g.quests = g.quests.filter(function(x){return x.id!==id;});
+        saveState(); renderGameView();
+      });
+    });
+
+    document.getElementById('viewHistoryLink').addEventListener('click', function(){ openHistoryModal(g); });
+  }
+
+  function addQuest(g){
+    var textInput = document.getElementById('newQuestText');
+    var charInput = document.getElementById('newQuestChar');
+    var text = textInput.value.trim();
+    if(!text) return;
+    g.quests.push({ id: uid(), text: text, charTag: charInput.value.trim(), done: false });
+    saveState();
+    renderGameView();
+  }
+
+  var historyModal = document.getElementById('historyModal');
+  function openHistoryModal(g){
+    var area = document.getElementById('historyListArea');
+    if(g.questHistory.length === 0){
+      area.innerHTML = '<p class="confirm-text">還沒有已完成的紀錄。</p>';
+    } else {
+      var html = '';
+      g.questHistory.forEach(function(q){
+        var dateStr = q.completedAt ? new Date(q.completedAt).toLocaleDateString('zh-TW') : '';
+        html += '<div class="history-item">' + escapeHtml(q.text) + (q.charTag ? '（' + escapeHtml(q.charTag) + '）' : '') + ' <span style="float:right; text-decoration:none;">' + dateStr + '</span></div>';
+      });
+      area.innerHTML = html;
+    }
+    historyModal.classList.remove('hidden');
+  }
+  document.getElementById('closeHistoryBtn').addEventListener('click', function(){ historyModal.classList.add('hidden'); });
+  historyModal.addEventListener('click', function(e){ if(e.target === historyModal) historyModal.classList.add('hidden'); });
+
+  function renderMemoList(containerEl, memoArray, addFabId, formPrefixId, onChange){
+    var listHtml = '';
+    if(memoArray.length === 0){
+      listHtml = '<div class="empty-hint">還沒有筆記，點「+」新增一則。</div>';
+    } else {
+      listHtml = '<div class="memo-list">';
+      memoArray.forEach(function(m){
+        listHtml +=
+          '<div class="memo-item" data-memo-id="' + m.id + '">' +
+            '<div class="memo-item-body">' +
+              '<div class="memo-item-title">' + escapeHtml(m.title || '（無標題）') + '</div>' +
+              '<div class="memo-item-preview">' + escapeHtml(firstLine(m.body)) + '</div>' +
+            '</div>' +
+            '<button class="memo-item-del" data-memo-del="' + m.id + '">×</button>' +
+          '</div>';
+      });
+      listHtml += '</div>';
+    }
+
+    containerEl.querySelector('[data-role=memo-list-area]').innerHTML = listHtml;
+
+    var listAreaEl = containerEl.querySelector('[data-role=memo-list-area]');
+    listAreaEl.querySelectorAll('.memo-item').forEach(function(el){
+      el.addEventListener('click', function(e){
+        if(e.target.closest('[data-memo-del]')) return;
+        var id = el.getAttribute('data-memo-id');
+        openMemoEditor(containerEl, memoArray, id, addFabId, formPrefixId, onChange);
+      });
+    });
+    listAreaEl.querySelectorAll('[data-memo-del]').forEach(function(el){
+      el.addEventListener('click', function(e){
+        e.stopPropagation();
+        var id = el.getAttribute('data-memo-del');
+        var idx = memoArray.findIndex(function(m){ return m.id === id; });
+        if(idx !== -1){
+          memoArray.splice(idx, 1);
+          onChange(memoArray);
+          renderMemoList(containerEl, memoArray, addFabId, formPrefixId, onChange);
+        }
+      });
+    });
+  }
+
+  function openMemoEditor(containerEl, memoArray, existingId, addFabId, formPrefixId, onChange){
+    var editorEl = containerEl.querySelector('[data-role=memo-editor]');
+    var existing = existingId ? memoArray.find(function(m){ return m.id === existingId; }) : null;
+    editorEl.innerHTML =
+      '<input type="text" data-role="memo-title" placeholder="標題" value="' + escapeHtml(existing ? existing.title : '') + '">' +
+      '<textarea data-role="memo-body" placeholder="內容...">' + escapeHtml(existing ? existing.body : '') + '</textarea>' +
+      '<div class="add-form-actions">' +
+        '<button class="btn-cancel-inline" data-role="memo-cancel">取消</button>' +
+        '<button class="btn-confirm" data-role="memo-save">儲存</button>' +
+      '</div>';
+    editorEl.classList.remove('hidden');
+    var titleInput = editorEl.querySelector('[data-role=memo-title]');
+    setTimeout(function(){ titleInput.focus(); }, 0);
+
+    editorEl.querySelector('[data-role=memo-cancel]').addEventListener('click', function(){
+      editorEl.classList.add('hidden');
+      editorEl.innerHTML = '';
+    });
+    editorEl.querySelector('[data-role=memo-save]').addEventListener('click', function(){
+      var title = editorEl.querySelector('[data-role=memo-title]').value.trim();
+      var body = editorEl.querySelector('[data-role=memo-body]').value;
+      if(!title && !body.trim()) { editorEl.classList.add('hidden'); editorEl.innerHTML = ''; return; }
+      if(existing){
+        existing.title = title || firstLine(body) || '（無標題）';
+        existing.body = body;
+      } else {
+        memoArray.push({ id: uid(), title: title || firstLine(body) || '（無標題）', body: body });
+      }
+      onChange(memoArray);
+      editorEl.classList.add('hidden');
+      editorEl.innerHTML = '';
+      renderMemoList(containerEl, memoArray, addFabId, formPrefixId, onChange);
+    });
+  }
+
+  function memoSectionSkeleton(title, addFabId){
+    return (
+      '<div class="panel-box">' +
+        '<div class="panel-box-title">' + title + '<button class="add-fab" id="' + addFabId + '">+</button></div>' +
+        '<div class="memo-editor hidden" data-role="memo-editor"></div>' +
+        '<div data-role="memo-list-area"></div>' +
+      '</div>'
+    );
+  }
+
+  function renderMaterialsSection(g){
+    var panel = document.getElementById('sectionMaterials');
+    var dayKeys = ['mon','tue','wed','thu','fri','sat','sun'];
+
+    var gridHtml = '';
+    dayKeys.forEach(function(key, i){
+      gridHtml +=
+        '<div class="material-day-box">' +
+          '<label>' + WEEKDAYS[i] + '</label>' +
+          '<input type="text" data-day="' + key + '" value="' + escapeHtml(g.materialDays[key]) + '" placeholder="今天刷什麼素材本">' +
+        '</div>';
+    });
+
+    var listHtml = '';
+    if(g.materialList.length === 0){
+      listHtml = '<div class="empty-hint">還沒有材料清單，點「+」新增需要的素材。</div>';
+    } else {
+      g.materialList.forEach(function(m){
+        listHtml +=
+          '<div class="material-list-item">' +
+            '<div class="material-check' + (m.done?' checked':'') + '" data-action="toggle-mat" data-id="' + m.id + '">' + (m.done?'✓':'') + '</div>' +
+            '<span class="todo-text" style="' + (m.done?'color:var(--ink-faint);text-decoration:line-through;':'') + '">' + escapeHtml(m.text) + '</span>' +
+            '<button class="todo-del" data-action="delete-mat" data-id="' + m.id + '">×</button>' +
+          '</div>';
+      });
+    }
+
+    panel.innerHTML =
+      '<div class="panel-box">' +
+        '<p class="panel-box-title">每週刷本規劃</p>' +
+        '<div class="material-day-grid">' + gridHtml + '</div>' +
+        '<p class="field-hint">依照遊戲內每週開放的素材副本規劃，例如「週一：角色突破素材」。</p>' +
+      '</div>' +
+      '<div class="panel-box">' +
+        '<div class="panel-box-title">材料清單<button class="add-fab" id="fabMaterial">+</button></div>' +
+        '<div class="add-form hidden" id="formMaterial">' +
+          '<div class="add-form-row">' +
+            '<input type="text" id="newMaterialText" placeholder="新增需要準備的素材或數量">' +
+          '</div>' +
+          '<div class="add-form-actions">' +
+            '<button class="btn-cancel-inline" id="cancelMaterialBtn">取消</button>' +
+            '<button class="btn-confirm" id="addMaterialBtn">新增</button>' +
+          '</div>' +
+        '</div>' +
+        '<div id="materialListArea">' + listHtml + '</div>' +
+      '</div>';
+
+    panel.querySelectorAll('[data-day]').forEach(function(el){
+      el.addEventListener('input', function(){
+        g.materialDays[el.getAttribute('data-day')] = el.value;
+        saveState();
+      });
+    });
+
+    wireAddToggle('fabMaterial', 'formMaterial');
+    document.getElementById('cancelMaterialBtn').addEventListener('click', function(){ document.getElementById('formMaterial').classList.add('hidden'); });
+    document.getElementById('addMaterialBtn').addEventListener('click', function(){ addMaterial(g); });
+    document.getElementById('newMaterialText').addEventListener('keydown', function(e){ if(e.key==='Enter') addMaterial(g); });
+
+    panel.querySelectorAll('[data-action="toggle-mat"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        var m = g.materialList.filter(function(x){return x.id===id;})[0];
+        if(m){ m.done = !m.done; saveState(); renderGameView(); }
+      });
+    });
+    panel.querySelectorAll('[data-action="delete-mat"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        g.materialList = g.materialList.filter(function(x){return x.id!==id;});
+        saveState(); renderGameView();
+      });
+    });
+  }
+
+  function addMaterial(g){
+    var input = document.getElementById('newMaterialText');
+    var text = input.value.trim();
+    if(!text) return;
+    g.materialList.push({ id: uid(), text: text, done: false });
+    saveState();
+    renderGameView();
+  }
+
+  function renderCharactersSection(g, grp){
+    var panel = document.getElementById('sectionCharacters');
+
+    var html = '<div class="panel-box">' +
+      '<div class="panel-box-title">男主<button class="add-fab" id="addCharBtn">+</button></div>';
+    if(g.characters.length === 0){
+      html += '<div class="empty-hint">還沒有新增男主，點「+」開始追蹤。</div>';
+    } else {
+      g.characters.forEach(function(c){
+        var affectionBlock = '';
+        if(grp === 'otome_console'){
+          affectionBlock =
+            '<span class="affection-toggle" data-action="toggle-affection-mode" data-id="' + c.id + '">' +
+              (c.useAffection ? '切換為純文字進度' : '切換為好感度數值') +
+            '</span>';
+          if(c.useAffection){
+            affectionBlock +=
+              '<div class="char-field" style="margin-bottom:8px;">' +
+                '<label>好感度</label>' +
+                '<div class="affection-row">' +
+                  '<input type="range" min="0" max="100" value="' + c.affection + '" data-id="' + c.id + '" data-field="affection">' +
+                  '<span class="affection-val" id="affectionVal_' + c.id + '">' + c.affection + '</span>' +
+                '</div>' +
+              '</div>';
+          }
+        } else {
+          affectionBlock =
+            '<div class="char-field" style="margin-bottom:8px;">' +
+              '<label>好感度 / 思念值</label>' +
+              '<div class="affection-row">' +
+                '<input type="range" min="0" max="100" value="' + c.affection + '" data-id="' + c.id + '" data-field="affection">' +
+                '<span class="affection-val" id="affectionVal_' + c.id + '">' + c.affection + '</span>' +
+              '</div>' +
+            '</div>';
+        }
+
+        html +=
+          '<div class="char-card" data-char-id="' + c.id + '">' +
+            '<div class="char-top">' +
+              '<input class="char-name-input" data-id="' + c.id + '" data-field="name" value="' + escapeHtml(c.name) + '" placeholder="角色名稱">' +
+              '<button class="char-del" data-action="delete-char" data-id="' + c.id + '">×</button>' +
+            '</div>' +
+            '<div class="char-fields">' +
+              '<div class="char-field"><label>目前進度 / 線</label><input type="text" data-id="' + c.id + '" data-field="route" value="' + escapeHtml(c.route) + '" placeholder="輸入目前進度"></div>' +
+            '</div>' +
+            affectionBlock +
+            '<div class="char-subsection-title">卡面收集筆記<button class="add-fab" id="fabCharNote_' + c.id + '" style="width:24px;height:24px;font-size:14px;">+</button></div>' +
+            '<div class="memo-editor hidden" data-role="memo-editor" data-char-id="' + c.id + '"></div>' +
+            '<div data-role="memo-list-area" data-char-id="' + c.id + '"></div>' +
+          '</div>';
+      });
+    }
+    html += '</div>';
+    panel.innerHTML = html;
+
+    panel.querySelectorAll('[data-field="name"]').forEach(function(el){
+      el.addEventListener('input', function(){ updateCharField(g, el.getAttribute('data-id'), 'name', el.value); });
+    });
+    panel.querySelectorAll('[data-field="route"]').forEach(function(el){
+      el.addEventListener('input', function(){ updateCharField(g, el.getAttribute('data-id'), 'route', el.value); });
+    });
+    panel.querySelectorAll('[data-field="affection"]').forEach(function(el){
+      el.addEventListener('input', function(){
+        var id = el.getAttribute('data-id');
+        var span = document.getElementById('affectionVal_' + id);
+        if(span) span.textContent = el.value;
+      });
+      el.addEventListener('change', function(){
+        updateCharField(g, el.getAttribute('data-id'), 'affection', Number(el.value));
+      });
+    });
+    panel.querySelectorAll('[data-action="toggle-affection-mode"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        var c = g.characters.filter(function(x){return x.id===id;})[0];
+        if(c){ c.useAffection = !c.useAffection; saveState(); renderGameView(); }
+      });
+    });
+    panel.querySelectorAll('[data-action="delete-char"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        g.characters = g.characters.filter(function(c){return c.id!==id;});
+        saveState(); renderGameView();
+      });
+    });
+    document.getElementById('addCharBtn').addEventListener('click', function(){
+      g.characters.push({ id: uid(), name: '新男主', route: '', affection: 0, useAffection: (grp !== 'otome_console'), cardNotes: [] });
+      saveState();
+      renderGameView();
+    });
+
+    g.characters.forEach(function(c){
+      var cardEl = panel.querySelector('.char-card[data-char-id="' + c.id + '"]');
+      if(!cardEl) return;
+      var fab = document.getElementById('fabCharNote_' + c.id);
+      renderMemoList(cardEl, c.cardNotes, 'fabCharNote_' + c.id, 'charnote_' + c.id, function(newArr){
+        c.cardNotes = newArr;
+        saveState();
+      });
+      if(fab){
+        fab.addEventListener('click', function(){
+          openMemoEditor(cardEl, c.cardNotes, null, 'fabCharNote_' + c.id, 'charnote_' + c.id, function(newArr){
+            c.cardNotes = newArr;
+            saveState();
+          });
+        });
+      }
+    });
+  }
+
+  function updateCharField(g, id, field, value){
+    var c = g.characters.filter(function(x){return x.id===id;})[0];
+    if(!c) return;
+    c[field] = value;
+    saveState();
+  }
+
+  function renderEndingsSection(g){
+    var panel = document.getElementById('sectionEndings');
+    var typeSelectHtml = ENDING_TYPES.map(function(t){ return '<option value="' + t.key + '">' + t.label + '</option>'; }).join('');
+
+    panel.innerHTML =
+      '<div class="panel-box">' +
+        '<div class="panel-box-title">結局收集<button class="add-fab" id="fabEnding">+</button></div>' +
+        '<div class="add-form hidden" id="formEnding">' +
+          '<div class="add-form-row">' +
+            '<select id="newEndingType">' + typeSelectHtml + '</select>' +
+            '<input type="text" id="newEndingText" placeholder="結局名稱或角色">' +
+          '</div>' +
+          '<div class="add-form-actions">' +
+            '<button class="btn-cancel-inline" id="cancelEndingBtn">取消</button>' +
+            '<button class="btn-confirm" id="addEndingBtn">新增</button>' +
+          '</div>' +
+        '</div>' +
+        '<div id="endingListArea"></div>' +
+      '</div>';
+
+    var listArea = document.getElementById('endingListArea');
+    if(g.endings.length === 0){
+      listArea.innerHTML = '<div class="empty-hint">還沒有收集到的結局，達成後點「+」記錄下來。</div>';
+    } else {
+      var order = { TE: 0, GE: 1, BE: 2, Other: 3 };
+      var sorted = g.endings.slice().sort(function(a,b){ return (order[a.type]||9) - (order[b.type]||9); });
+      var html = '';
+      sorted.forEach(function(e){
+        html +=
+          '<div class="ending-item">' +
+            '<span class="ending-type-badge ending-badge-' + e.type + '">' + e.type + '</span>' +
+            '<span class="ending-name">' + escapeHtml(e.text) + '</span>' +
+            '<button class="event-del" data-action="delete-ending" data-id="' + e.id + '">×</button>' +
+          '</div>';
+      });
+      listArea.innerHTML = html;
+    }
+
+    wireAddToggle('fabEnding', 'formEnding');
+    document.getElementById('cancelEndingBtn').addEventListener('click', function(){ document.getElementById('formEnding').classList.add('hidden'); });
+    document.getElementById('addEndingBtn').addEventListener('click', function(){ addEnding(g); });
+    document.getElementById('newEndingText').addEventListener('keydown', function(e){ if(e.key==='Enter') addEnding(g); });
+
+    listArea.querySelectorAll('[data-action="delete-ending"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        g.endings = g.endings.filter(function(x){return x.id!==id;});
+        saveState(); renderGameView();
+      });
+    });
+  }
+
+  function addEnding(g){
+    var typeSelect = document.getElementById('newEndingType');
+    var textInput = document.getElementById('newEndingText');
+    var text = textInput.value.trim();
+    if(!text) return;
+    g.endings.push({ id: uid(), type: typeSelect.value, text: text });
+    saveState();
+    renderGameView();
+  }
+
+  function renderEventsSection(g){
+    var panel = document.getElementById('sectionEvents');
+
+    var sorted = g.events.slice().sort(function(a,b){
+      return (a.refreshDateTime||'9999').localeCompare(b.refreshDateTime||'9999');
+    });
+    var eventListHtml = '';
+    if(g.events.length === 0){
+      eventListHtml = '<div class="empty-hint">還沒有活動倒數，點「+」新增。</div>';
+    } else {
+      sorted.forEach(function(ev){
+        var days = daysUntilSafe(ev.refreshDateTime);
+        var badge = eventBadge(days);
+        eventListHtml +=
+          '<div class="event-item">' +
+            '<div class="event-top">' +
+              '<span class="event-name">' + escapeHtml(ev.name) + '</span>' +
+              '<span class="event-days ' + badge.cls + '">' + badge.text + '</span>' +
+              '<button class="event-del" data-action="delete-event" data-id="' + ev.id + '">×</button>' +
+            '</div>' +
+            '<div class="event-date-row">刷新時間：' + formatDateTimeShort(ev.refreshDateTime) + '　準備最晚到：' + (getSafeDeadline(ev.refreshDateTime) ? formatDateTimeShort(getSafeDeadline(ev.refreshDateTime).toISOString()) : '未設定') + '</div>' +
+          '</div>';
+      });
+    }
+
+    panel.innerHTML =
+      '<div class="panel-box">' +
+        '<div class="panel-box-title">活動倒數<button class="add-fab" id="fabEvent">+</button></div>' +
+        '<div class="add-form hidden" id="formEvent">' +
+          '<div class="add-form-row">' +
+            '<input type="text" id="newEventName" placeholder="活動名稱">' +
+          '</div>' +
+          '<div class="add-form-row">' +
+            '<input type="date" id="newEventDate" style="flex:1;">' +
+            '<input type="time" id="newEventTime" value="23:59" style="flex:1;">' +
+          '</div>' +
+          '<p class="field-hint">輸入遊戲內「實際刷新」時間；凌晨刷新會自動提前一天提醒。</p>' +
+          '<div class="add-form-actions">' +
+            '<button class="btn-cancel-inline" id="cancelEventBtn">取消</button>' +
+            '<button class="btn-confirm" id="addEventBtn">新增</button>' +
+          '</div>' +
+        '</div>' +
+        '<div id="eventListArea">' + eventListHtml + '</div>' +
+      '</div>';
+
+    wireAddToggle('fabEvent', 'formEvent');
+    document.getElementById('cancelEventBtn').addEventListener('click', function(){ document.getElementById('formEvent').classList.add('hidden'); });
+    document.getElementById('addEventBtn').addEventListener('click', function(){ addEvent(g); });
+    document.getElementById('newEventName').addEventListener('keydown', function(e){ if(e.key==='Enter') addEvent(g); });
+    panel.querySelectorAll('[data-action="delete-event"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        g.events = g.events.filter(function(x){return x.id!==id;});
+        saveState(); renderGameView();
+      });
+    });
+  }
+
+  function addEvent(g){
+    var nameInput = document.getElementById('newEventName');
+    var dateInput = document.getElementById('newEventDate');
+    var timeInput = document.getElementById('newEventTime');
+    var name = nameInput.value.trim();
+    if(!name) return;
+    if(!dateInput.value){ dateInput.focus(); return; }
+    var dt = dateInput.value + 'T' + (timeInput.value || '23:59');
+    g.events.push({ id: uid(), name: name, refreshDateTime: dt });
+    saveState();
+    renderGameView();
+  }
+
+  function renderCurrencySection(g){
+    var panel = document.getElementById('sectionCurrency');
+    panel.innerHTML =
+      '<div class="panel-box">' +
+        '<p class="panel-box-title">資源 / 儲值 / 石頭數量</p>' +
+        '<div class="currency-row">' +
+          '<div class="currency-field"><label>資源名稱 1</label><input type="text" id="currName1" value="' + escapeHtml(g.currency.name1) + '" placeholder="輸入資源名稱"></div>' +
+          '<div class="currency-field"><label>目前數量</label><input type="text" id="currVal1" value="' + escapeHtml(g.currency.val1) + '" placeholder="輸入數量" inputmode="numeric"></div>' +
+        '</div>' +
+        '<div class="currency-row" style="margin-top:10px;">' +
+          '<div class="currency-field"><label>資源名稱 2</label><input type="text" id="currName2" value="' + escapeHtml(g.currency.name2) + '" placeholder="輸入資源名稱"></div>' +
+          '<div class="currency-field"><label>數量</label><input type="text" id="currVal2" value="' + escapeHtml(g.currency.val2) + '" placeholder="輸入數量"></div>' +
+        '</div>' +
+        '<div class="gacha-box">' +
+          '<p class="panel-box-title">抽卡資源換算器</p>' +
+          '<div class="currency-row">' +
+            '<div class="currency-field"><label>一抽消耗（資源1單位）</label><input type="text" id="pullCostInput" value="' + escapeHtml(g.currency.pullCost) + '" placeholder="輸入一抽消耗量" inputmode="numeric"></div>' +
+          '</div>' +
+          '<div id="gachaResultArea"></div>' +
+        '</div>' +
+      '</div>';
+
+    ['currName1','currVal1','currName2','currVal2'].forEach(function(id){
+      document.getElementById(id).addEventListener('input', function(e){
+        var map = { currName1:'name1', currVal1:'val1', currName2:'name2', currVal2:'val2' };
+        g.currency[map[id]] = e.target.value;
+        saveState();
+        renderGachaResult(g);
+      });
+    });
+    document.getElementById('pullCostInput').addEventListener('input', function(e){
+      g.currency.pullCost = e.target.value;
+      saveState();
+      renderGachaResult(g);
+    });
+
+    renderGachaResult(g);
+  }
+
+  function renderGachaResult(g){
+    var area = document.getElementById('gachaResultArea');
+    if(!area) return;
+    var have = parseFloat(g.currency.val1);
+    var cost = parseFloat(g.currency.pullCost);
+    if(isNaN(have) || isNaN(cost) || cost <= 0){
+      area.innerHTML = '<p class="field-hint" style="margin-top:10px;">輸入「目前數量」與「一抽消耗」後，這裡會自動算出可以抽幾次。</p>';
+      return;
+    }
+    var pulls = Math.floor(have / cost);
+    var remainder = Math.round((have - pulls * cost) * 100) / 100;
+    var resourceName = g.currency.name1 || '資源';
+    area.innerHTML =
+      '<div class="gacha-result">' +
+        '<div class="big-num">' + pulls + ' 抽</div>' +
+        '<div class="sub">目前 ' + have + ' ' + escapeHtml(resourceName) + '，可以抽 ' + pulls + ' 次</div>' +
+        '<div class="remainder">抽完後剩餘 ' + remainder + ' ' + escapeHtml(resourceName) + '</div>' +
+      '</div>';
+  }
+
+  function renderNotesSection(g){
+    var panel = document.getElementById('sectionNotes');
+    panel.innerHTML = memoSectionSkeleton('自由筆記', 'fabGameNote');
+    var containerEl = panel.querySelector('.panel-box');
+
+    renderMemoList(containerEl, g.notes, 'fabGameNote', 'gamenote', function(newArr){
+      g.notes = newArr;
+      saveState();
+    });
+
+    document.getElementById('fabGameNote').addEventListener('click', function(){
+      openMemoEditor(containerEl, g.notes, null, 'fabGameNote', 'gamenote', function(newArr){
+        g.notes = newArr;
+        saveState();
+      });
+    });
+  }
+
+  var addModal = document.getElementById('addModal');
+  var newGameNameInput = document.getElementById('newGameNameInput');
+  var selectedPlatform = 'console';
+
+  function renderPlatformPickInto(elId, currentValue, onPick){
+    var el = document.getElementById(elId);
+    el.innerHTML = '';
+    PLATFORMS.forEach(function(p){
+      var opt = document.createElement('div');
+      opt.className = 'platform-pick-opt' + (currentValue === p.key ? ' selected' : '');
+      opt.textContent = p.label;
+      opt.addEventListener('click', function(){ onPick(p.key); });
+      el.appendChild(opt);
+    });
+  }
+
+  function renderPlatformPick(){
+    renderPlatformPickInto('platformPick', selectedPlatform, function(key){
+      selectedPlatform = key;
+      renderPlatformPick();
+    });
+  }
+
+  function openAddModal(){
+    addModal.classList.remove('hidden');
+    newGameNameInput.value = '';
+    selectedPlatform = (state.filterPlatform !== 'all') ? state.filterPlatform : 'console';
+    renderPlatformPick();
+    setTimeout(function(){ newGameNameInput.focus(); }, 0);
+  }
+  document.getElementById('cancelAddBtn').addEventListener('click', function(){ addModal.classList.add('hidden'); });
+  addModal.addEventListener('click', function(e){ if(e.target === addModal) addModal.classList.add('hidden'); });
+  function submitNewGame(){
+    var name = newGameNameInput.value.trim();
+    if(!name) return;
+    var newGame = makeGame(name, selectedPlatform);
+    state.games.push(newGame);
+    saveState();
+    addModal.classList.add('hidden');
+    goToGame(newGame.id);
+  }
+  document.getElementById('confirmAddBtn').addEventListener('click', submitNewGame);
+  newGameNameInput.addEventListener('keydown', function(e){ if(e.key === 'Enter') submitNewGame(); });
+
+  var editModal = document.getElementById('editModal');
+  var editGameNameInput = document.getElementById('editGameNameInput');
+  var editSelectedPlatform = 'console';
+  var editingGameId = null;
+
+  function renderEditPlatformPick(){
+    renderPlatformPickInto('editPlatformPick', editSelectedPlatform, function(key){
+      editSelectedPlatform = key;
+      renderEditPlatformPick();
+    });
+  }
+
+  function openEditModal(g){
+    editingGameId = g.id;
+    editGameNameInput.value = g.name;
+    editSelectedPlatform = g.platform;
+    renderEditPlatformPick();
+    editModal.classList.remove('hidden');
+  }
+  document.getElementById('cancelEditBtn').addEventListener('click', function(){ editModal.classList.add('hidden'); });
+  editModal.addEventListener('click', function(e){ if(e.target === editModal) editModal.classList.add('hidden'); });
+  document.getElementById('confirmEditBtn').addEventListener('click', function(){
+    var name = editGameNameInput.value.trim();
+    if(!name || !editingGameId) return;
+    var g = state.games.filter(function(x){return x.id===editingGameId;})[0];
+    if(!g) return;
+    g.name = name;
+    g.platform = editSelectedPlatform;
+    saveState();
+    editModal.classList.add('hidden');
+    renderGameView();
+  });
+
+  var deleteModal = document.getElementById('deleteModal');
+  var pendingDeleteId = null;
+  function openDeleteModal(g){
+    pendingDeleteId = g.id;
+    document.getElementById('deleteConfirmText').textContent = '確定要刪除「' + g.name + '」的所有進度與筆記嗎？此操作無法復原。';
+    deleteModal.classList.remove('hidden');
+  }
+  document.getElementById('cancelDeleteBtn').addEventListener('click', function(){ deleteModal.classList.add('hidden'); pendingDeleteId = null; });
+  deleteModal.addEventListener('click', function(e){ if(e.target === deleteModal){ deleteModal.classList.add('hidden'); pendingDeleteId = null; } });
+  document.getElementById('confirmDeleteBtn').addEventListener('click', function(){
+    if(!pendingDeleteId) return;
+    state.games = state.games.filter(function(g){ return g.id !== pendingDeleteId; });
+    pendingDeleteId = null;
+    saveState();
+    deleteModal.classList.add('hidden');
+    goHome();
+  });
+
+  goHome();
+
+  function wireFirebaseAuth(){
+    if(!window.__fb) return;
+    window.__fb.onAuthStateChanged(function(user){
+      cloudUser = user;
+      if(user){ startCloudListener(user); } else { stopCloudListener(); }
+      renderDrawerAuth();
+    });
+  }
+  if(window.__fb){ wireFirebaseAuth(); }
+  else { window.addEventListener('fb-ready', wireFirebaseAuth, { once: true }); }
+})();
+
+</script>
+</body>
+</html>
