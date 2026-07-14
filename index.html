@@ -585,6 +585,89 @@
     padding: 10px 13px; border-radius:10px; font-size:13.5px; font-family:inherit; min-width: 120px;
   }
   .log-add-row input:focus{ outline:none; border-color:var(--accent); }
+
+  /* ---------- Secondary currencies ---------- */
+  .secondary-currency-row{
+    display:flex; gap:8px; align-items:center; padding: 9px 0; border-bottom: 1px solid var(--line); flex-wrap:wrap;
+  }
+  .secondary-currency-row:last-of-type{ border-bottom:none; }
+  .secondary-currency-row input[type=text]{
+    background: var(--card-soft); border:1px solid var(--line); color:var(--ink);
+    padding: 8px 10px; border-radius: 8px; font-size: 12.5px; font-family: inherit;
+  }
+  .sc-name{ flex:1.4; min-width:80px; }
+  .sc-qty{ flex:1; min-width:70px; }
+  .sc-rate{ flex:1.4; min-width:110px; }
+  .sc-rate-label{ font-size:10px; color:var(--ink-faint); white-space:nowrap; }
+  .sc-del{ background:none; border:none; color:var(--ink-faint); cursor:pointer; font-size:16px; flex-shrink:0; }
+  .sc-del:hover{ color:var(--danger); }
+  .add-secondary-btn{
+    width:100%; margin-top:10px; padding:10px; background:var(--card-soft); border:1.5px dashed var(--line-strong);
+    color:var(--ink-dim); border-radius:10px; font-size:12px; cursor:pointer; font-family:inherit; font-weight:600;
+  }
+  .add-secondary-btn:hover{ border-color:var(--accent); color:var(--accent-dark); }
+  .add-secondary-btn:disabled{ opacity:.4; cursor:not-allowed; }
+  .gacha-breakdown{ font-size:11px; color:var(--ink-faint); margin-top:10px; line-height:1.7; }
+
+  /* ---------- Gacha pull log & stats ---------- */
+  .gacha-stats-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(100px,1fr)); gap:9px; margin-bottom:14px; }
+  .gacha-stat-box{ background: var(--card-soft); border-radius:12px; padding:12px; text-align:center; }
+  .gacha-stat-num{ font-size:20px; font-weight:700; color:var(--accent-dark); font-family:'Space Grotesk',sans-serif; }
+  .gacha-stat-label{ font-size:10px; color:var(--ink-faint); margin-top:4px; font-weight:600; }
+  .rarity-breakdown-row{ display:flex; justify-content:space-between; align-items:center; padding:8px 4px; border-bottom:1px solid var(--line); font-size:12.5px; }
+  .rarity-breakdown-row:last-child{ border-bottom:none; }
+  .rarity-name{ font-weight:700; color:var(--violet); }
+  .rarity-count{ color:var(--ink-dim); }
+  .pull-log-item{ display:flex; align-items:center; gap:9px; padding:9px 4px; border-bottom:1px solid var(--line); font-size:12.5px; }
+  .pull-log-item:last-child{ border-bottom:none; }
+  .pull-log-date{ color:var(--ink-faint); font-size:11px; flex-shrink:0; width:76px; font-family:'Space Grotesk',sans-serif; }
+  .pull-log-rarity{ font-size:10px; padding:2px 8px; border-radius:20px; font-weight:700; flex-shrink:0; background:var(--violet-soft); color:var(--violet); }
+  .pull-log-name{ flex:1; color:var(--ink); }
+  .pull-log-del{ background:none; border:none; color:var(--ink-faint); cursor:pointer; font-size:15px; flex-shrink:0; }
+  .pull-log-del:hover{ color:var(--danger); }
+  .gacha-top-rarity-row{ display:flex; align-items:center; gap:8px; margin-bottom:14px; font-size:12px; color:var(--ink-dim); }
+  .gacha-top-rarity-row select{ background:var(--card); border:1px solid var(--line); border-radius:8px; padding:6px 9px; font-size:12px; font-family:inherit; color:var(--ink); }
+
+  /* ---------- Spending log ---------- */
+  .spend-stats-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap:9px; margin-bottom:14px; }
+  .spend-stat-box{ background:var(--card-soft); border-radius:12px; padding:12px; text-align:center; }
+  .spend-stat-num{ font-size:16px; font-weight:700; color:var(--accent-dark); font-family:'Space Grotesk',sans-serif; }
+  .spend-stat-label{ font-size:9.5px; color:var(--ink-faint); margin-top:4px; font-weight:600; }
+  .spend-item{ display:flex; align-items:center; gap:9px; padding:10px 4px; border-bottom:1px solid var(--line); }
+  .spend-item:last-child{ border-bottom:none; }
+  .spend-date{ color:var(--ink-faint); font-size:11px; flex-shrink:0; width:76px; font-family:'Space Grotesk',sans-serif; }
+  .spend-category{ font-size:10px; padding:2px 8px; border-radius:20px; background:var(--amber-soft); color:var(--amber); font-weight:700; flex-shrink:0; }
+  .spend-note{ flex:1; font-size:12.5px; color:var(--ink-dim); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .spend-amount{ font-size:13px; font-weight:700; color:var(--ink); flex-shrink:0; font-family:'Space Grotesk',sans-serif; }
+  .spend-del{ background:none; border:none; color:var(--ink-faint); cursor:pointer; font-size:15px; flex-shrink:0; }
+  .spend-del:hover{ color:var(--danger); }
+
+  /* ---------- Floating table of contents ---------- */
+  .toc-fab{
+    position: fixed; right: 18px; bottom: 22px; width: 50px; height: 50px; border-radius: 50%;
+    background: var(--ink); color: #fff; border:none; cursor:pointer; z-index: 55;
+    display:flex; align-items:center; justify-content:center; box-shadow: 0 6px 18px rgba(46,42,36,.25);
+    transition: transform .15s ease;
+  }
+  .toc-fab:hover{ transform: scale(1.06); }
+  .toc-fab.hidden{ display:none; }
+  .toc-panel{
+    position: fixed; right: 18px; bottom: 82px; width: 250px; max-height: 60vh; overflow-y:auto;
+    background: var(--card); border:1px solid var(--line); border-radius: 16px; box-shadow: 0 10px 30px rgba(46,42,36,.18);
+    z-index: 55; padding: 10px;
+  }
+  .toc-panel.hidden{ display:none; }
+  .toc-item{
+    display:flex; align-items:center; gap:8px; padding: 8px 8px; border-radius: 10px; cursor:pointer;
+  }
+  .toc-item:hover{ background: var(--card-soft); }
+  .toc-item-label{ flex:1; font-size:12.5px; color:var(--ink); font-weight:600; }
+  .toc-item-arrows{ display:flex; flex-direction:column; gap:1px; }
+  .toc-arrow-btn{
+    background:none; border:none; color:var(--ink-faint); cursor:pointer; font-size:11px; padding:1px 4px; line-height:1;
+  }
+  .toc-arrow-btn:hover{ color:var(--accent-dark); }
+  .toc-arrow-btn:disabled{ opacity:.25; cursor:default; }
 </style>
 </head>
 <body>
@@ -616,6 +699,9 @@
     </div>
     <div id="gameMain"></div>
   </div>
+
+  <button class="toc-fab hidden" id="tocFab" aria-label="開啟目錄"></button>
+  <div class="toc-panel hidden" id="tocPanel"></div>
 </div>
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
@@ -731,10 +817,10 @@
 (function(){
   'use strict';
 
-  var STORAGE_KEY = 'save-log-games-v8';
-  var OLD_KEYS = ['save-log-games-v7','save-log-games-v6','save-log-games-v5','save-log-games-v4','save-log-games-v3','save-log-games-v2','save-log-games-v1'];
+  var STORAGE_KEY = 'save-log-games-v9';
+  var OLD_KEYS = ['save-log-games-v8','save-log-games-v7','save-log-games-v6','save-log-games-v5','save-log-games-v4','save-log-games-v3','save-log-games-v2','save-log-games-v1'];
 
-  // ---------- Icon system (inline SVG, no emoji) ----------
+  // ---------- Icon system ----------
   var ICON_PATHS = {
     gamepad: '<rect x="2" y="8" width="20" height="10" rx="5"/><path d="M6 11v4M4 13h4"/><circle cx="16" cy="12" r="1"/><circle cx="18" cy="14" r="1"/>',
     home: '<path d="M4 11L12 4l8 7"/><path d="M6 10v9h5v-5h2v5h5v-9"/>',
@@ -753,7 +839,11 @@
     calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/>',
     undo: '<path d="M3 11a9 9 0 119 9"/><path d="M3 11l4-4M3 11l4 4"/>',
     plus: '<path d="M12 5v14M5 12h14"/>',
-    x: '<path d="M6 6l12 12M18 6L6 18"/>'
+    x: '<path d="M6 6l12 12M18 6L6 18"/>',
+    wallet: '<path d="M3 7a2 2 0 012-2h13a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/><path d="M16 12h3v3h-3a1.5 1.5 0 010-3z"/>',
+    list: '<path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/>',
+    chevronUp: '<path d="M6 15l6-6 6 6"/>',
+    chevronDown: '<path d="M6 9l6 6 6-6"/>'
   };
   function icon(name, size){
     size = size || 16;
@@ -800,6 +890,7 @@
   ];
 
   var WEEKDAYS = ['週一','週二','週三','週四','週五','週六','週日'];
+  var MAX_SECONDARY_CURRENCIES = 4;
 
   function uid(){ return Math.random().toString(36).slice(2,10); }
   function pad2(n){ return String(n).padStart(2,'0'); }
@@ -819,6 +910,10 @@
     var parts = dateStr.split('-');
     if(parts.length !== 3) return dateStr;
     return parts[0] + '年' + parts[1] + '月' + parts[2] + '日';
+  }
+  function formatMoney(n){
+    if(isNaN(n)) return '0';
+    return Math.round(n * 100) / 100;
   }
 
   function parseResetTime(str){
@@ -846,8 +941,37 @@
     return monday.getFullYear() + '-' + pad2(monday.getMonth()+1) + '-' + pad2(monday.getDate());
   }
 
+  // ---------- Section registry (drives render order + floating TOC) ----------
+  var SECTION_DEFS = {
+    events:     { icon: 'bell',      label: '卡池與活動', groups: ['mobile','otome_mobile'] },
+    daily:      { icon: 'flag',      label: '任務',        groups: ['mobile','otome_mobile'] },
+    checklist:  { icon: 'clipboard', label: '任務清單',    groups: ['console'] },
+    story:      { icon: 'map',       label: '劇情進度',    groups: ['mobile','otome_mobile','otome_console'] },
+    characters: { icon: 'heart',     label: '男主',        groups: ['otome_mobile','otome_console'] },
+    materials:  { icon: 'flask',     label: '素材規劃',    groups: ['mobile'] },
+    endings:    { icon: 'trophy',    label: '結局收集',    groups: ['otome_console'] },
+    currency:   { icon: 'gem',       label: '資源換算',    groups: ['mobile','otome_mobile'] },
+    gacha:      { icon: 'dice',      label: '抽卡分析',    groups: ['mobile','otome_mobile'] },
+    spending:   { icon: 'wallet',    label: '課金紀錄',    groups: ['console','steam','mobile','otome_mobile','otome_console'] },
+    notes:      { icon: 'note',      label: '自由筆記',    groups: ['console','steam','mobile','otome_mobile','otome_console'] },
+    gamelog:    { icon: 'calendar',  label: '遊戲日誌',    groups: ['console','steam','mobile','otome_mobile','otome_console'] }
+  };
+  var DEFAULT_ORDER = ['events','daily','checklist','story','characters','materials','endings','currency','gacha','spending','notes','gamelog'];
+
+  function defaultSectionOrderFor(grp){
+    return DEFAULT_ORDER.filter(function(key){ return SECTION_DEFS[key].groups.indexOf(grp) !== -1; });
+  }
+  function visibleSectionOrder(g){
+    var grp = platformGroup(g.platform);
+    var valid = DEFAULT_ORDER.filter(function(key){ return SECTION_DEFS[key].groups.indexOf(grp) !== -1; });
+    var order = (g.sectionOrder || []).filter(function(key){ return valid.indexOf(key) !== -1; });
+    valid.forEach(function(key){ if(order.indexOf(key) === -1) order.push(key); });
+    return order;
+  }
+
   function makeGame(name, platform){
     var statusLabel = STATUS_OPTIONS[0].label;
+    var grp = platformGroup(platform);
     return {
       id: uid(),
       name: name,
@@ -865,12 +989,16 @@
       lastWeeklyResetWeekKey: '',
       events: [],
       eventHistory: [],
-      currency: { name1: '', val1: '', name2: '', val2: '', pullCost: '' },
+      currency: { primaryName: '', primaryQty: '', pullCost: '', secondaries: [] },
+      pullLog: [],
+      gachaTopRarity: 'SSR',
+      spendingLog: [],
       characters: [],
       endings: [],
       materialDays: { mon:'', tue:'', wed:'', thu:'', fri:'', sat:'', sun:'' },
       materialList: [],
-      gameLog: [{ id: uid(), dateStr: todayStr(), text: '建立遊戲紀錄，狀態：' + statusLabel, auto: true }]
+      gameLog: [{ id: uid(), dateStr: todayStr(), text: '建立遊戲紀錄，狀態：' + statusLabel, auto: true }],
+      sectionOrder: defaultSectionOrderFor(grp)
     };
   }
 
@@ -878,13 +1006,34 @@
     games.forEach(function(g){
       if(!g.platform) g.platform = 'console';
       if(g.platform === 'otome') g.platform = 'otome_mobile';
+      var grp = platformGroup(g.platform);
 
       if(g.dailies === undefined) g.dailies = [];
       if(g.events === undefined) g.events = [];
       if(g.eventHistory === undefined) g.eventHistory = [];
       if(g.characters === undefined) g.characters = [];
-      if(g.currency === undefined) g.currency = { name1:'', val1:'', name2:'', val2:'', pullCost:'' };
-      if(g.currency.pullCost === undefined) g.currency.pullCost = '';
+
+      if(g.currency === undefined){
+        g.currency = { primaryName: '', primaryQty: '', pullCost: '', secondaries: [] };
+      } else if(g.currency.primaryName === undefined){
+        var old = g.currency;
+        var secondaries = [];
+        if(old.name2 || old.val2){
+          secondaries.push({ id: uid(), name: old.name2 || '', qty: old.val2 || '', rate: '1' });
+        }
+        g.currency = {
+          primaryName: old.name1 || '',
+          primaryQty: old.val1 || '',
+          pullCost: old.pullCost || '',
+          secondaries: secondaries
+        };
+      }
+      if(g.currency.secondaries === undefined) g.currency.secondaries = [];
+
+      if(g.pullLog === undefined) g.pullLog = [];
+      if(g.gachaTopRarity === undefined) g.gachaTopRarity = 'SSR';
+      if(g.spendingLog === undefined) g.spendingLog = [];
+
       if(g.dailyResetTime === undefined) g.dailyResetTime = '00:00';
       if(g.lastDailyResetDayKey === undefined) g.lastDailyResetDayKey = '';
       if(g.lastWeeklyResetWeekKey === undefined) g.lastWeeklyResetWeekKey = '';
@@ -898,6 +1047,8 @@
         g.gameLog = [{ id: uid(), dateStr: todayStr(), text: '建立遊戲紀錄，狀態：' + st.label, auto: true }];
       }
       g.gameLog.forEach(function(l){ if(l.auto === undefined) l.auto = false; });
+
+      if(g.sectionOrder === undefined) g.sectionOrder = defaultSectionOrderFor(grp);
 
       if(typeof g.notes === 'string'){
         var oldNote = g.notes;
@@ -983,14 +1134,21 @@
   var cloudUnsub = null;
   var applyingRemoteUpdate = false;
   var pushDebounceTimer = null;
+  var lastPushedAt = 0;
   var memoTagFilters = new WeakMap();
+
+  function isEventExpired(refreshDateTime){
+    if(!refreshDateTime) return false;
+    var refresh = new Date(refreshDateTime);
+    if(isNaN(refresh.getTime())) return false;
+    return new Date() > refresh;
+  }
 
   function archiveExpiredEvents(g){
     var stillActive = [];
     var changed = false;
     g.events.forEach(function(ev){
-      var d = daysUntilSafe(ev.refreshDateTime);
-      if(d !== null && d < 0){
+      if(isEventExpired(ev.refreshDateTime)){
         g.eventHistory.unshift(ev);
         changed = true;
       } else {
@@ -1002,7 +1160,6 @@
   }
 
   (function autoReset(){
-    var anyChanged = false;
     state.games.forEach(function(g){
       var dayKey = logicalDayKey(g.dailyResetTime);
       var weekKey = logicalWeekKey(g.dailyResetTime);
@@ -1014,7 +1171,7 @@
         g.dailies.forEach(function(d){ if(d.freq==='weekly') d.done = false; });
         g.lastWeeklyResetWeekKey = weekKey;
       }
-      if(archiveExpiredEvents(g)) anyChanged = true;
+      archiveExpiredEvents(g);
     });
   })();
 
@@ -1036,8 +1193,10 @@
     if(!cloudUser || !window.__fb) return;
     cloudSyncStatus = 'syncing';
     renderDrawerAuth();
+    var ts = Date.now();
+    lastPushedAt = ts;
     var ref = window.__fb.doc(window.__fb.db, 'users', cloudUser.uid, 'data', 'games');
-    window.__fb.setDoc(ref, { games: state.games, updatedAt: Date.now() })
+    window.__fb.setDoc(ref, { games: state.games, updatedAt: ts })
       .then(function(){ cloudSyncStatus = 'synced'; renderDrawerAuth(); })
       .catch(function(err){ console.error('雲端同步失敗', err); cloudSyncStatus = 'local'; renderDrawerAuth(); });
   }
@@ -1050,6 +1209,11 @@
     cloudUnsub = window.__fb.onSnapshot(ref, function(snap){
       if(snap.exists()){
         var data = snap.data();
+        if(data && data.updatedAt === lastPushedAt){
+          cloudSyncStatus = 'synced';
+          renderDrawerAuth();
+          return;
+        }
         if(data && Array.isArray(data.games)){
           applyingRemoteUpdate = true;
           state.games = migrate(data.games);
@@ -1131,18 +1295,22 @@
     return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
   }
 
-  // static icons (populated once DOM is ready)
   document.getElementById('brandIconSlot').innerHTML = icon('gamepad', 22);
   document.getElementById('homeNavIconSlot').innerHTML = icon('home', 15);
+  document.getElementById('tocFab').innerHTML = icon('list', 22);
 
   var homeViewEl = document.getElementById('homeView');
   var gameViewEl = document.getElementById('gameView');
+  var tocFab = document.getElementById('tocFab');
+  var tocPanel = document.getElementById('tocPanel');
 
   function goHome(){
     state.view = 'home';
     state.activeId = null;
     homeViewEl.classList.remove('hidden');
     gameViewEl.classList.add('hidden');
+    tocFab.classList.add('hidden');
+    tocPanel.classList.add('hidden');
     renderHomeView();
   }
   function goToGame(gameId){
@@ -1150,6 +1318,7 @@
     state.activeId = gameId;
     homeViewEl.classList.add('hidden');
     gameViewEl.classList.remove('hidden');
+    tocFab.classList.remove('hidden');
     renderGameView();
   }
   function renderCurrentView(){
@@ -1194,21 +1363,24 @@
     });
   }
 
-  function getSafeDeadline(refreshDateTime){
+  function calendarDayDiff(refreshDateTime){
     if(!refreshDateTime) return null;
     var refresh = new Date(refreshDateTime);
     if(isNaN(refresh.getTime())) return null;
-    var refreshHour = refresh.getHours() + refresh.getMinutes()/60;
-    var safeDeadline = new Date(refresh);
-    if(refreshHour < 12){ safeDeadline.setDate(safeDeadline.getDate() - 1); }
-    safeDeadline.setHours(23,59,59,999);
-    return safeDeadline;
-  }
-  function daysUntilSafe(refreshDateTime){
-    var deadline = getSafeDeadline(refreshDateTime);
-    if(!deadline) return null;
     var now = new Date();
-    return Math.ceil((deadline - now) / (1000*60*60*24));
+    var refreshDateOnly = new Date(refresh.getFullYear(), refresh.getMonth(), refresh.getDate());
+    var nowDateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    return Math.round((refreshDateOnly - nowDateOnly) / (1000*60*60*24));
+  }
+  function eventDayInfo(refreshDateTime){
+    var diff = calendarDayDiff(refreshDateTime);
+    if(diff === null) return { cls: 'expired', text: '未設定時間' };
+    if(diff < 0) return { cls: 'expired', text: '已過期' };
+    if(diff === 0) return { cls: 'urgent', text: '刷新日' };
+    var count = diff - 1;
+    var text = '第 ' + count + ' 天';
+    var cls = count <= 2 ? 'urgent' : (count <= 6 ? 'soon' : 'normal');
+    return { cls: cls, text: text };
   }
   function formatDateTimeShort(dtStr){
     if(!dtStr) return '未設定';
@@ -1218,23 +1390,15 @@
     var hh = String(d.getHours()).padStart(2,'0'), mi = String(d.getMinutes()).padStart(2,'0');
     return mm + '/' + dd + ' ' + hh + ':' + mi;
   }
-  function eventBadge(days){
-    if(days === null) return { cls: 'expired', text: '未設定時間' };
-    if(days < 0) return { cls: 'expired', text: '已結束' };
-    if(days === 0) return { cls: 'urgent', text: '今天是最後準備日' };
-    if(days <= 3) return { cls: 'urgent', text: '剩 ' + days + ' 天' };
-    if(days <= 7) return { cls: 'soon', text: '剩 ' + days + ' 天' };
-    return { cls: 'normal', text: '剩 ' + days + ' 天' };
-  }
   function nearestEventFor(g){
-    var nearest = null, nearestDays = null;
+    var nearest = null, nearestDiff = null;
     g.events.forEach(function(ev){
-      var d = daysUntilSafe(ev.refreshDateTime);
-      if(d !== null && d >= 0 && (nearestDays === null || d < nearestDays)){
-        nearestDays = d; nearest = ev;
+      var d = calendarDayDiff(ev.refreshDateTime);
+      if(d !== null && d >= 0 && (nearestDiff === null || d < nearestDiff)){
+        nearestDiff = d; nearest = ev;
       }
     });
-    return nearest ? { event: nearest, days: nearestDays } : null;
+    return nearest ? { event: nearest, info: eventDayInfo(nearest.refreshDateTime) } : null;
   }
 
   function renderPlatformFilter(){
@@ -1285,8 +1449,8 @@
         }
         var ne = nearestEventFor(g);
         if(ne){
-          var b = eventBadge(ne.days);
-          badges += '<span class="overview-badge ' + (b.cls==='urgent'?'event-urgent':b.cls==='soon'?'event-soon':'event-normal') + '">' + icon('bell',12) + ' ' + escapeHtml(ne.event.name) + '：剩' + ne.days + '天</span>';
+          var b = ne.info;
+          badges += '<span class="overview-badge ' + (b.cls==='urgent'?'event-urgent':b.cls==='soon'?'event-soon':'event-normal') + '">' + icon('bell',12) + ' ' + escapeHtml(ne.event.name) + '：' + b.text + '</span>';
         }
       }
 
@@ -1313,6 +1477,58 @@
   }
 
   document.getElementById('addGameBtnHome').addEventListener('click', function(){ openAddModal(); });
+
+  var tocOpen = false;
+  tocFab.addEventListener('click', function(){
+    tocOpen = !tocOpen;
+    tocPanel.classList.toggle('hidden', !tocOpen);
+    if(tocOpen) renderTocPanel();
+  });
+  function renderTocPanel(){
+    var g = getActiveGame();
+    if(!g){ tocPanel.innerHTML = ''; return; }
+    var order = visibleSectionOrder(g);
+    var html = '';
+    order.forEach(function(key, idx){
+      var def = SECTION_DEFS[key];
+      html +=
+        '<div class="toc-item">' +
+          icon(def.icon, 15) +
+          '<span class="toc-item-label" data-jump="' + key + '">' + def.label + '</span>' +
+          '<span class="toc-item-arrows">' +
+            '<button class="toc-arrow-btn" data-move="up" data-key="' + key + '"' + (idx===0?' disabled':'') + '>' + icon('chevronUp',12) + '</button>' +
+            '<button class="toc-arrow-btn" data-move="down" data-key="' + key + '"' + (idx===order.length-1?' disabled':'') + '>' + icon('chevronDown',12) + '</button>' +
+          '</span>' +
+        '</div>';
+    });
+    tocPanel.innerHTML = html;
+
+    tocPanel.querySelectorAll('[data-jump]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var key = el.getAttribute('data-jump');
+        var target = document.getElementById('section_' + key);
+        if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        tocOpen = false;
+        tocPanel.classList.add('hidden');
+      });
+    });
+    tocPanel.querySelectorAll('[data-move]').forEach(function(el){
+      el.addEventListener('click', function(e){
+        e.stopPropagation();
+        var key = el.getAttribute('data-key');
+        var dir = el.getAttribute('data-move');
+        var order2 = visibleSectionOrder(g);
+        var idx = order2.indexOf(key);
+        var swapWith = dir === 'up' ? idx - 1 : idx + 1;
+        if(swapWith < 0 || swapWith >= order2.length) return;
+        var tmp = order2[idx]; order2[idx] = order2[swapWith]; order2[swapWith] = tmp;
+        g.sectionOrder = order2;
+        saveState();
+        renderGameView();
+        renderTocPanel();
+      });
+    });
+  }
 
   function renderGameView(){
     var g = getActiveGame();
@@ -1341,31 +1557,10 @@
         '</div>';
     }
 
-    var sectionsHtml = '';
-    if(grp === 'mobile' || grp === 'otome_mobile'){
-      sectionsHtml += '<div class="section-block" id="sectionEvents"></div>';
-      sectionsHtml += '<div class="section-block" id="sectionDaily"></div>';
-    }
-    if(grp === 'console'){
-      sectionsHtml += '<div class="section-block" id="sectionChecklist"></div>';
-    }
-    if(grp === 'mobile' || grp === 'otome_mobile' || grp === 'otome_console'){
-      sectionsHtml += '<div class="section-block" id="sectionStory"></div>';
-    }
-    if(grp === 'otome_mobile' || grp === 'otome_console'){
-      sectionsHtml += '<div class="section-block" id="sectionCharacters"></div>';
-    }
-    if(grp === 'mobile'){
-      sectionsHtml += '<div class="section-block" id="sectionMaterials"></div>';
-    }
-    if(grp === 'otome_console'){
-      sectionsHtml += '<div class="section-block" id="sectionEndings"></div>';
-    }
-    if(grp === 'mobile' || grp === 'otome_mobile'){
-      sectionsHtml += '<div class="section-block" id="sectionCurrency"></div>';
-    }
-    sectionsHtml += '<div class="section-block" id="sectionNotes"></div>';
-    sectionsHtml += '<div class="section-block" id="sectionGameLog"></div>';
+    var order = visibleSectionOrder(g);
+    var sectionsHtml = order.map(function(key){
+      return '<div class="section-block" id="section_' + key + '"></div>';
+    }).join('');
 
     mainEl.innerHTML =
       '<div class="game-hero">' +
@@ -1410,16 +1605,23 @@
       });
     }
 
-    if(grp === 'console') renderChecklistSection(g);
-    if(grp === 'mobile' || grp === 'otome_mobile') renderEventsSection(g);
-    if(grp === 'mobile' || grp === 'otome_mobile') renderDailySection(g);
-    if(grp === 'mobile' || grp === 'otome_mobile' || grp === 'otome_console') renderStorySection(g, grp);
-    if(grp === 'otome_mobile' || grp === 'otome_console') renderCharactersSection(g, grp);
-    if(grp === 'mobile') renderMaterialsSection(g);
-    if(grp === 'otome_console') renderEndingsSection(g);
-    if(grp === 'mobile' || grp === 'otome_mobile') renderCurrencySection(g);
-    renderNotesSection(g);
-    renderGameLogSection(g);
+    var RENDER_FN = {
+      checklist: renderChecklistSection,
+      daily: renderDailySection,
+      story: function(g){ renderStorySection(g, grp); },
+      characters: function(g){ renderCharactersSection(g, grp); },
+      materials: renderMaterialsSection,
+      endings: renderEndingsSection,
+      events: renderEventsSection,
+      currency: renderCurrencySection,
+      gacha: renderGachaSection,
+      spending: renderSpendingSection,
+      notes: renderNotesSection,
+      gamelog: renderGameLogSection
+    };
+    order.forEach(function(key){ if(RENDER_FN[key]) RENDER_FN[key](g); });
+
+    if(tocOpen) renderTocPanel();
   }
 
   function wireAddToggle(fabId, formId){
@@ -1436,7 +1638,8 @@
   }
 
   function renderChecklistSection(g){
-    var panel = document.getElementById('sectionChecklist');
+    var panel = document.getElementById('section_checklist');
+    if(!panel) return;
     var tagSelectHtml = TAG_OPTIONS.map(function(t){ return '<option value="' + t.key + '">' + t.label + '</option>'; }).join('');
     var doneCount = g.todos.filter(function(t){return t.done;}).length;
 
@@ -1486,14 +1689,14 @@
       el.addEventListener('click', function(){
         var id = el.getAttribute('data-id');
         var todo = g.todos.filter(function(t){return t.id===id;})[0];
-        if(todo){ todo.done = !todo.done; saveState(); renderGameView(); }
+        if(todo){ todo.done = !todo.done; saveState(); renderChecklistSection(g); }
       });
     });
     listArea.querySelectorAll('[data-action="delete"]').forEach(function(el){
       el.addEventListener('click', function(){
         var id = el.getAttribute('data-id');
         g.todos = g.todos.filter(function(t){return t.id!==id;});
-        saveState(); renderGameView();
+        saveState(); renderChecklistSection(g);
       });
     });
   }
@@ -1505,11 +1708,12 @@
     if(!text) return;
     g.todos.push({ id: uid(), text: text, tag: tagSelect.value, done: false });
     saveState();
-    renderGameView();
+    renderChecklistSection(g);
   }
 
   function renderDailySection(g){
-    var panel = document.getElementById('sectionDaily');
+    var panel = document.getElementById('section_daily');
+    if(!panel) return;
     var dailyItems = g.dailies.filter(function(d){ return d.freq === 'daily'; });
     var weeklyItems = g.dailies.filter(function(d){ return d.freq === 'weekly'; });
     var pendingDaily = g.dailies.filter(function(d){return !d.done;}).length;
@@ -1554,14 +1758,14 @@
         el.addEventListener('click', function(){
           var id = el.getAttribute('data-id');
           var d = g.dailies.filter(function(x){return x.id===id;})[0];
-          if(d){ d.done = !d.done; saveState(); renderGameView(); }
+          if(d){ d.done = !d.done; saveState(); renderDailySection(g); }
         });
       });
       listArea.querySelectorAll('[data-action="delete-daily"]').forEach(function(el){
         el.addEventListener('click', function(){
           var id = el.getAttribute('data-id');
           g.dailies = g.dailies.filter(function(x){return x.id!==id;});
-          saveState(); renderGameView();
+          saveState(); renderDailySection(g);
         });
       });
     }
@@ -1576,11 +1780,11 @@
 
     document.getElementById('resetDailyBtn').addEventListener('click', function(){
       g.dailies.forEach(function(d){ if(d.freq==='daily') d.done = false; });
-      saveState(); renderGameView();
+      saveState(); renderDailySection(g);
     });
     document.getElementById('resetWeeklyBtn').addEventListener('click', function(){
       g.dailies.forEach(function(d){ if(d.freq==='weekly') d.done = false; });
-      saveState(); renderGameView();
+      saveState(); renderDailySection(g);
     });
   }
 
@@ -1591,11 +1795,12 @@
     if(!text) return;
     g.dailies.push({ id: uid(), text: text, freq: freqSelect.value, done: false });
     saveState();
-    renderGameView();
+    renderDailySection(g);
   }
 
   function renderStorySection(g, grp){
-    var panel = document.getElementById('sectionStory');
+    var panel = document.getElementById('section_story');
+    if(!panel) return;
     var activeQuests = g.quests.filter(function(q){ return !q.done; });
 
     var storyLabel = (grp === 'console') ? '目前進度 / 玩到哪' : '劇情進度';
@@ -1664,7 +1869,7 @@
           q.completedDateStr = todayStr();
           g.questHistory.unshift(q);
           g.quests = g.quests.filter(function(x){ return x.id !== id; });
-          saveState(); renderGameView();
+          saveState(); renderStorySection(g, grp);
         }
       });
     });
@@ -1672,7 +1877,7 @@
       el.addEventListener('click', function(){
         var id = el.getAttribute('data-id');
         g.quests = g.quests.filter(function(x){return x.id!==id;});
-        saveState(); renderGameView();
+        saveState(); renderStorySection(g, grp);
       });
     });
     listArea.querySelectorAll('[data-action="edit-text"]').forEach(function(el){
@@ -1708,11 +1913,13 @@
     if(!text) return;
     g.quests.push({ id: uid(), text: text, typeTag: typeInput.value.trim(), charTag: charInput.value.trim(), done: false });
     saveState();
-    renderGameView();
+    var grp = platformGroup(g.platform);
+    renderStorySection(g, grp);
   }
 
   var historyModal = document.getElementById('historyModal');
   function openHistoryModal(g){
+    historyModal.querySelector('h3').textContent = '已完成的紀錄';
     renderHistoryList(g);
     historyModal.classList.remove('hidden');
   }
@@ -1896,7 +2103,8 @@
   }
 
   function renderMaterialsSection(g){
-    var panel = document.getElementById('sectionMaterials');
+    var panel = document.getElementById('section_materials');
+    if(!panel) return;
     var dayKeys = ['mon','tue','wed','thu','fri','sat','sun'];
 
     var gridHtml = '';
@@ -1958,14 +2166,14 @@
       el.addEventListener('click', function(){
         var id = el.getAttribute('data-id');
         var m = g.materialList.filter(function(x){return x.id===id;})[0];
-        if(m){ m.done = !m.done; saveState(); renderGameView(); }
+        if(m){ m.done = !m.done; saveState(); renderMaterialsSection(g); }
       });
     });
     panel.querySelectorAll('[data-action="delete-mat"]').forEach(function(el){
       el.addEventListener('click', function(){
         var id = el.getAttribute('data-id');
         g.materialList = g.materialList.filter(function(x){return x.id!==id;});
-        saveState(); renderGameView();
+        saveState(); renderMaterialsSection(g);
       });
     });
   }
@@ -1976,11 +2184,12 @@
     if(!text) return;
     g.materialList.push({ id: uid(), text: text, done: false });
     saveState();
-    renderGameView();
+    renderMaterialsSection(g);
   }
 
   function renderCharactersSection(g, grp){
-    var panel = document.getElementById('sectionCharacters');
+    var panel = document.getElementById('section_characters');
+    if(!panel) return;
 
     var html = '<div class="panel-box">' +
       '<div class="panel-box-title">' + pbtLabel('heart','男主') + '<button class="add-fab" id="addCharBtn">' + icon('plus',18) + '</button></div>';
@@ -2017,13 +2226,13 @@
       el.addEventListener('click', function(){
         var id = el.getAttribute('data-id');
         g.characters = g.characters.filter(function(c){return c.id!==id;});
-        saveState(); renderGameView();
+        saveState(); renderCharactersSection(g, grp);
       });
     });
     document.getElementById('addCharBtn').addEventListener('click', function(){
       g.characters.push({ id: uid(), name: '新男主', route: '', cardNotes: [] });
       saveState();
-      renderGameView();
+      renderCharactersSection(g, grp);
     });
 
     g.characters.forEach(function(c){
@@ -2053,7 +2262,8 @@
   }
 
   function renderEndingsSection(g){
-    var panel = document.getElementById('sectionEndings');
+    var panel = document.getElementById('section_endings');
+    if(!panel) return;
     var typeSelectHtml = ENDING_TYPES.map(function(t){ return '<option value="' + t.key + '">' + t.label + '</option>'; }).join('');
 
     panel.innerHTML =
@@ -2099,7 +2309,7 @@
       el.addEventListener('click', function(){
         var id = el.getAttribute('data-id');
         g.endings = g.endings.filter(function(x){return x.id!==id;});
-        saveState(); renderGameView();
+        saveState(); renderEndingsSection(g);
       });
     });
   }
@@ -2111,13 +2321,13 @@
     if(!text) return;
     g.endings.push({ id: uid(), type: typeSelect.value, text: text });
     saveState();
-    renderGameView();
+    renderEndingsSection(g);
   }
 
-  // ---------- Events: split into 活動 / 卡池, auto-archive expired ones ----------
   var newEventType = 'event';
   function renderEventsSection(g){
-    var panel = document.getElementById('sectionEvents');
+    var panel = document.getElementById('section_events');
+    if(!panel) return;
     newEventType = 'event';
 
     var sorted = g.events.slice().sort(function(a,b){
@@ -2128,18 +2338,25 @@
       eventListHtml = '<div class="empty-hint">還沒有活動或卡池倒數，點右上角新增。</div>';
     } else {
       sorted.forEach(function(ev){
-        var days = daysUntilSafe(ev.refreshDateTime);
-        var badge = eventBadge(days);
-        var typeLabel = ev.type === 'banner' ? '卡池' : '活動';
+        var dt = new Date(ev.refreshDateTime);
+        var dateVal = isNaN(dt.getTime()) ? '' : dt.toISOString().slice(0,10);
+        var timeVal = isNaN(dt.getTime()) ? '23:59' : pad2(dt.getHours()) + ':' + pad2(dt.getMinutes());
+        var info = eventDayInfo(ev.refreshDateTime);
         eventListHtml +=
           '<div class="event-item">' +
             '<div class="event-top">' +
-              '<span class="event-type-badge type-' + ev.type + '">' + typeLabel + '</span>' +
-              '<span class="event-name">' + escapeHtml(ev.name) + '</span>' +
-              '<span class="event-days ' + badge.cls + '">' + badge.text + '</span>' +
+              '<div class="event-type-pick" style="flex-shrink:0;">' +
+                '<div class="event-type-pick-opt' + (ev.type==='event'?' selected':'') + '" style="padding:3px 9px; font-size:10px;" data-action="set-event-type" data-value="event" data-id="' + ev.id + '">活動</div>' +
+                '<div class="event-type-pick-opt' + (ev.type==='banner'?' selected':'') + '" style="padding:3px 9px; font-size:10px;" data-action="set-event-type" data-value="banner" data-id="' + ev.id + '">卡池</div>' +
+              '</div>' +
+              '<input type="text" class="quest-text-input" data-action="edit-event-name" data-id="' + ev.id + '" value="' + escapeHtml(ev.name) + '" style="min-width:70px;">' +
+              '<span class="event-days ' + info.cls + '">' + info.text + '</span>' +
               '<button class="event-del" data-action="delete-event" data-id="' + ev.id + '">×</button>' +
             '</div>' +
-            '<div class="event-date-row">刷新時間：' + formatDateTimeShort(ev.refreshDateTime) + '　準備最晚到：' + (getSafeDeadline(ev.refreshDateTime) ? formatDateTimeShort(getSafeDeadline(ev.refreshDateTime).toISOString()) : '未設定') + '</div>' +
+            '<div class="add-form-row" style="margin-top:8px;">' +
+              '<input type="date" data-action="edit-event-date" data-id="' + ev.id + '" value="' + dateVal + '" style="flex:1;">' +
+              '<input type="time" data-action="edit-event-time" data-id="' + ev.id + '" value="' + timeVal + '" style="flex:1;">' +
+            '</div>' +
           '</div>';
       });
     }
@@ -2156,7 +2373,7 @@
             '<input type="date" id="newEventDate" style="flex:1;">' +
             '<input type="time" id="newEventTime" value="23:59" style="flex:1;">' +
           '</div>' +
-          '<p class="field-hint">輸入遊戲內「實際刷新」時間；凌晨刷新會自動提前一天提醒。</p>' +
+          '<p class="field-hint">刷新前一天顯示「第 0 天」，刷新當天顯示「刷新日」，方便提前準備。</p>' +
           '<div class="add-form-actions">' +
             '<button class="btn-cancel-inline" id="cancelEventBtn">取消</button>' +
             '<button class="btn-confirm" id="addEventBtn">新增</button>' +
@@ -2171,13 +2388,52 @@
     document.getElementById('cancelEventBtn').addEventListener('click', function(){ document.getElementById('formEvent').classList.add('hidden'); });
     document.getElementById('addEventBtn').addEventListener('click', function(){ addEvent(g); });
     document.getElementById('newEventName').addEventListener('keydown', function(e){ if(e.key==='Enter') addEvent(g); });
+
     panel.querySelectorAll('[data-action="delete-event"]').forEach(function(el){
       el.addEventListener('click', function(){
         var id = el.getAttribute('data-id');
         g.events = g.events.filter(function(x){return x.id!==id;});
-        saveState(); renderGameView();
+        saveState(); renderEventsSection(g);
       });
     });
+    panel.querySelectorAll('[data-action="set-event-type"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        var ev = g.events.filter(function(x){return x.id===id;})[0];
+        if(ev){ ev.type = el.getAttribute('data-value'); saveState(); renderEventsSection(g); }
+      });
+    });
+    panel.querySelectorAll('[data-action="edit-event-name"]').forEach(function(el){
+      el.addEventListener('input', function(){
+        var id = el.getAttribute('data-id');
+        var ev = g.events.filter(function(x){return x.id===id;})[0];
+        if(ev){ ev.name = el.value; saveState(); }
+      });
+    });
+    function rebuildEventDateTime(ev, dateEl, timeEl){
+      if(dateEl.value){
+        ev.refreshDateTime = dateEl.value + 'T' + (timeEl.value || '23:59');
+        saveState();
+        renderEventsSection(g);
+      }
+    }
+    panel.querySelectorAll('[data-action="edit-event-date"]').forEach(function(el){
+      el.addEventListener('change', function(){
+        var id = el.getAttribute('data-id');
+        var ev = g.events.filter(function(x){return x.id===id;})[0];
+        var timeEl = panel.querySelector('[data-action="edit-event-time"][data-id="' + id + '"]');
+        if(ev) rebuildEventDateTime(ev, el, timeEl);
+      });
+    });
+    panel.querySelectorAll('[data-action="edit-event-time"]').forEach(function(el){
+      el.addEventListener('change', function(){
+        var id = el.getAttribute('data-id');
+        var ev = g.events.filter(function(x){return x.id===id;})[0];
+        var dateEl = panel.querySelector('[data-action="edit-event-date"][data-id="' + id + '"]');
+        if(ev) rebuildEventDateTime(ev, dateEl, el);
+      });
+    });
+
     document.getElementById('viewEventHistoryLink').addEventListener('click', function(){ openEventHistoryModal(g); });
   }
 
@@ -2205,18 +2461,15 @@
     var dt = dateInput.value + 'T' + (timeInput.value || '23:59');
     g.events.push({ id: uid(), name: name, refreshDateTime: dt, type: newEventType });
     saveState();
-    renderGameView();
+    renderEventsSection(g);
   }
 
-  var eventHistoryModal = null;
   function openEventHistoryModal(g){
-    // Reuse the historyModal DOM (generic list modal) for event history too.
     var modal = document.getElementById('historyModal');
     modal.querySelector('h3').textContent = '已過期的卡池與活動';
     var area = document.getElementById('historyListArea');
     renderEventHistoryList(g, area);
     modal.classList.remove('hidden');
-    // restore heading back to quest-history default when this modal closes, handled by re-set on next openHistoryModal call.
   }
   function renderEventHistoryList(g, area){
     if(g.eventHistory.length === 0){
@@ -2247,45 +2500,72 @@
         g.eventHistory = g.eventHistory.filter(function(x){return x.id!==id;});
         saveState();
         renderEventHistoryList(g, area);
-        renderGameView();
+        renderEventsSection(g);
       });
     });
   }
 
   function renderCurrencySection(g){
-    var panel = document.getElementById('sectionCurrency');
+    var panel = document.getElementById('section_currency');
+    if(!panel) return;
+    var cur = g.currency;
+
+    var secondariesHtml = '';
+    cur.secondaries.forEach(function(sc){
+      secondariesHtml +=
+        '<div class="secondary-currency-row" data-sc-id="' + sc.id + '">' +
+          '<input type="text" class="sc-name" data-field="name" data-id="' + sc.id + '" value="' + escapeHtml(sc.name) + '" placeholder="貨幣名稱">' +
+          '<input type="text" class="sc-qty" data-field="qty" data-id="' + sc.id + '" value="' + escapeHtml(sc.qty) + '" placeholder="數量" inputmode="numeric">' +
+          '<span class="sc-rate-label">1 個 =</span>' +
+          '<input type="text" class="sc-rate" data-field="rate" data-id="' + sc.id + '" value="' + escapeHtml(sc.rate) + '" placeholder="主要貨幣數量" inputmode="numeric">' +
+          '<button class="sc-del" data-action="delete-sc" data-id="' + sc.id + '">×</button>' +
+        '</div>';
+    });
+
     panel.innerHTML =
       '<div class="panel-box">' +
-        '<p class="panel-box-title">' + pbtLabel('gem','資源 / 儲值 / 石頭數量') + '</p>' +
+        '<p class="panel-box-title">' + pbtLabel('gem','資源 / 儲值換算') + '</p>' +
         '<div class="currency-row">' +
-          '<div class="currency-field"><label>資源名稱 1</label><input type="text" id="currName1" value="' + escapeHtml(g.currency.name1) + '" placeholder="輸入資源名稱"></div>' +
-          '<div class="currency-field"><label>目前數量</label><input type="text" id="currVal1" value="' + escapeHtml(g.currency.val1) + '" placeholder="輸入數量" inputmode="numeric"></div>' +
+          '<div class="currency-field"><label>主要貨幣名稱</label><input type="text" id="currPrimaryName" value="' + escapeHtml(cur.primaryName) + '" placeholder="例如：石頭"></div>' +
+          '<div class="currency-field"><label>目前數量</label><input type="text" id="currPrimaryQty" value="' + escapeHtml(cur.primaryQty) + '" placeholder="輸入數量" inputmode="numeric"></div>' +
         '</div>' +
-        '<div class="currency-row" style="margin-top:11px;">' +
-          '<div class="currency-field"><label>資源名稱 2</label><input type="text" id="currName2" value="' + escapeHtml(g.currency.name2) + '" placeholder="輸入資源名稱"></div>' +
-          '<div class="currency-field"><label>數量</label><input type="text" id="currVal2" value="' + escapeHtml(g.currency.val2) + '" placeholder="輸入數量"></div>' +
-        '</div>' +
+        '<div class="daily-subsection-title" style="margin-top:16px;">其他貨幣（換算成主要貨幣）</div>' +
+        '<div id="secondaryListArea">' + secondariesHtml + '</div>' +
+        '<button class="add-secondary-btn" id="addSecondaryBtn"' + (cur.secondaries.length>=MAX_SECONDARY_CURRENCIES?' disabled':'') + '>+ 新增其他貨幣（最多 ' + MAX_SECONDARY_CURRENCIES + ' 種，目前 ' + cur.secondaries.length + '/' + MAX_SECONDARY_CURRENCIES + '）</button>' +
         '<div class="gacha-box">' +
           '<p class="panel-box-title">' + pbtLabel('dice','抽卡資源換算器') + '</p>' +
           '<div class="currency-row">' +
-            '<div class="currency-field"><label>一抽消耗（資源1單位）</label><input type="text" id="pullCostInput" value="' + escapeHtml(g.currency.pullCost) + '" placeholder="輸入一抽消耗量" inputmode="numeric"></div>' +
+            '<div class="currency-field"><label>一抽消耗（主要貨幣單位）</label><input type="text" id="pullCostInput" value="' + escapeHtml(cur.pullCost) + '" placeholder="例如：300" inputmode="numeric"></div>' +
           '</div>' +
           '<div id="gachaResultArea"></div>' +
         '</div>' +
       '</div>';
 
-    ['currName1','currVal1','currName2','currVal2'].forEach(function(id){
-      document.getElementById(id).addEventListener('input', function(e){
-        var map = { currName1:'name1', currVal1:'val1', currName2:'name2', currVal2:'val2' };
-        g.currency[map[id]] = e.target.value;
+    document.getElementById('currPrimaryName').addEventListener('input', function(e){ cur.primaryName = e.target.value; saveState(); renderGachaResult(g); });
+    document.getElementById('currPrimaryQty').addEventListener('input', function(e){ cur.primaryQty = e.target.value; saveState(); renderGachaResult(g); });
+    document.getElementById('pullCostInput').addEventListener('input', function(e){ cur.pullCost = e.target.value; saveState(); renderGachaResult(g); });
+
+    document.getElementById('addSecondaryBtn').addEventListener('click', function(){
+      if(cur.secondaries.length >= MAX_SECONDARY_CURRENCIES) return;
+      cur.secondaries.push({ id: uid(), name: '', qty: '', rate: '' });
+      saveState();
+      renderCurrencySection(g);
+    });
+    panel.querySelectorAll('[data-action="delete-sc"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        cur.secondaries = cur.secondaries.filter(function(s){return s.id!==id;});
         saveState();
-        renderGachaResult(g);
+        renderCurrencySection(g);
       });
     });
-    document.getElementById('pullCostInput').addEventListener('input', function(e){
-      g.currency.pullCost = e.target.value;
-      saveState();
-      renderGachaResult(g);
+    panel.querySelectorAll('.secondary-currency-row [data-field]').forEach(function(el){
+      el.addEventListener('input', function(){
+        var id = el.getAttribute('data-id');
+        var field = el.getAttribute('data-field');
+        var sc = cur.secondaries.filter(function(s){return s.id===id;})[0];
+        if(sc){ sc[field] = el.value; saveState(); renderGachaResult(g); }
+      });
     });
 
     renderGachaResult(g);
@@ -2294,25 +2574,243 @@
   function renderGachaResult(g){
     var area = document.getElementById('gachaResultArea');
     if(!area) return;
-    var have = parseFloat(g.currency.val1);
-    var cost = parseFloat(g.currency.pullCost);
-    if(isNaN(have) || isNaN(cost) || cost <= 0){
-      area.innerHTML = '<p class="field-hint" style="margin-top:11px;">輸入「目前數量」與「一抽消耗」後，這裡會自動算出可以抽幾次。</p>';
+    var cur = g.currency;
+    var primaryQty = parseFloat(cur.primaryQty) || 0;
+    var cost = parseFloat(cur.pullCost);
+    var total = primaryQty;
+    var breakdownLines = [(cur.primaryName || '主要貨幣') + '：' + primaryQty];
+    cur.secondaries.forEach(function(sc){
+      var qty = parseFloat(sc.qty) || 0;
+      var rate = parseFloat(sc.rate) || 0;
+      var contributed = qty * rate;
+      total += contributed;
+      if(sc.name || qty){
+        breakdownLines.push((sc.name || '其他貨幣') + '：' + qty + ' × ' + rate + ' = ' + formatMoney(contributed));
+      }
+    });
+
+    if(isNaN(cost) || cost <= 0){
+      area.innerHTML = '<p class="field-hint" style="margin-top:11px;">輸入「一抽消耗」後，這裡會自動算出總共可以抽幾次。</p>' +
+        '<div class="gacha-breakdown">' + breakdownLines.map(escapeHtml).join('<br>') + '<br>合計：' + formatMoney(total) + '</div>';
       return;
     }
-    var pulls = Math.floor(have / cost);
-    var remainder = Math.round((have - pulls * cost) * 100) / 100;
-    var resourceName = g.currency.name1 || '資源';
+    var pulls = Math.floor(total / cost);
+    var remainder = formatMoney(total - pulls * cost);
     area.innerHTML =
       '<div class="gacha-result">' +
         '<div class="big-num">' + pulls + ' 抽</div>' +
-        '<div class="sub">目前 ' + have + ' ' + escapeHtml(resourceName) + '，可以抽 ' + pulls + ' 次</div>' +
-        '<div class="remainder">抽完後剩餘 ' + remainder + ' ' + escapeHtml(resourceName) + '</div>' +
+        '<div class="sub">合計 ' + formatMoney(total) + ' ' + escapeHtml(cur.primaryName || '主要貨幣') + '，可以抽 ' + pulls + ' 次</div>' +
+        '<div class="remainder">抽完後剩餘 ' + remainder + ' ' + escapeHtml(cur.primaryName || '主要貨幣') + '</div>' +
+      '</div>' +
+      '<div class="gacha-breakdown">' + breakdownLines.map(escapeHtml).join('<br>') + '</div>';
+  }
+
+  function renderGachaSection(g){
+    var panel = document.getElementById('section_gacha');
+    if(!panel) return;
+
+    var total = g.pullLog.length;
+    var rarityCounts = {};
+    g.pullLog.forEach(function(p){
+      var r = p.rarity || '未分類';
+      rarityCounts[r] = (rarityCounts[r] || 0) + 1;
+    });
+    var rarityList = Object.keys(rarityCounts);
+
+    var sinceLast = null;
+    for(var i=0;i<g.pullLog.length;i++){
+      if(g.pullLog[i].rarity === g.gachaTopRarity){ sinceLast = i; break; }
+    }
+    var sinceLastText = sinceLast === null ? (total > 0 ? total + ' 抽內尚未出貨' : '尚無紀錄') : sinceLast + ' 抽';
+    var topRarityCount = rarityCounts[g.gachaTopRarity] || 0;
+    var topRarityRate = total > 0 ? ((topRarityCount / total) * 100).toFixed(1) + '%' : '—';
+
+    var rarityOptionsHtml = rarityList.length > 0
+      ? rarityList.map(function(r){ return '<option value="' + escapeHtml(r) + '"' + (r===g.gachaTopRarity?' selected':'') + '">' + escapeHtml(r) + '</option>'; }).join('')
+      : '<option value="' + escapeHtml(g.gachaTopRarity) + '">' + escapeHtml(g.gachaTopRarity) + '</option>';
+
+    var breakdownHtml = rarityList.length === 0
+      ? '<p class="field-hint">還沒有抽卡紀錄。</p>'
+      : rarityList.map(function(r){
+          var count = rarityCounts[r];
+          var pct = total > 0 ? ((count/total)*100).toFixed(1) : '0.0';
+          return '<div class="rarity-breakdown-row"><span class="rarity-name">' + escapeHtml(r) + '</span><span class="rarity-count">' + count + ' 次（' + pct + '%）</span></div>';
+        }).join('');
+
+    var logHtml = '';
+    if(g.pullLog.length === 0){
+      logHtml = '<div class="empty-hint">還沒有抽卡紀錄，點右上角新增一筆。</div>';
+    } else {
+      g.pullLog.forEach(function(p){
+        logHtml +=
+          '<div class="pull-log-item">' +
+            '<span class="pull-log-date">' + (p.dateStr||'').replace(/-/g,'/') + '</span>' +
+            '<span class="pull-log-rarity">' + escapeHtml(p.rarity || '未分類') + '</span>' +
+            '<span class="pull-log-name">' + escapeHtml(p.name || '') + (p.bannerName ? '（' + escapeHtml(p.bannerName) + '）' : '') + '</span>' +
+            '<button class="pull-log-del" data-action="delete-pull" data-id="' + p.id + '">×</button>' +
+          '</div>';
+      });
+    }
+
+    panel.innerHTML =
+      '<div class="panel-box">' +
+        '<div class="panel-box-title">' + pbtLabel('dice','抽卡分析') + '<button class="add-fab" id="fabPull">' + icon('plus',18) + '</button></div>' +
+        '<div class="add-form hidden" id="formPull">' +
+          '<div class="add-form-row">' +
+            '<input type="date" id="newPullDate" value="' + todayStr() + '" style="flex-shrink:0;">' +
+            '<input type="text" id="newPullRarity" placeholder="稀有度，例如：SSR" style="max-width:110px;">' +
+          '</div>' +
+          '<div class="add-form-row">' +
+            '<input type="text" id="newPullName" placeholder="角色或物品名稱（選填）">' +
+            '<input type="text" id="newPullBanner" placeholder="卡池名稱（選填）">' +
+          '</div>' +
+          '<div class="add-form-actions">' +
+            '<button class="btn-cancel-inline" id="cancelPullBtn">取消</button>' +
+            '<button class="btn-confirm" id="addPullBtn">新增</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="gacha-top-rarity-row">目標稀有度（計算「幾抽出貨」用）：<select id="topRaritySelect">' + rarityOptionsHtml + '</select></div>' +
+        '<div class="gacha-stats-grid">' +
+          '<div class="gacha-stat-box"><div class="gacha-stat-num">' + total + '</div><div class="gacha-stat-label">總抽數</div></div>' +
+          '<div class="gacha-stat-box"><div class="gacha-stat-num">' + sinceLastText + '</div><div class="gacha-stat-label">距上次' + escapeHtml(g.gachaTopRarity) + '</div></div>' +
+          '<div class="gacha-stat-box"><div class="gacha-stat-num">' + topRarityRate + '</div><div class="gacha-stat-label">' + escapeHtml(g.gachaTopRarity) + '出貨率</div></div>' +
+        '</div>' +
+        breakdownHtml +
+        '<div class="daily-subsection-title" style="margin-top:16px;">抽卡紀錄</div>' +
+        '<div id="pullLogArea">' + logHtml + '</div>' +
       '</div>';
+
+    wireAddToggle('fabPull', 'formPull');
+    document.getElementById('cancelPullBtn').addEventListener('click', function(){ document.getElementById('formPull').classList.add('hidden'); });
+    document.getElementById('addPullBtn').addEventListener('click', function(){ addPull(g); });
+    document.getElementById('newPullRarity').addEventListener('keydown', function(e){ if(e.key==='Enter') addPull(g); });
+    document.getElementById('topRaritySelect').addEventListener('change', function(e){
+      g.gachaTopRarity = e.target.value;
+      saveState();
+      renderGachaSection(g);
+    });
+    panel.querySelectorAll('[data-action="delete-pull"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        g.pullLog = g.pullLog.filter(function(x){return x.id!==id;});
+        saveState();
+        renderGachaSection(g);
+      });
+    });
+  }
+
+  function addPull(g){
+    var dateInput = document.getElementById('newPullDate');
+    var rarityInput = document.getElementById('newPullRarity');
+    var nameInput = document.getElementById('newPullName');
+    var bannerInput = document.getElementById('newPullBanner');
+    var rarity = rarityInput.value.trim();
+    if(!rarity) return;
+    g.pullLog.unshift({
+      id: uid(),
+      dateStr: dateInput.value || todayStr(),
+      rarity: rarity,
+      name: nameInput.value.trim(),
+      bannerName: bannerInput.value.trim()
+    });
+    saveState();
+    renderGachaSection(g);
+  }
+
+  function renderSpendingSection(g){
+    var panel = document.getElementById('section_spending');
+    if(!panel) return;
+
+    var now = new Date();
+    var curMonthKey = now.getFullYear() + '-' + pad2(now.getMonth()+1);
+    var curYearKey = String(now.getFullYear());
+    var monthTotal = 0, yearTotal = 0, allTotal = 0;
+    g.spendingLog.forEach(function(s){
+      var amt = parseFloat(s.amount) || 0;
+      allTotal += amt;
+      if((s.dateStr||'').indexOf(curMonthKey) === 0) monthTotal += amt;
+      if((s.dateStr||'').indexOf(curYearKey) === 0) yearTotal += amt;
+    });
+
+    var logHtml = '';
+    if(g.spendingLog.length === 0){
+      logHtml = '<div class="empty-hint">還沒有課金紀錄，點右上角新增一筆。</div>';
+    } else {
+      var sorted = g.spendingLog.slice().sort(function(a,b){ return (b.dateStr||'').localeCompare(a.dateStr||''); });
+      sorted.forEach(function(s){
+        logHtml +=
+          '<div class="spend-item">' +
+            '<span class="spend-date">' + (s.dateStr||'').replace(/-/g,'/') + '</span>' +
+            (s.category ? '<span class="spend-category">' + escapeHtml(s.category) + '</span>' : '') +
+            '<span class="spend-note">' + escapeHtml(s.note || '') + '</span>' +
+            '<span class="spend-amount">$' + formatMoney(parseFloat(s.amount)||0) + '</span>' +
+            '<button class="spend-del" data-action="delete-spend" data-id="' + s.id + '">×</button>' +
+          '</div>';
+      });
+    }
+
+    panel.innerHTML =
+      '<div class="panel-box">' +
+        '<div class="panel-box-title">' + pbtLabel('wallet','課金紀錄') + '<button class="add-fab" id="fabSpend">' + icon('plus',18) + '</button></div>' +
+        '<div class="add-form hidden" id="formSpend">' +
+          '<div class="add-form-row">' +
+            '<input type="date" id="newSpendDate" value="' + todayStr() + '" style="flex-shrink:0;">' +
+            '<input type="text" id="newSpendAmount" placeholder="金額" inputmode="decimal" style="max-width:100px;">' +
+          '</div>' +
+          '<div class="add-form-row">' +
+            '<input type="text" id="newSpendCategory" placeholder="分類，例如：活動、月卡（選填）">' +
+          '</div>' +
+          '<div class="add-form-row">' +
+            '<input type="text" id="newSpendNote" placeholder="備註，例如：買了限定卡池">' +
+          '</div>' +
+          '<div class="add-form-actions">' +
+            '<button class="btn-cancel-inline" id="cancelSpendBtn">取消</button>' +
+            '<button class="btn-confirm" id="addSpendBtn">新增</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="spend-stats-grid">' +
+          '<div class="spend-stat-box"><div class="spend-stat-num">$' + formatMoney(monthTotal) + '</div><div class="spend-stat-label">本月花費</div></div>' +
+          '<div class="spend-stat-box"><div class="spend-stat-num">$' + formatMoney(yearTotal) + '</div><div class="spend-stat-label">本年花費</div></div>' +
+          '<div class="spend-stat-box"><div class="spend-stat-num">$' + formatMoney(allTotal) + '</div><div class="spend-stat-label">總花費</div></div>' +
+        '</div>' +
+        '<div id="spendLogArea">' + logHtml + '</div>' +
+      '</div>';
+
+    wireAddToggle('fabSpend', 'formSpend');
+    document.getElementById('cancelSpendBtn').addEventListener('click', function(){ document.getElementById('formSpend').classList.add('hidden'); });
+    document.getElementById('addSpendBtn').addEventListener('click', function(){ addSpend(g); });
+    document.getElementById('newSpendAmount').addEventListener('keydown', function(e){ if(e.key==='Enter') addSpend(g); });
+    panel.querySelectorAll('[data-action="delete-spend"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-id');
+        g.spendingLog = g.spendingLog.filter(function(x){return x.id!==id;});
+        saveState();
+        renderSpendingSection(g);
+      });
+    });
+  }
+
+  function addSpend(g){
+    var dateInput = document.getElementById('newSpendDate');
+    var amountInput = document.getElementById('newSpendAmount');
+    var categoryInput = document.getElementById('newSpendCategory');
+    var noteInput = document.getElementById('newSpendNote');
+    var amount = parseFloat(amountInput.value);
+    if(isNaN(amount)) return;
+    g.spendingLog.push({
+      id: uid(),
+      dateStr: dateInput.value || todayStr(),
+      amount: amount,
+      category: categoryInput.value.trim(),
+      note: noteInput.value.trim()
+    });
+    saveState();
+    renderSpendingSection(g);
   }
 
   function renderNotesSection(g){
-    var panel = document.getElementById('sectionNotes');
+    var panel = document.getElementById('section_notes');
+    if(!panel) return;
     panel.innerHTML = memoSectionSkeleton('自由筆記', 'fabGameNote', 'note');
     var containerEl = panel.querySelector('.panel-box');
 
@@ -2329,9 +2827,9 @@
     });
   }
 
-  // ---------- Game log: auto status-change entries + manual entries, journal style ----------
   function renderGameLogSection(g){
-    var panel = document.getElementById('sectionGameLog');
+    var panel = document.getElementById('section_gamelog');
+    if(!panel) return;
     panel.innerHTML =
       '<div class="panel-box">' +
         '<div class="panel-box-title">' + pbtLabel('calendar','遊戲日誌') + '<button class="add-fab" id="fabGameLog">' + icon('plus',18) + '</button></div>' +
@@ -2515,9 +3013,14 @@
     if(!name || !editingGameId) return;
     var g = state.games.filter(function(x){return x.id===editingGameId;})[0];
     if(!g) return;
+    var oldGroup = platformGroup(g.platform);
+    var newGroup = platformGroup(editSelectedPlatform);
     g.name = name;
     g.platform = editSelectedPlatform;
     g.dailyResetTime = editDailyResetTimeInput.value || '00:00';
+    if(oldGroup !== newGroup){
+      g.sectionOrder = defaultSectionOrderFor(newGroup);
+    }
     saveState();
     editModal.classList.add('hidden');
     renderGameView();
